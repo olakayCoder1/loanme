@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import {RxHamburgerMenu, RxDashboard} from 'react-icons/rx'
 import { BsChevronDoubleRight , BsChevronDoubleLeft } from 'react-icons/bs'
 import {FiSettings} from 'react-icons/fi'
-import {BsFillCreditCard2FrontFill,BsCreditCard2Back} from 'react-icons/bs'
+import {BsFillCreditCard2FrontFill,BsCreditCard2Back,BsQuestionCircleFill} from 'react-icons/bs'
 import {BiMessageRoundedDots} from 'react-icons/bi'
+import {FaUser} from 'react-icons/fa'
 import { AnimatePresence, motion } from "framer-motion";
 
 
@@ -36,7 +37,7 @@ function Sidebar({displayNav, handleDisplayNav}) {
   return (
     <>
 
-  <div className={`hidden md:block min-w-[250px] max-w-[250px] w-[20%] bg-white border-[1px] shadow-md`}>
+  <div className={`hidden md:block min-w-[250px] max-w-[250px] w-[20%] bg-white border-[1px] shadow-md sticky top-0 left-0 bottom-0`}>
   {/* <div className={`${displayNav ? 'fixed top-0 left-0 bottom-0 z-50' : 'hidden' } md:block min-w-[250px] max-w-[250px] w-[20%] bg-white border-[1px] shadow-md`}> */}
       <div className=' flex items-center py-4 px-4 gap-4'>
         <p className=' md:hidden p-1 cursor-pointer'
@@ -51,10 +52,12 @@ function Sidebar({displayNav, handleDisplayNav}) {
         
       </div>
       <ul className="space-y-2 pl-2 my-4">
-          <SideBarLink Icon={RxDashboard} name='Dasboard'/>
+          <SideBarLink Icon={RxDashboard} name='Dashboard'/>
           <SideBarLink Icon={BsCreditCard2Back} name='Cards'/>
           <SideBarLink Icon={BiMessageRoundedDots} name='Messages'/>
-          <SideBarLink Icon={FiSettings} name='Settings'/>
+          {/* <SideBarLink Icon={FiSettings} name='Settings'/> */}
+          <SideBarLink Icon={FaUser} name='Account'/>
+          <SideBarLink Icon={BsQuestionCircleFill} name='FAQ'/>
       </ul>
       <h1 className=' text-xs font-medium  absolute bottom-4 text-center m-4'>programmeolakay@gmail.com</h1>
     </div>
@@ -76,10 +79,12 @@ function Sidebar({displayNav, handleDisplayNav}) {
         
       </div>
       <ul className="space-y-2 pl-2 my-4">
-          <SideBarLink Icon={RxDashboard} name='Dasboard'/>
+          <SideBarLink Icon={RxDashboard} name='Dashboard'/>
           <SideBarLink Icon={BsCreditCard2Back} name='Cards'/>
           <SideBarLink Icon={BiMessageRoundedDots} name='Messages'/>
           <SideBarLink Icon={FiSettings} name='Settings'/>
+          <SideBarLink Icon={FaUser} name='Account'/>
+          <SideBarLink Icon={BsQuestionCircleFill} name='FAQ'/>
       </ul>
       <h1 className=' text-xs font-medium  absolute bottom-4 text-center m-4'>programmeolakay@gmail.com</h1>
     </div>

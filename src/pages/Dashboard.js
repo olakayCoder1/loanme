@@ -32,6 +32,44 @@ function IntroCart({title , Icon }) {
 function Dashboard() {
 
     const [showNav, setShowNav] = useState(true)
+    const [loan, setLoan] = useState(true)
+
+    if(loan){
+        return (
+            <>
+             <div className=' w-full h-full bg-gray-50'>
+      <div className=' w-full h-full flex'>
+        <Sidebar displayNav={showNav}  handleDisplayNav={()=> setShowNav(!showNav)}/>
+        <div className=' w-full'>
+            <Header handleDisplayNav={()=> setShowNav(true)}/>
+            <div className=' p-4'>
+                {/* TOP SECTION DASHBOARD */}
+                <div className=' flex gap-4'>
+                    <div className=' border w-fit p-6 px-12 flex flex-col gap-6 rounded-lg'>
+                        <h2 className=' font-medium text-base'>TOTAL LOAN BALANCE</h2>
+                        <div className='  text-loan-button'>
+                            <span className=' text-sm font-medium'>NGN</span>
+                            <span className=' font-extrabold text-5xl tracking-tight leading-none'>250,000</span>
+                            <span className=' text-sm font-medium'>.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* <div className='w-full h-full'>
+                    <h2>Other available products</h2>
+                    <div className='w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+                        <IntroCart title='Counsel request' Icon={BsWallet}/>
+                        <IntroCart title='Match request' Icon={RiFindReplaceLine}/>
+                    </div>
+                </div> */}
+
+            </div>
+        </div>
+      </div>
+    </div>
+            </>
+        )
+    }
 
 
   return (

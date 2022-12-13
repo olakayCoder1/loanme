@@ -12,7 +12,7 @@ function Phonenumber() {
                 className="w-full bg-gray-100 border-[1px] border-gray-200 hover:border-loan-dark text-sm rounded-md  block p-2.5 py-3
                          focus:ring-0 focus:outline-none" 
                 placeholder="Phone number" />
-            <p class="mt-2 text-xs "><span class="font-medium">Verification code will be sent to your number to verify</span></p>
+            <p class="mt-2 text-xs "><span class="font-medium">Verification code will be send to your number to verify</span></p>
             <button type="submit" class="w-full py-3 px-5 mr-2 my-2 text-sm font-medium  focus:outline-none bg-loan-button text-white rounded-lg border border-gray-200">Send code</button>
         </div>
     </form>
