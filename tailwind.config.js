@@ -7,17 +7,18 @@ module.exports = {
     extend: {
       colors: ({ colors }) => ({
         loan: {
-          light : '#F9F9FA',
+          light : '#e3e8ed',
+          text_light : '#c5ced6',
           dark: '#CED4D9',
-          primary: '#68696f',
+          primary: '#6f7d89',
           secondary: '#1a1a1a',
           outline: '#4284f3',
           button: '#0052cc',
           bg: '#f2f2f2',
           
         },
-        loanPink : {
-          primary: '#CF184E',
+        loanBlue : {
+          primary: '#6558f5',
           pink: colors.pink,
           gray: {
             default: '#F8F9FB',
