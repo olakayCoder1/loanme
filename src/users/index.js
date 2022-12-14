@@ -21,6 +21,7 @@ function Container() {
                 <Route path='account/bankaccount' element={<BankAccount showNavBar={showNavBar} setShowNavBar={()=> setShowNavBar(!showNavBar)} />} />
                 <Route path='/account/card' element={<DebitCard showNavBar={showNavBar} setShowNavBar={()=> setShowNavBar(!showNavBar)} />} />
                 <Route path='/loan/*' element={<LoanContainer showNavBar={showNavBar} setShowNavBar={()=> setShowNavBar(!showNavBar)} />} />
+                <Route path='/loan/*' element={<LoanContainer showNavBar={showNavBar} setShowNavBar={()=> setShowNavBar(!showNavBar)} />} />
             </Routes>
         </div>
     </div>

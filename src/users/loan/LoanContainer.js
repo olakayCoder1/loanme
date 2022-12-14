@@ -1,9 +1,9 @@
 import React from 'react'
 import LoanDetailHeader from '../../component/LoanDetailHeader'
-import {TbCurrencyNaira} from 'react-icons/tb'
 import {Route, Routes } from "react-router-dom";
 import Loan from './Loan';
 import LoanRepayment from './LoanRepayment';
+import LoanApply from './LoanApply';
 
 function LoanContainer({showNavBar, setShowNavBar}) {
   return (
@@ -13,6 +13,7 @@ function LoanContainer({showNavBar, setShowNavBar}) {
         <Routes>
             <Route path='' element={<Loan />} />
             <Route path='/repayment' element={<LoanRepayment />} />
+            <Route path='/request/*' element={<LoanApply />} />
         </Routes>
        
       </div>

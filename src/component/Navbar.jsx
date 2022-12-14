@@ -17,11 +17,11 @@ function NavLink({name}){
 
 function Navbar({showNavBar, setShowNavBar}) {
 
-    const [hasSetUpAccount , setHasSetUpAccount] = useState(false)
+    const [hasSetUpAccount , setHasSetUpAccount] = useState(true)
   return (
-    <div className=''>
-        <div className='hidden md:block h-full  w-[25%] max-w-[270px] min-w-[250px] sticky top-0 bottom-0 left-0 bg-red-300'>
-            <div className='relative w-full h-full   border-r border-loan-primary  bg-white'>
+    <div className='w-[25%] max-w-[270px] min-w-[250px] border-r'>
+        <div className='hidden md:block h-full w-full sticky top-0 bottom-0 left-0 bg-red-300'>
+            <div className='relative w-full h-full    border-loan-primary  bg-white'>
                 <div className=' w-full flex items-center gap-4  py-8 p-4 md:px-6'>
                     {/* <p onClick={setShowNavBar} className=' cursor-pointer md:hidden'><RxCross1 className=' w-6 h-6'/></p> */}
                     <img src={logo} alt='quick_loan' className='w-10 h-10 text-gray-700'/>
@@ -34,7 +34,6 @@ function Navbar({showNavBar, setShowNavBar}) {
                             <NavLink name='Dashboard' />
                             <NavLink name='Apply For Loan' />
                             <NavLink name='Loan Application History' />
-                            <NavLink name='Dashboard' />
                         </>
                     ): (
                         <div role="status" className="max-w-sm animate-pulse">
@@ -72,7 +71,6 @@ function Navbar({showNavBar, setShowNavBar}) {
                     <NavLink name='Dashboard' />
                     <NavLink name='Apply For Loan' />
                     <NavLink name='Loan Application History' />
-                    <NavLink name='Dashboard' />
                 </>
             ): (
                 <div role="status" className="max-w-sm animate-pulse">

@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
 import Signup from "./pages/Signup";
 import Container from "./users";
+import Onboarding from "./users/onboarding/Onboarding";
 
 function App() {
   return (
@@ -16,9 +17,9 @@ function App() {
         <Route path='/dashboard' element={<Dashboard/>}  />
         <Route path='/admin/*' element={<AdminWrapper />}  />
         <Route path='/settings' element={<Settings />}  /> */}
-        <Route path='/*' element={<Container />}  />
+        <Route path='/signup/*' element={<Onboarding />}  />
         <Route path='/w' element={<WelcomeHeader />}  />
-      
+        <Route path='/*' element={<Container />}  />
       </Routes>
       </Router>
     </div>

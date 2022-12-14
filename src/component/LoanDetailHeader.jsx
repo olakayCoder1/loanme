@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 function LoanDetailHeader({showNavBar, setShowNavBar, name , title}) {
     let navigate = useNavigate()
 
+
   return (
     <>
         <div className='py-4 flex justify-between items-center'>
@@ -21,7 +22,11 @@ function LoanDetailHeader({showNavBar, setShowNavBar, name , title}) {
         </div>
         <div className='pb-4 pt-2 flex gap-3 items-center'>
             <BsChevronDoubleLeft onClick={()=>{ navigate(-1)}} className=' w-6 h-6 cursor-pointer'/>
-            <h3>{title}</h3>
+            {window.location.pathname.includes('loan/request') ? (
+                <h3>Apply For Loan</h3>
+            ):(
+               <h3>{title}</h3>
+            )}
         </div>
     </>
     
