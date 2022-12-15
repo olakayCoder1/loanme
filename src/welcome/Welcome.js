@@ -1,7 +1,6 @@
 import React from 'react'
 import laptop from '../assets/laptop.jpeg'
 import WelcomeNav from './WelcomeNav';
-import Typed from 'react-typed';
 import WelcomeFooter from './WelcomeFooter';
 import { useNavigate } from 'react-router-dom';
 import WelcomeFlow from './WelcomeFlow';
