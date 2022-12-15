@@ -1,14 +1,13 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom";
+import OnboardHeader from './OnboardHeader';
 
 function OnboardingPhone() {
     let navigate = useNavigate()
 
   return (
     <form className=' flex flex-col gap-4'>
-        <h2 className=' text-loan-secondary '>
-            1/5
-        </h2>
+        <OnboardHeader  name='Phone Number' c='1'/>
         <div>
         <label for="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Country</label>
         <input type="text" aria-describedby="helper-text-explanation" id="disabled-input" aria-label="disabled input"

@@ -4,6 +4,7 @@ import {Route, Routes } from "react-router-dom";
 import Loan from './Loan';
 import LoanRepayment from './LoanRepayment';
 import LoanApply from './LoanApply';
+import LoanHistory from './LoanHistory';
 
 function LoanContainer({showNavBar, setShowNavBar}) {
   return (
@@ -13,6 +14,7 @@ function LoanContainer({showNavBar, setShowNavBar}) {
         <Routes>
             <Route path='' element={<Loan />} />
             <Route path='/repayment' element={<LoanRepayment />} />
+            <Route path='/history' element={<LoanHistory />} />
             <Route path='/request/*' element={<LoanApply />} />
         </Routes>
        

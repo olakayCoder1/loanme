@@ -12,15 +12,14 @@ function Container() {
     const [showNavBar, setShowNavBar] = useState(false)
 
   return (
-    <div className=' w-full h-full flex'>
+    <div className=' w-full h-screen flex'>
         <Navbar showNavBar={showNavBar} setShowNavBar={()=> setShowNavBar(!showNavBar)} />
         <div className='grow w-full md:w-[75%] h-full overflow-y-auto'>
             <Routes>
                 <Route path='' element={<Dashboard showNavBar={showNavBar} setShowNavBar={()=> setShowNavBar(!showNavBar)} />} />
-                <Route path='account/bvn' element={<Bvn showNavBar={showNavBar} setShowNavBar={()=> setShowNavBar(!showNavBar)} />} />
-                <Route path='account/bankaccount' element={<BankAccount showNavBar={showNavBar} setShowNavBar={()=> setShowNavBar(!showNavBar)} />} />
-                <Route path='/account/card' element={<DebitCard showNavBar={showNavBar} setShowNavBar={()=> setShowNavBar(!showNavBar)} />} />
-                <Route path='/loan/*' element={<LoanContainer showNavBar={showNavBar} setShowNavBar={()=> setShowNavBar(!showNavBar)} />} />
+                <Route path='setup/account/bvn' element={<Bvn showNavBar={showNavBar} setShowNavBar={()=> setShowNavBar(!showNavBar)} />} />
+                <Route path='setup/account/bankaccount' element={<BankAccount showNavBar={showNavBar} setShowNavBar={()=> setShowNavBar(!showNavBar)} />} />
+                <Route path='setup/account/card' element={<DebitCard showNavBar={showNavBar} setShowNavBar={()=> setShowNavBar(!showNavBar)} />} />
                 <Route path='/loan/*' element={<LoanContainer showNavBar={showNavBar} setShowNavBar={()=> setShowNavBar(!showNavBar)} />} />
             </Routes>
         </div>

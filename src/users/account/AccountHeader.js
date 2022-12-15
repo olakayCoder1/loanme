@@ -1,11 +1,11 @@
 import React from 'react'
-import userDefault from '../assets/user-default.jpeg'
+import userDefault from '../../assets/user-default.jpeg'
 import {RxHamburgerMenu} from 'react-icons/rx'
 import {BsChevronDoubleLeft} from 'react-icons/bs'
 import { useNavigate } from "react-router-dom";
 
 
-function LoanDetailHeader({showNavBar, setShowNavBar, name , title}) {
+function AccountHeader({showNavBar, setShowNavBar, name , title}) {
     let navigate = useNavigate()
 
 
@@ -16,8 +16,9 @@ function LoanDetailHeader({showNavBar, setShowNavBar, name , title}) {
                 {!showNavBar && <p onClick={setShowNavBar} className=' md:hidden cursor-pointer'><RxHamburgerMenu className='w-6 h-6'/></p>}
             </div>
             <div className=' flex items-center gap-2'>
-                <h1 className=' font-bold text-xl text-loan-secondary'>{name}</h1>   
-                <img onClick={()=> navigate('/account')} src={userDefault} alt='user' className='w-10 h-10 rounded-full cursor-pointer'/>
+                <p className=' bg-loanBlue-primary text-white p-1 px-4 cursor-pointer'>
+                    Settings
+                </p>
             </div>
         </div>
         <div className='pb-4 pt-2 flex gap-3 items-center'>
@@ -33,4 +34,4 @@ function LoanDetailHeader({showNavBar, setShowNavBar, name , title}) {
   )
 }
 
-export default LoanDetailHeader
+export default AccountHeader

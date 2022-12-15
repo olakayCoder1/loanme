@@ -19,7 +19,7 @@ function BankAccount({showNavBar, setShowNavBar}) {
             <div className='flex items-center justify-between pt-12'>
                 <form className='w-full min-w-sm max-w-md flex flex-col gap-2'>
 
-                    <label for="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Select Bank</label>
+                    <label htmlFor="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Select Bank</label>
                     <select id="bank" 
                         className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
                         >
@@ -30,12 +30,12 @@ function BankAccount({showNavBar, setShowNavBar}) {
                     <option value="polaris">Polaris Bank</option>
                     </select>
 
-                    <label for="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Account Number</label>
+                    <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Account Number</label>
                     <input type="text" aria-describedby="helper-text-explanation" id="disabled-input" aria-label="disabled input"
                         className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
                         placeholder="" /> 
 
-                    <label for="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Account Name</label>
+                    <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Account Name</label>
                     <input type="number" id="helper-text" aria-describedby="helper-text-explanation" 
                         className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
                         placeholder=""  disabled/>
@@ -53,9 +53,9 @@ function BankAccount({showNavBar, setShowNavBar}) {
 
 
     {whyBvn && (
-    <div className=' fixed w-full h-full top-0 left-0 right-0 bottom-0 bg-gray-600 z-50 bg-blend-overlay opacity-95 flex items-center place-content-center'>
+    <div className=' fixed w-full h-full top-0 left-0 right-0 bottom-0 bg-gray-600 z-50 bg-blend-overlay  flex items-center place-content-center'>
         <div className="z-50 p-4  md:inset-0  h-full flex items-center place-content-center">
-            <div className="relative w-full h-full max-w-md md:h-auto">
+            <div className="relative w-full  max-w-md h-auto">
                 <div className="relative bg-white rounded-lg shadow ">
                     <button onClick={()=> setWhyBvn(false)}  type="button" className="absolute top-3 right-2.5  text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " data-modal-toggle="popup-modal">
                         <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>

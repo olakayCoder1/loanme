@@ -12,7 +12,7 @@ function RepaymentCard({amount, paidDate , status}){
                     <TbCurrencyNaira /> 
                     <span>{amount}</span>
                 </p>
-                {status.toLowerCase() === 'pending' ? (
+                {status.toLowerCase() === 'active' ? (
                     <p className=' text-red-500 text-sm font-medium'>{status}</p>
                 ):(
                     <p className=' text-green-500 text-sm font-medium'>{status}</p>
@@ -25,12 +25,12 @@ function RepaymentCard({amount, paidDate , status}){
 }
 
 
-function Loan() {
+function LoanHistory() {
     let navigate = useNavigate()
   return (
     <div className='p-4 w-full h-full'>
         <div className='p-4 py-7 bg-loan-light min-w-sm w-full text-loan-secondary flex flex-col gap-4 rounded-md'>
-            <h2 className=' text-base font-bold'>Loan Disbursed</h2>
+            <h2 className=' text-base font-bold'>Active loan repayment balance: </h2>
             <h1 className=' flex items-center text-5xl font-bold'>
                 <TbCurrencyNaira />
                 <span><Typed strings={['169,700.00']} typeSpeed={70} showCursor={false}/></span>
@@ -41,11 +41,12 @@ function Loan() {
         </div>
         {/* REPAYMENT BREAKDOWN */}
         <div>
-            <h2 className=' underline underline-offset-4 decoration-loanBlue-primary'>Repayment Breakdown</h2>
-            <RepaymentCard paidDate='NOV 28 , 2020' status="PENDING"  amount="25,255"/>
-            <RepaymentCard paidDate='NOV 28 , 2020' status="PAID"  amount="25,255"/>
-            <RepaymentCard paidDate='NOV 28 , 2020' status="PAID"  amount="25,255"/>
-            <RepaymentCard paidDate='NOV 28 , 2020' status="PAID"  amount="25,255"/>
+            <h2 className=' text-loan-secondary'>Loan History</h2>
+            <RepaymentCard paidDate='NOV 28 , 2020' status="ACTIVE"  amount="25,255"/>
+            <RepaymentCard paidDate='NOV 28 , 2020' status="COMPLETED"  amount="25,255"/>
+            <RepaymentCard paidDate='NOV 28 , 2020' status="COMPLETED"  amount="250,000"/>
+            <RepaymentCard paidDate='NOV 28 , 2020' status="COMPLETED"  amount="250,000"/>
+            <RepaymentCard paidDate='NOV 28 , 2020' status="COMPLETED"  amount="250,000"/>
 
         </div>
 
@@ -54,4 +55,4 @@ function Loan() {
   )
 }
 
-export default Loan
+export default LoanHistory

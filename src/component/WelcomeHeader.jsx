@@ -2,7 +2,6 @@ import React from 'react'
 import userDefault from '../assets/user-default.jpeg'
 import {RxHamburgerMenu} from 'react-icons/rx'
 
-
 function WelcomeHeader({showNavBar, setShowNavBar, name}) {
   return (
     <div className='py-4 flex justify-between items-center'>
