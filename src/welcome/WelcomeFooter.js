@@ -11,7 +11,7 @@ import {
 
 const WelcomeFooter = () => {
   return (
-    <div className='max-w-[1240px] mx-auto py-16 px-4 grid lg:grid-cols-3 gap-8 text-gray-700'>
+    <div className='max-w-[1240px] mx-auto py-16 px-4 grid lg:grid-cols-3 gap-8 text-gray-700 border-t'>
       <div>
         <h1 className='w-full text-3xl font-bold text-loanBlue-primary font-logo'>LoanIt.</h1>
         <div className='flex justify-between md:w-[75%] my-6'>
