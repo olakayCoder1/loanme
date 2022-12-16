@@ -3,6 +3,7 @@ import userLogo from '../../assets/xenith2.jpg'
 import {MdMail , MdPhoneEnabled} from 'react-icons/md'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate} from 'react-router-dom'
+import Typed from 'react-typed';
 
 function UserLoanHistoryCard({loadDate, approveDate , amount , status }){
     const navigate = useNavigate()
@@ -17,7 +18,7 @@ function UserLoanHistoryCard({loadDate, approveDate , amount , status }){
             <td class="py-4 px-6">
                 {approveDate}
             </td>
-            {!status ? <td class="py-4 px-6 text-yellow-400">Inprogress</td> : <td class="py-4 px-6 text-green-600">Completed</td>}
+            {!status ? <td class="py-4 px-6 text-yellow-400">dcb60d90d49246fca540232264ccc2de</td> : <td class="py-4 px-6 text-green-600">dcb60d90d49246fca540232264ccc2de</td>}
             
             <td class="py-4 px-6 text-right">
                 <p onClick={()=> navigate('loan/user/olakay')}  class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">View</p>
@@ -30,23 +31,30 @@ function UserLoanRepaymentHistory() {
     const users = Array.from(Array(10).keys()).slice(1);
   return (
     <div className='w-full h-full'>
-        <div className='p-4 py-6 m-4 bg-white rounded-md'>
+        <div className='p-4 py-6 m-4 bg-white rounded-md w-fit'>
+        
         <div className=' flex gap-4'>
-            <img src={userLogo} alt='user' className='w-32 h-32 rounded-md'/>
-            <div className=' flex flex-col gap-4'>
-                <h2 className='font-bold text-xl'>Olanrewaju AbdulKabeer</h2>
-                <div className=' flex gap-4 items-center'>
+            <img src={userLogo} alt='user' className='w-12 h-12 rounded-md'/>
+            <div className=' flex flex-col'>
+                <h2 className='font-bold text-xl hover:text-loanBlue-primary cursor-pointer'>Olanrewaju AbdulKabeer</h2>
+                <div className=' flex gap-2 items-center'>
                     <p className=' flex items-center gap-2 text-sm font-medium'>
                         <span><MdMail className='w-5 h-5' /></span>
-                        <span>programmerolakay@gmail.com</span>
+                        <span className=' hover:text-loanBlue-primary'>programmerolakay@gmail.com</span>
                     </p>
                     <p className=' flex items-center gap-2 text-sm font-medium'>
                         <span><MdPhoneEnabled  className='w-5 h-5'/></span>
-                        <span>09082455489</span>
+                        <span className=' hover:text-loanBlue-primary'>09082455489</span>
                     </p>
                 </div>
-                <p className='text-sm font-medium'>I distinguish three main text objectives could be merely to inform people.A second could be persuade people.You want people to bay objective</p>
             </div>
+        </div>
+        <div className='p-4 py-7 min-w-sm w-full text-loan-secondary flex flex-col gap-4 rounded-md'>
+            <h2 className=' text-base font-bold'>Loan Disbursed</h2>
+            <h1 className=' flex items-center text-5xl font-bold'>
+                <TbCurrencyNaira />
+                <span><Typed strings={['169,700.00']} typeSpeed={70} showCursor={false}/></span>
+            </h1>
         </div>
         </div>
 

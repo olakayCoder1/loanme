@@ -16,7 +16,7 @@ function App() {
         <Route path='/signup/*' element={<Onboarding />}  />
         <Route path='/account' element={<AccountContainer/>}  />
         {/* <Route path='/w' element={<WelcomeHeader />}  /> */}
-        <Route path='/*' element={<Container />}  />
+        <Route path='m/*' element={<Container />}  />
       </Routes>
       </Router>
     </div>
