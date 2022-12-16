@@ -9,8 +9,10 @@ function FlowCard({Icon,name,description}){
     return (
         <motion.div initial={{opacity:0}}
                     whileInView={{opacity:1, duration:2}}
+                    whileHover={{y:10}}
                     // animate={{}}
-            className='flex flex-col items-start border p-4 justify-between gap-6 hover:bg-loanBlue-primary duration-500 rounded-md shadow-lg'>
+            className='flex flex-col items-start  p-4 justify-between gap-6 hover:bg-loanBlue-primary duration-500 rounded-md shadow-lg'>
+            {/* className='flex flex-col items-start border p-4 justify-between gap-6 hover:bg-loanBlue-primary duration-500 rounded-md shadow-lg'> */}
             <div className=' flex flex-col items-start gap-2'>
                 <Icon className=' text-loanBlue-primary w-12 h-12 group-hover:text-white'/>
                 <h2 className=' text-xl font-medium'>{name}</h2>

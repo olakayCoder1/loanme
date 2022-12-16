@@ -10,7 +10,8 @@ function Header({handleDisplayNav}) {
     <div className='w-full flex justify-between bg-white border border-white p-4 sticky top-0 z-20'>
       <div className=' flex items-center gap-2'>
         <span onClick={handleDisplayNav} className=' md:hidden cursor-pointer'><RxHamburgerMenu className=' w-5 h-5' /></span>
-        <span>Dashboard</span>
+        {window.location.pathname === '/admin' && <span>Dashboard</span>}
+        
         </div>
       <div className=' flex items-center gap-4'>
         <p className='p-1 rounded-full bg-gray-300 cursor-pointer'><IoMdNotificationsOutline className='w-6 h-6' /></p>

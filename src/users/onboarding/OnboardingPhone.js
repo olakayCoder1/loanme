@@ -6,18 +6,18 @@ function OnboardingPhone() {
     let navigate = useNavigate()
 
   return (
-    <form className=' flex flex-col gap-4'>
+    <form className=' flex flex-col gap-4 border p-4'>
         <OnboardHeader  name='Phone Number' c='1'/>
         <div>
         <label for="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Country</label>
         <input type="text" aria-describedby="helper-text-explanation" id="disabled-input" aria-label="disabled input"
-            class="bg-gray-50 mb-3 border border-gray-300  text-sm rounded focus:ring-loan-primary focus:border-loan-primary block w-full p-3 focus:outline-none" 
+            class="bg-gray-50 mb-3 border border-gray-300  text-sm rounded hover:border-loanBlue-primary  focus:ring-loanBlue-primary  focus:border-loanBlue-primary block w-full p-3 focus:outline-none" 
             placeholder="Nigeria"  value='Nigeria' disable />
         </div>
         <div>
         <label for="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Phone Number</label>
             <input type="text" aria-describedby="helper-text-explanation" id="disabled-input" aria-label="disabled input"
-                class="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-3 focus:outline-none" 
+                class="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md hover:border-loanBlue-primary  focus:ring-loanBlue-primary  focus:border-loanBlue-primary block w-full p-3 focus:outline-none" 
                 placeholder="+234 908 345 5489" />
 
         </div>
