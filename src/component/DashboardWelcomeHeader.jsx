@@ -12,7 +12,7 @@ function DashboardWelcomeHeader({showNavBar, setShowNavBar, name}) {
             {!showNavBar && <p onClick={setShowNavBar} className=' md:hidden cursor-pointer'><RxHamburgerMenu className='w-6 h-6'/></p>}
             <h1 className=' font-bold text-xl text-loan-secondary'>Hello {name},</h1>   
         </div>
-        <img onClick={()=> navigate('/account')} src={userDefault} alt='user' className='w-10 h-10 rounded-full cursor-pointer'/>
+        <img onClick={()=> navigate('/account')} src='https://avatars.githubusercontent.com/u/95700260?v=4' alt='user' className='w-10 h-10 rounded-md cursor-pointer'/>
     </div>
   )
 }

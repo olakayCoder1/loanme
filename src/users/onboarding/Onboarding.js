@@ -2,20 +2,32 @@ import React from 'react'
 import logo from '../../assets/loanme.png'
 import {Route, Routes } from "react-router-dom";
 import logo1 from '../../assets/laptop.jpeg'
+import logo3 from '../../assets/loanp2.jpeg'
+import logo2 from '../../assets/l2.jpeg'
+// import logo2 from '../../assets/undraw7.svg'
 import OnboardingPhone from './OnboardingPhone';
 import OnboardingPhoneVerify from './OnboardingPhoneVerify';
 import OnboardingPersonalInfo from './OnboardingPersonalInfo';
 import OnboardAddress from './OnboardAddress';
 import OnboardingAccountPin from './OnboardingAccountPin';
 
+
+
+
+
+
+
+
+
 function Onboarding() {
   return (
-    <div className=' w-full h-screen flex '>
-      <div className='p-3 md:p-0 w-full md:w-3/6 '>
-        <div className=' w-full md:max-w-sm mx-auto py-12'>
-            <div className=' w-full flex items-center gap-4  py-4 md:py-8 '>
-                <img src={logo} alt='quick_loan' className='w-10 h-10 text-gray-700'/>
-                <h2 className=' text-xl font-bold font-headingFont'>Quick Loan</h2>
+    <div className='flex items-center justify-center h-screen mb-12 bg-fixed bg-center bg-cover custom-img' style={{ backgroundImage: `url(${logo2})`}}>
+      {/* Overlay */}
+      <div className='absolute top-0 left-0 right-0 bottom-0 bg-black/70 z-[2]' />
+      <div className='z-[2] w-full max-w-sm md:max-w-md '>
+        <div className=' w-full  mx-auto py-6 p-4 border bg-white rounded shadow-md'>
+            <div className=' w-full flex items-center place-content-center gap-4  py-4 pb-12 r  '>
+                <h2 className=' logo-primary'>LoanIt</h2>
             </div>
             <Routes>
                 <Route path='' element={<OnboardingPhone />} />
@@ -26,8 +38,31 @@ function Onboarding() {
             </Routes>
         </div>
       </div>
-      <div className='hidden md:block md:w-3/6  bg-loan-primary h-full bg-cover bg-center bg-no-repeat' 
-            style={{backgroundImage: `url(${logo1})` }}>
+    </div>
+  )
+}
+
+
+
+function Onboarding1() {
+  return (
+    <div className=' w-full h-screen flex '>
+      <div className='p-3 md:p-0 w-full md:w-3/6 flex items-center place-content-center bg-gray-50  '>
+        <div className=' w-full md:max-w-sm mx-auto py-6 p-4 border bg-white rounded-md shadow-md'>
+            <div className=' w-full flex items-center place-content-center gap-4  py-4 pb-12 r  '>
+                <h2 className=' logo-primary'>LoanIt</h2>
+            </div>
+            <Routes>
+                <Route path='' element={<OnboardingPhone />} />
+                <Route path='/phone-verify' element={<OnboardingPhoneVerify />} />
+                <Route path='/personaldetails' element={<OnboardingPersonalInfo />} />
+                <Route path='/address' element={<OnboardAddress />} />
+                <Route path='/pin' element={<OnboardingAccountPin />} />
+            </Routes>
+        </div>
+      </div>
+      <div className='hidden md:block md:w-3/6   h-full bg-cover bg-center bg-no-repeat' 
+            style={{backgroundImage: `url(${logo3})` }}>
         {/* <div className=' w-full h-full bg-gray-400 opacity-60'></div> */}
       </div>
     </div>

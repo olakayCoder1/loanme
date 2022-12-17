@@ -11,22 +11,22 @@ function NavLink({name , toHref}){
     if(window.location.pathname === toHref){
         return (
             <div className=' border-b md:p-4 py-4 px-2'>
-                <p onClick={()=> navigate(`${toHref}`)} to={toHref} className='text-loanBlue-primary text-sm md:text-base font-bold cursor-pointer'>{name}</p>
+                <p onClick={()=> navigate(`${toHref}`)} to={toHref} className='text-loanBlue-primary text-sm md:text-base font-medium cursor-pointer'>{name}</p>
             </div>
         )
     }
     return (
         <div className=' border-b md:p-4 py-4 px-2'>
-            <Link to={toHref} className='text-sm md:text-base font-bold cursor-pointer'>{name}</Link>
+            <Link to={toHref} className='text-sm md:text-base font-medium cursor-pointer'>{name}</Link>
         </div>
     )
 }
 
 
 
-function Navbar({showNavBar, setShowNavBar}) {
+function AdminNavBar({showNavBar, setShowNavBar}) {
 
-    const [hasSetUpAccount , setHasSetUpAccount] = useState(false)
+    const [hasSetUpAccount , setHasSetUpAccount] = useState(true)
     const [logoutAccount , setLogoutAccount] = useState(false)
 
   return (
@@ -43,9 +43,10 @@ function Navbar({showNavBar, setShowNavBar}) {
                 <div className='my-2 p-4'>
                     {hasSetUpAccount ? (
                         <>
-                            <NavLink name='Dashboard' toHref='/' />
-                            <NavLink name='Apply For Loan' toHref='/loan/request'/>
+                            <NavLink name='Dashboard' toHref='/admin' />
+                            <NavLink name='Customers' toHref='/admin/users'/>
                             <NavLink name='Loan Application History' toHref='/loan/history' />
+                            <NavLink name='System Settings' toHref='/account' />
                             <NavLink name='Account' toHref='/account' />
                         </>
                     ): (
@@ -116,9 +117,10 @@ function Navbar({showNavBar, setShowNavBar}) {
             <div className='my-2 p-4'>
                 {hasSetUpAccount ? (
                     <>
-                        <NavLink name='Dashboard' toHref='/' />
-                        <NavLink name='Apply For Loan' toHref='/loan/request'/>
+                        <NavLink name='Dashboard' toHref='/admin' />
+                        <NavLink name='Customers' toHref='/admin/users'/>
                         <NavLink name='Loan Application History' toHref='/loan/history' />
+                        <NavLink name='System Settings' toHref='/account' />
                         <NavLink name='Account' toHref='/account' />
                     </>
                 ): (
@@ -141,4 +143,4 @@ function Navbar({showNavBar, setShowNavBar}) {
   )
 }
 
-export default Navbar
+export default AdminNavBar

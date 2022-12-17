@@ -4,7 +4,6 @@ import {TbCurrencyNaira} from 'react-icons/tb'
 import {BsFillCreditCard2BackFill} from 'react-icons/bs'
 import {FcOk} from 'react-icons/fc'
 import { useNavigate } from "react-router-dom";
-import Typed from 'react-typed';
 
 function Dashboard({showNavBar, setShowNavBar}) {
   let navigate = useNavigate()
@@ -22,7 +21,7 @@ function Dashboard({showNavBar, setShowNavBar}) {
                   <h2 className=' text-base font-bold'>Your Loan</h2>
                   <h1 className=' flex items-center text-5xl font-bold'>
                       <TbCurrencyNaira />
-                      <span><Typed strings={['0.00']} typeSpeed={70} showCursor={false}/></span>
+                      <span>0.00</span>
                   </h1>
                 </div>
                 <div cl w-full>
@@ -36,7 +35,7 @@ function Dashboard({showNavBar, setShowNavBar}) {
                     <h2 className=' text-base font-bold'>Your Loan</h2>
                     <h1 className=' flex items-center text-5xl font-bold'>
                         <TbCurrencyNaira />
-                        <span><Typed strings={['90,000.00']} typeSpeed={70} showCursor={false} /></span>
+                        <span>90,000.00</span>
                     </h1>
                   </div>
                   <div className=' flex items-center gap-2'>
