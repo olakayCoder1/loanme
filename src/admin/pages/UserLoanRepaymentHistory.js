@@ -1,5 +1,4 @@
 import React from 'react'
-import userLogo from '../../assets/xenith2.jpg'
 import {MdMail , MdPhoneEnabled} from 'react-icons/md'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate} from 'react-router-dom'
@@ -34,7 +33,7 @@ function UserLoanRepaymentHistory() {
         <div className='p-4 py-6 m-4 bg-white rounded-md w-fit'>
         
         <div className=' flex gap-4'>
-            <img src={userLogo} alt='user' className='w-12 h-12 rounded-md'/>
+            <img src='https://avatars.githubusercontent.com/u/95700260?v=4' alt='user' className='w-12 h-12 rounded-md'/>
             <div className=' flex flex-col'>
                 <h2 className='font-bold text-xl hover:text-loanBlue-primary cursor-pointer'>Olanrewaju AbdulKabeer</h2>
                 <div className=' flex gap-2 items-center'>

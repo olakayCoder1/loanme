@@ -1,14 +1,13 @@
 import React from 'react'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate, Link} from 'react-router-dom'
-import userLogo from '../../assets/xenith2.jpg'
 
 function CustomersLoanHistoryCard({name, loanDate , progress , amount}){
     const navigate = useNavigate()
     return (
         <tr class="bg-white border-b hover:bg-gray-200 ">
             <th scope="row" class="py-4 px-6 font-medium  whitespace-nowrap flex items-center gap-4 ">
-                <img src={userLogo} className='w-10 h-10 rounded-md'/>
+                <img src='https://avatars.githubusercontent.com/u/95700260?v=4' className='w-10 h-10 rounded-md'/>
                 <p className=' flex flex-col'>
                     <Link onClick={()=> navigate('/admin/users/olakay')} to='/admin/users/olakay' className=' hover:text-loanBlue-primary cursor-pointer font-bold'>{name}</Link>
                     <span className=' text-xs font-medium'>programmerolakay@gmail</span>

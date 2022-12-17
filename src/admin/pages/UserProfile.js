@@ -1,7 +1,5 @@
 import React from 'react'
-import userLogo from '../../assets/xenith2.jpg'
 import {MdMail , MdPhoneEnabled} from 'react-icons/md'
-import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate} from 'react-router-dom'
 
 
@@ -12,7 +10,7 @@ function UserProfile() {
     <div>
         <div className='p-4 py-6 m-4 bg-white rounded-md'>
             <div className=' flex flex-col md:flex-row gap-4'>
-            <img src={userLogo} alt='user' className='w-16 h-16 md:w-32 md:h-32 rounded-md'/>
+            <img src='https://avatars.githubusercontent.com/u/95700260?v=4' alt='user' className='w-16 h-16 md:w-32 md:h-32 rounded-md'/>
             <div className=' flex flex-col gap-4'>
                 <h2 className='font-bold text-xl'>Olanrewaju AbdulKabeer</h2>
                 <div className=' flex gap-4 items-center'>
