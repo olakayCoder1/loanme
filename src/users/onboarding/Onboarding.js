@@ -1,7 +1,7 @@
 import React from 'react'
 import logo from '../../assets/loanme.png'
 import {Route, Routes } from "react-router-dom";
-import logo1 from '../../assets/laptop.jpeg'
+// import logo1 from '../../assets/laptop.jpeg'
 import logo3 from '../../assets/loanp2.jpeg'
 import logo2 from '../../assets/l2.jpeg'
 // import logo2 from '../../assets/undraw7.svg'
@@ -10,7 +10,7 @@ import OnboardingPhoneVerify from './OnboardingPhoneVerify';
 import OnboardingPersonalInfo from './OnboardingPersonalInfo';
 import OnboardAddress from './OnboardAddress';
 import OnboardingAccountPin from './OnboardingAccountPin';
-
+import logo1 from '../../assets/loanme.png'
 
 
 
@@ -27,7 +27,10 @@ function Onboarding() {
       <div className='z-[2] w-full max-w-sm md:max-w-md '>
         <div className=' w-full  mx-auto py-6 p-4 border bg-white rounded shadow-md'>
             <div className=' w-full flex items-center place-content-center gap-4  py-4 pb-12 r  '>
-                <h2 className=' logo-primary'>LoanIt</h2>
+                <div className=' flex items-center gap-2'>
+                    <img src={logo1} alt='logo'  className=' w-10 h-10' />
+                    <h2 className=' logo-primary font-bold text-xl'>LoanIt</h2>
+                </div>
             </div>
             <Routes>
                 <Route path='' element={<OnboardingPhone />} />

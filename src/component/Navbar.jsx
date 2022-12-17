@@ -17,8 +17,8 @@ function NavLink({name , toHref , setShowNavBar}){
     }
     if(window.location.pathname === toHref){
         return (
-            <div className=' border-b md:p-4 py-4 px-2'>
-                <Link to={toHref} className='text-loanBlue-primary text-sm md:text-base font-bold cursor-pointer'>
+            <div className=' border-b md:p-4 py-4 px-2 border-loanBlue-primary'>
+                <Link to={toHref} className='text-loanBlue-primary text-sm  font-medium cursor-pointer'>
                     <span onClick={handleClick}>{name}</span>
                 </Link>
             </div>
@@ -26,7 +26,7 @@ function NavLink({name , toHref , setShowNavBar}){
     }
     return (
         <div className=' border-b md:p-4 py-4 px-2'>
-            <Link  onClick={handleClick} to={toHref} className='text-sm md:text-base font-bold cursor-pointer'>
+            <Link  onClick={handleClick} to={toHref} className='text-sm  font-medium cursor-pointer'>
                 <span onClick={handleClick}>{name}</span>
             </Link>
         </div>

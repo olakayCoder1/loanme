@@ -10,14 +10,14 @@ function NavLink({name , toHref}){
 
     if(window.location.pathname === toHref){
         return (
-            <div className=' border-b md:p-3 py-3 px-2'>
+            <div className=' border-b md:p-3 py-3 px-2 border-loanBlue-primary'>
                 <p onClick={()=> navigate(`${toHref}`)} to={toHref} className='text-loanBlue-primary text-sm  font-medium cursor-pointer'>{name}</p>
             </div>
         )
     }
     return (
         <div className=' border-b md:p-3 py-3 px-2'>
-            <Link to={toHref} className='text-sm md:text-base font-medium cursor-pointer'>{name}</Link>
+            <Link to={toHref} className='text-sm font-medium cursor-pointer'>{name}</Link>
         </div>
     )
 }
