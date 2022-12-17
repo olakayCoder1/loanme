@@ -1,9 +1,8 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom";
 import OnboardHeader from './OnboardHeader';
-import logo2 from '../../assets/l1.jpeg'
+import logo2 from '../../assets/l2.jpeg'
 import {Link } from "react-router-dom";
-import logo1 from '../../assets/l2.jpeg'
 
 
 

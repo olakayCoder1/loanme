@@ -10,7 +10,7 @@ import SignIn from "./users/onboarding/SignIn";
 import { useState } from "react";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(true)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   return (
     <div className=" w-full  text-loan-primary font-noto">
       <AuthContextProvider >
