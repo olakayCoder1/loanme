@@ -1,4 +1,5 @@
 import {BrowserRouter as Router , Route, Routes } from "react-router-dom";
+import AuthContextProvider from "./contexts/ContextProvider";
 import WelcomeHeader from "./component/WelcomeHeader";
 import Welcome from "./welcome/Welcome";
 import AdminWrapper from "./admin/AdminWrapper";
@@ -12,21 +13,24 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(true)
   return (
     <div className=" w-full  text-loan-primary font-noto">
-      <Router>
-      <Routes>
-        <Route path="/admin/*"  element={<AdminWrapper />} />
-        {isAuthenticated ? (
-          <Route path='/*' element={<Container />}  />
-        ): (
-          <Route path='' element={<Welcome />}  />
-        )}
-        <Route path='/signin' element={<SignIn />}  />
-        <Route path='/signup/*' element={<Onboarding />}  />
-        <Route path='/account' element={<AccountContainer/>}  />
-        {/* <Route path='/w' element={<WelcomeHeader />}  /> */}
-        
-      </Routes>
-      </Router>
+      <AuthContextProvider >
+        <Router>
+          <Routes>
+            <Route path="/admin/*"  element={<AdminWrapper />} />
+            {isAuthenticated ? (
+              <Route path='/*' element={<Container />}  />
+            ): (
+              <Route path='' element={<Welcome />}  />
+            )}
+            <Route path='/signin' element={<SignIn />}  />
+            <Route path='/signup/*' element={<Onboarding />}  />
+            <Route path='/account' element={<AccountContainer/>}  />
+            {/* <Route path='/w' element={<WelcomeHeader />}  /> */}
+            
+          </Routes>
+        </Router>
+      </AuthContextProvider>
+      
     </div>
   );
 }
