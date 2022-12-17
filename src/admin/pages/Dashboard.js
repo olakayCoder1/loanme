@@ -35,7 +35,7 @@ function CustomersLoanHistoryCard({name, loanDate , progress , amount}){
                 {loanDate}
             </td>
             <td class="py-4 px-6 text-right">
-                <p onClick={()=> navigate('/admin/users/olakay/loan')}  class="font-medium text-blue-600  hover:underline cursor-pointer">View</p>
+                <Link to='/admin/users/olakay/loan/1/history'  class="font-medium text-blue-600  hover:underline cursor-pointer">View</Link>
             </td>
         </tr>
     )
@@ -46,10 +46,10 @@ function Card({title, val , col ,Icon}){
     console.log(title)
     
     return (
-        <motion.div initial={{y:0}} whileHover={{y:-6}} animate={{transition:{duration:3} , translate:{duration:2} }}
+        <motion.div initial={{y:0}} whileHover={{y:-6}} animate={{transition:{duration:3} }}
             className='w-full flex justify-between p-4  h-36 bg-white rounded shadow'>
             <div className=' flex flex-col justify-between'>
-                <h3 className=' uppercase text-gray-400 text-base font-medium'>{title}</h3>
+                <h3 className=' uppercase text-gray-400 text-base font-medium hover:text-loanBlue-primary'>{title}</h3>
                 <h2 className=' flex items-center text-2xl font-medium text-gray-800'>
                     {title === 'total earning' && <TbCurrencyNaira />}
                     {title === 'my balance' && <TbCurrencyNaira />}

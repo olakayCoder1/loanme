@@ -6,7 +6,7 @@ import OnboardHeader from './OnboardHeader';
 function OnboardingPhoneVerify() {
     let navigate = useNavigate()
   return (
-    <form className='w-full flex flex-col gap-4'>
+    <form className='w-full flex flex-col gap-4 px-4'>
         <OnboardHeader  name='Phone Verification' c='2'/>
         <div>
         <label for="helper-text" className="text-input-label ">Verification Code</label>

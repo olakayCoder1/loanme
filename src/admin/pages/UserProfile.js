@@ -9,7 +9,7 @@ function UserProfile() {
     const navigate = useNavigate()
   return (
     <div className=''>
-        <div className='p-4 py-6 text-white  bg-center bg-cover' style={{ backgroundImage: `url(${logo})`}}>
+        <div className='p-4 py-12 text-white  bg-center bg-cover' style={{ backgroundImage: `url(${logo})`}}>
             <div className=' flex flex-col md:flex-row gap-4'>
             <img src='https://avatars.githubusercontent.com/u/95700260?v=4' alt='user' className='w-16 h-16 md:w-32 md:h-32 rounded-md'/>
             <div className=' flex flex-col gap-4'>
@@ -26,7 +26,7 @@ function UserProfile() {
                 </div>
                 <div className='flex gap-2 items-center text-sm font-medium'>
                     <p className='w-fit  px-4 py-2 bg-loanBlue-primary text-white cursor-pointer rounded-md' >Disable</p>
-                    <p onClick={()=> navigate('admin/users/olakay/loan')}  className='w-fit  px-4 py-2 text-loanBlue-primary bg-white cursor-pointer rounded-md' >Loan History</p>
+                    <p onClick={()=> navigate('/admin/users/olakay/loan')}  className='w-fit  px-4 py-2 text-loanBlue-primary bg-white cursor-pointer rounded-md' >Loan History</p>
                 </div>
             </div>
             </div>

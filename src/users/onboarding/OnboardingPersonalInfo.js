@@ -6,7 +6,7 @@ function OnboardingPersonalInfo() {
     let navigate = useNavigate()
 
   return (
-    <form className='w-full flex flex-col gap-4'>
+    <form className='w-full flex flex-col gap-4 px-4'>
         <OnboardHeader  name='Personal Details' c='3'/>
         <div>
             <label for="helper-text" className="text-input-label">First Name</label>

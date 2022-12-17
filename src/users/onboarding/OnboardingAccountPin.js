@@ -6,7 +6,7 @@ import OnboardHeader from './OnboardHeader';
 function OnboardingAccountPin() {
     let navigate = useNavigate()
   return (
-    <form className='w-full flex flex-col gap-2'>
+    <form className='w-full flex flex-col gap-2 px-4'>
         <OnboardHeader  name='Security' c='5'/>
         <div>
         <label htmlFor="helper-text" className="text-input-label">Account Pin</label>

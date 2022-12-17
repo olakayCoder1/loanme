@@ -6,7 +6,7 @@ function OnboardAddress() {
     let navigate = useNavigate()
 
   return (
-    <form className='w-full flex flex-col gap-4'>
+    <form className='w-full flex flex-col gap-4 px-4'>
         <OnboardHeader  name='Address' c='4'/>
         <div>
             <label htmlFor="helper-text" className="text-input-label">Address Line 1</label>

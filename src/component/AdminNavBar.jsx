@@ -117,9 +117,10 @@ function AdminNavBar({showNavBar, setShowNavBar}) {
             <div className='my-2 p-4'>
                 {hasSetUpAccount ? (
                     <>
-                        <NavLink name='Dashboard' toHref='/' />
-                        <NavLink name='Customers' toHref='/loan/request'/>
+                        <NavLink name='Dashboard' toHref='/admin' />
+                        <NavLink name='Customers' toHref='/admin/users'/>
                         <NavLink name='Loan Application History' toHref='/loan/history' />
+                        <NavLink name='System Settings' toHref='/account' />
                         <NavLink name='Account' toHref='/account' />
                     </>
                 ): (

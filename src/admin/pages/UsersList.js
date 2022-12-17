@@ -35,7 +35,7 @@ function Card({title, val , col ,Icon}){
         <motion.div initial={{y:0}} whileHover={{y:-6}} animate={{transition:{duration:3} , translate:{duration:2} }}
             className='w-full flex justify-between p-4  h-32 bg-white rounded shadow'>
             <div className=' flex flex-col justify-between'>
-                <h3 className=' uppercase text-gray-400 text-sm font-medium'>{title}</h3>
+                <h3 className=' uppercase text-gray-400 text-sm font-medium hover:text-loanBlue-primary'>{title}</h3>
                 <h2 className=' flex items-center text-2xl font-medium text-gray-800'>
                     {title === 'total earning' && <TbCurrencyNaira />}
                     {title === 'my balance' && <TbCurrencyNaira />}
@@ -63,7 +63,7 @@ function UsersList() {
             <Card Icon={BsAward} title='Total customers' col='green' val='1,012'/>
             <Card title='Active customers' val='1,012' Icon={BsAward} col='blue'/>
             <Card title='Disabled customer' val='5438' Icon={BsAward} col='gray'/>
-            <Card title='Unloan' val='383' Icon={BsAward} col='red'/>
+            <Card title='lOAN' val='383' Icon={BsAward} col='red'/>
         </div>
         <div className='p-4 bg-white m-4 rounded-md'>
             <h2 className='text-base font-bold text-gray-800 py-4'>Customers</h2>
