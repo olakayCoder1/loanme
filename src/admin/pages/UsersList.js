@@ -74,24 +74,24 @@ function UsersList() {
         <div className='p-4 bg-white m-4 rounded-md'>
             <h2 className='text-base font-bold text-gray-800 py-4'>Customers</h2>
             <div className='flex flex-col lg:flex-row justify-between gap-4 lg:items-center my-4'>
-
-                <div className='grow flex gap-3 items-center'>
-                    <form className=' grow'>
-                        <input className='w-full border-[1px] px-4 py-2 focus:ring-0 focus:outline-none bg-gray-100 hover:border-gray-300 focus:border-loan-outline rounded-md placeholder:text-sm'
-                        type='search' placeholder='Search for customer, email .....' />
+                <div className=' flex  gap-4 items-center'>
+                    <form>
+                        <input className='border-[1px] px-4 py-2 focus:ring-0 focus:outline-none focus:border-loan-outline rounded placeholder:text-xs'
+                        type='search' placeholder='Search user' />
+                    </form>
+                    <form>
+                        <input className='border-[1px] px-4 py-2 focus:ring-0 focus:outline-none focus:border-loan-outline rounded placeholder:text-xs'
+                        type='search' placeholder='Search loan id...' />
                     </form>
                     <select id="bank" 
-                            className="border-[1px] w-fit  text-sm rounded-md focus:ring-0 hover:border-gray-300 focus:border-loan-outline block  p-2.5 focus:outline-none" 
+                            className="border-[1px] w-fit  rounded focus:ring-0 hover:border-gray-300 focus:border-loan-outline block  p-2 focus:outline-none text-xs" 
                             >
-                        <option selected disabled hidden>Filter</option>
-                        <option value="fisrt_bank">First Bank</option>
-                        <option value="uba">United Bank For Africa</option>
-                        <option value="union">Union Bank</option>
-                        <option value="polaris">Polaris Bank</option>
+                        <option selected disabled hidden>Status</option>
+                        <option value="fisrt_bank">Pending</option>
+                        <option value="uba">Approved</option>
                         </select>
                 </div>
-
-                <p className='w-fit border-[2px] px-4 py-2 bg-loanBlue-primary text-white cursor-pointer rounded-md' >Export Excel</p>
+                <p className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary text-loanBlue-primary bg-white cursor-pointer rounded text-xs' >Export csv</p>
 
             </div>
             

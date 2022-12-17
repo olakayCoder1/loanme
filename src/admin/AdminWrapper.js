@@ -11,6 +11,7 @@ import UserLoanRepaymentHistory from './pages/UserLoanRepaymentHistory'
 import DashboardWrapper from './pages/dashboard/DashboardWrapper'
 import Loans from './pages/Loans'
 import Applications from './pages/Applications'
+import UserAccount from './pages/UserAccount'
 
 function AdminWrapper() {
     const [showNav, setShowNav] = useState(false)
@@ -28,6 +29,7 @@ function AdminWrapper() {
                     <Route path='/loans' element={<Loans />} />
                     <Route path='/loans/applications' element={<Applications />} />
                     <Route path='/users' element={<UsersList />} />
+                    <Route path='/users/account' element={<UserAccount />} />
                     <Route path='/users/olakay' element={<UserProfile />} />
                     <Route path='/users/olakay/loan' element={<UserLoanHistory />} />
                     <Route path='/users/olakay/loan/1/history' element={<UserLoanRepaymentHistory />} />
