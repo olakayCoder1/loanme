@@ -1,6 +1,11 @@
 import React from 'react'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate, Link} from 'react-router-dom'
+import {RiMoneyDollarCircleLine} from 'react-icons/ri'
+import {SiWebmoney} from 'react-icons/si'
+import {FiUsers} from 'react-icons/fi'
+import {BsWallet2} from 'react-icons/bs'
+import {motion} from 'framer-motion'
 
 function CustomersLoanHistoryCard({name, loanDate , progress , amount}){
     const navigate = useNavigate()
@@ -37,30 +42,56 @@ function CustomersLoanHistoryCard({name, loanDate , progress , amount}){
 }
 
 
+function Card({title, val , col ,Icon}){
+    console.log(title)
+    
+    return (
+        <motion.div initial={{y:0}} whileHover={{y:-6}} animate={{transition:{duration:3} , translate:{duration:2} }}
+            className='w-full flex justify-between p-4  h-36 bg-white rounded shadow'>
+            <div className=' flex flex-col justify-between'>
+                <h3 className=' uppercase text-gray-400 text-base font-medium'>{title}</h3>
+                <h2 className=' flex items-center text-2xl font-medium text-gray-800'>
+                    {title === 'total earning' && <TbCurrencyNaira />}
+                    {title === 'my balance' && <TbCurrencyNaira />}
+                    <span>{val}</span>
+                </h2>
+                <p className=' text-sm font-normal text-gray-400 underline underline-offset-1 cursor-pointer'>view</p>
+            </div>
+            <div className=' flex justify-between flex-col'>
+                <p className=' text-white'>j</p>
+                {col == 'blue' && <p className=' p-2 rounded-sm bg-blue-100'> <Icon  className=' text-blue-400 w-6 h-6'/> </p>}
+                {col == 'green' && <p className=' p-2 rounded-sm bg-green-100'> <Icon  className=' text-green-400 w-6 h-6'/> </p>}
+                {col == 'red' && <p className=' p-2 rounded-sm bg-red-100'> <Icon  className=' text-red-400 w-6 h-6'/> </p>}
+                {col == 'yellow' && <p className=' p-2 rounded-sm bg-yellow-100'> <Icon  className=' text-yellow-400 w-6 h-6'/> </p>}
+                
+            </div>
+        </motion.div>
+    )
+}
+
 
 function Dashboard() {
     const navigate = useNavigate()
 
   return (
     <div>
-      <div className='p-4 flex overflow-x-auto'>
-        <div href="#" class="block  p-6 text-white border border-gray-200 rounded-lg shadow-md  bg-gray-800 ">
-            <p class="font-normal">Pending loan</p>
-            <div className=''>
-                <span className=' text-sm font-medium'>NGN</span>
-                <span className=' font-extrabold text-5xl tracking-tight leading-none'>250,000,000</span>
-                <span className=' text-sm font-medium'>.00</span>
-            </div>            
-        </div>
-        <div href="#" class="block p-6 text-white border border-gray-200 rounded-lg shadow-md  bg-gray-800 ">
-            <div className=''>
-                <span className=' text-sm font-medium'>NGN</span>
-                <span className=' font-extrabold text-5xl tracking-tight leading-none'>250,000,000</span>
-                <span className=' text-sm font-medium'>.00</span>
+        <div className=' flex md:items-center gap-4 justify-between p-4 flex-col md:flex-row'>
+            <div>
+                <h2 className=' font-bold text-base text-loan-secondary'>Good day Olanrewaju</h2>
+                <p className=' text-sm  font-normal text-gray-400'>Here's what's happening with your business.</p>
             </div>
-            <p class="font-normal">kkk </p>
+            <p className=' p-2 bg-white rounded text-sm font-normal border shadow-md'>
+                01 Jan , 2020 to  31 Jan 2020
+            </p>
         </div>
-      </div>
+
+        <div className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4'>
+            <Card title='total earning' val='5464738.00' Icon={RiMoneyDollarCircleLine} col='green'/>
+            <Card title='loan' val='1,012' Icon={SiWebmoney} col='red'/>
+            <Card title='customers' val='5464738.00' Icon={FiUsers} col='blue'/>
+            <Card title='my balance' val='390,383.00' Icon={BsWallet2} col='yellow'/>
+        </div>
+      
     
    
     <div className='p-4 bg-white md:m-4 rounded-md'>

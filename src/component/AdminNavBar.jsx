@@ -11,13 +11,13 @@ function NavLink({name , toHref}){
     if(window.location.pathname === toHref){
         return (
             <div className=' border-b md:p-4 py-4 px-2'>
-                <p onClick={()=> navigate(`${toHref}`)} to={toHref} className='text-loanBlue-primary text-sm md:text-base font-bold cursor-pointer'>{name}</p>
+                <p onClick={()=> navigate(`${toHref}`)} to={toHref} className='text-loanBlue-primary text-sm md:text-base font-medium cursor-pointer'>{name}</p>
             </div>
         )
     }
     return (
         <div className=' border-b md:p-4 py-4 px-2'>
-            <Link to={toHref} className='text-sm md:text-base font-bold cursor-pointer'>{name}</Link>
+            <Link to={toHref} className='text-sm md:text-base font-medium cursor-pointer'>{name}</Link>
         </div>
     )
 }

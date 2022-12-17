@@ -1,18 +1,19 @@
 import React from 'react'
 import {MdMail , MdPhoneEnabled} from 'react-icons/md'
 import { useNavigate} from 'react-router-dom'
+import logo from '../../assets/laptop.jpeg'
 
 
 function UserProfile() {
     const users = Array.from(Array(10).keys()).slice(1);
     const navigate = useNavigate()
   return (
-    <div>
-        <div className='p-4 py-6 m-4 bg-white rounded-md'>
+    <div className=''>
+        <div className='p-4 py-6 text-white  bg-center bg-cover' style={{ backgroundImage: `url(${logo})`}}>
             <div className=' flex flex-col md:flex-row gap-4'>
             <img src='https://avatars.githubusercontent.com/u/95700260?v=4' alt='user' className='w-16 h-16 md:w-32 md:h-32 rounded-md'/>
             <div className=' flex flex-col gap-4'>
-                <h2 className='font-bold text-xl'>Olanrewaju AbdulKabeer</h2>
+                <h2 className='font-bold text-xl  hover:drop-shadow-xl '>Olanrewaju AbdulKabeer</h2>
                 <div className=' flex gap-4 items-center'>
                     <p className=' flex items-center gap-2 text-sm font-medium'>
                         <span><MdMail className='w-5 h-5' /></span>
@@ -23,9 +24,9 @@ function UserProfile() {
                         <span>09082455489</span>
                     </p>
                 </div>
-                <div className='flex gap-2 items-center'>
-                    <p className='w-fit border-[2px] px-4 py-2 bg-loanBlue-primary text-white cursor-pointer rounded-md' >Disable</p>
-                    <p onClick={()=> navigate('admin/users/olakay/loan')}  className='w-fit border-[2px] px-4 py-2 text-loanBlue-primary bg-white cursor-pointer rounded-md' >Loan History</p>
+                <div className='flex gap-2 items-center text-sm font-medium'>
+                    <p className='w-fit  px-4 py-2 bg-loanBlue-primary text-white cursor-pointer rounded-md' >Disable</p>
+                    <p onClick={()=> navigate('admin/users/olakay/loan')}  className='w-fit  px-4 py-2 text-loanBlue-primary bg-white cursor-pointer rounded-md' >Loan History</p>
                 </div>
             </div>
             </div>
