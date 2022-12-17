@@ -10,13 +10,13 @@ function NavLink({name , toHref}){
 
     if(window.location.pathname === toHref){
         return (
-            <div className=' border-b md:p-4 py-4 px-2'>
+            <div className=' border-b md:p-3 py-3 px-2'>
                 <p onClick={()=> navigate(`${toHref}`)} to={toHref} className='text-loanBlue-primary text-sm md:text-base font-medium cursor-pointer'>{name}</p>
             </div>
         )
     }
     return (
-        <div className=' border-b md:p-4 py-4 px-2'>
+        <div className=' border-b md:p-3 py-3 px-2'>
             <Link to={toHref} className='text-sm md:text-base font-medium cursor-pointer'>{name}</Link>
         </div>
     )
@@ -45,7 +45,8 @@ function AdminNavBar({showNavBar, setShowNavBar}) {
                         <>
                             <NavLink name='Dashboard' toHref='/admin' />
                             <NavLink name='Customers' toHref='/admin/users'/>
-                            <NavLink name='Loan Application History' toHref='/loan/history' />
+                            <NavLink name='Loans' toHref='/admin/loans'/>
+                            <NavLink name='Applications' toHref='/admin/loans/applications'/>
                             <NavLink name='System Settings' toHref='/account' />
                             <NavLink name='Account' toHref='/account' />
                         </>

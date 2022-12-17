@@ -8,17 +8,23 @@ import {BsAward} from 'react-icons/bs'
 function UserListTableRow({name , email , isActive , joinDate}){
     const navigate = useNavigate()
     return (
-        <tr class="bg-white border-b hover:bg-gray-200 ">
+        <tr class="bg-white border-b hover:bg-gray-200 text-xs ">
+            <th scope="row" class="py-4 px-6 font-medium  whitespace-nowrap ">
+            CUS-2010220-1920
+            </th>
             <th scope="row" class="py-4 px-6 font-medium  whitespace-nowrap ">
             {name}
             </th>
+            <td class="py-4 px-6">
+                090838377373
+            </td>
             <td class="py-4 px-6">
                 {email}
             </td>
             <td class="py-4 px-6">
                 {joinDate}
             </td>
-            {isActive ?  <td class="py-4 px-6"> Active</td> : <td class="py-4 px-6"> InActive</td>}
+            {isActive ?  <td class="py-4 px-6 text-green-600"> Active</td> : <td class="py-4 px-6"> InActive</td>}
             
             <td class="py-4 px-6 text-right">
                 <p onClick={()=> navigate('loan/user/olakay')}  class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">View</p>
@@ -63,7 +69,7 @@ function UsersList() {
             <Card Icon={BsAward} title='Total customers' col='green' val='1,012'/>
             <Card title='Active customers' val='1,012' Icon={BsAward} col='blue'/>
             <Card title='Disabled customer' val='5438' Icon={BsAward} col='gray'/>
-            <Card title='lOAN' val='383' Icon={BsAward} col='red'/>
+            {/* <Card title='lOAN' val='383' Icon={BsAward} col='red'/> */}
         </div>
         <div className='p-4 bg-white m-4 rounded-md'>
             <h2 className='text-base font-bold text-gray-800 py-4'>Customers</h2>
@@ -94,13 +100,19 @@ function UsersList() {
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                     <tr>
                         <th scope="col" class="py-3 px-6">
-                            Name
+                            Customer id
+                        </th>
+                        <th scope="col" class="py-3 px-6">
+                            Full name
+                        </th>
+                        <th scope="col" class="py-3 px-6">
+                            Phone Number
                         </th>
                         <th scope="col" class="py-3 px-6">
                             Email
                         </th>
                         <th scope="col" class="py-3 px-6">
-                            Joined Date
+                            Created at
                         </th>
                         <th scope="col" class="py-3 px-6">
                             status

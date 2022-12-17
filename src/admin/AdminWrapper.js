@@ -8,6 +8,9 @@ import UserLoanHistory from './pages/UserLoanHistory'
 import UsersList from './pages/UsersList'
 import UserProfile from './pages/UserProfile'
 import UserLoanRepaymentHistory from './pages/UserLoanRepaymentHistory'
+import DashboardWrapper from './pages/dashboard/DashboardWrapper'
+import Loans from './pages/Loans'
+import Applications from './pages/Applications'
 
 function AdminWrapper() {
     const [showNav, setShowNav] = useState(false)
@@ -21,7 +24,9 @@ function AdminWrapper() {
                 <Header handleDisplayNav={()=> setShowNav(true)}/>
                 <div className=' overflow-y-auto '>
                 <Routes>
-                    <Route path='' element={<Dashboard />} />
+                    <Route path='' element={<DashboardWrapper />} />
+                    <Route path='/loans' element={<Loans />} />
+                    <Route path='/loans/applications' element={<Applications />} />
                     <Route path='/users' element={<UsersList />} />
                     <Route path='/users/olakay' element={<UserProfile />} />
                     <Route path='/users/olakay/loan' element={<UserLoanHistory />} />
