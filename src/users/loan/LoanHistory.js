@@ -1,7 +1,6 @@
 import React from 'react'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate } from "react-router-dom";
-import Typed from 'react-typed';
 
 function RepaymentCard({amount, paidDate , status}){
     
@@ -33,7 +32,7 @@ function LoanHistory() {
             <h2 className=' text-base font-bold'>Active loan repayment balance: </h2>
             <h1 className=' flex items-center text-5xl font-bold'>
                 <TbCurrencyNaira />
-                <span><Typed strings={['169,700.00']} typeSpeed={70} showCursor={false}/></span>
+                <span>169,700.00</span>
             </h1>
         </div>
         <div className=' w-full'>

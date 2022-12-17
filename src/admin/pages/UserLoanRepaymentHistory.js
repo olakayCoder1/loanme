@@ -2,7 +2,6 @@ import React from 'react'
 import {MdMail , MdPhoneEnabled} from 'react-icons/md'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate} from 'react-router-dom'
-import Typed from 'react-typed';
 
 function UserLoanHistoryCard({loadDate, approveDate , amount , status }){
     const navigate = useNavigate()
@@ -52,7 +51,7 @@ function UserLoanRepaymentHistory() {
             <h2 className=' text-base font-bold'>Loan Disbursed</h2>
             <h1 className=' flex items-center text-5xl font-bold'>
                 <TbCurrencyNaira />
-                <span><Typed strings={['169,700.00']} typeSpeed={70} showCursor={false}/></span>
+                <span>169,700.00</span>
             </h1>
         </div>
         </div>
