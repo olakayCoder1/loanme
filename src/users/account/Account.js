@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {Route, Routes } from "react-router-dom";
 import userDefault from '../../assets/user-default.jpeg'
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from '../../contexts/ContextProvider';
 
 
 function AccountInfoCard({title, current_value , other}){
@@ -18,6 +19,7 @@ function AccountInfoCard({title, current_value , other}){
 
 
 function Account() {
+    const {logout} = useContext(AuthContext)
     const [deleteAccount , setDeleteAccount] = useState(false)
     const [logoutAccount , setLogoutAccount] = useState(false)
     const [ resetConfirm , setResetConfirm ] = useState(false)
@@ -103,7 +105,7 @@ function Account() {
                             <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             <p className="mb-4 text-lg font-normal text-gray-500">Are you sure you want to delete your account?</p>
                             <div class="p-6 text-center">
-                                <button onClick={()=> setDeleteAccount(false)}  type="button" className=" py-3 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-red-600 text-white rounded-md border border-gray-200 ">
+                                <button onClick={logout}  type="button" className=" py-3 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-red-600 text-white rounded-md border border-gray-200 ">
                                     Yes, I'm sure
                                 </button>
                                 <button onClick={()=> setDeleteAccount(false)}  type="button" className="py-3 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-gray-600 text-white rounded-md border border-gray-200 ">
@@ -130,7 +132,7 @@ function Account() {
                                 <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 <p className="mb-4 text-lg font-normal text-gray-500">Are you sure you want to to logout? </p>
                                 <div class="p-6 text-center">
-                                    <button onClick={()=> setLogoutAccount(false)}  type="button" className=" py-3 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-red-600 text-white rounded-md border border-gray-200 ">
+                                    <button onClick={logout}  type="button" className=" py-3 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-red-600 text-white rounded-md border border-gray-200 ">
                                         Yes, I'm sure
                                     </button>
                                     <button onClick={()=> setLogoutAccount(false)}  type="button" className="py-3 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-gray-600 text-white rounded-md border border-gray-200 ">

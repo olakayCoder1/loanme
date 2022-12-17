@@ -9,9 +9,11 @@ import UsersList from './pages/UsersList'
 import UserProfile from './pages/UserProfile'
 import UserLoanRepaymentHistory from './pages/UserLoanRepaymentHistory'
 import DashboardWrapper from './pages/dashboard/DashboardWrapper'
-import Loans from './pages/Loans'
-import Applications from './pages/Applications'
-import UserAccount from './pages/UserAccount'
+import Loans from './pages/user_loan/Loans'
+import Applications from './pages/user_application/Applications'
+import UserAccount from './pages/user_account/UserAccount'
+import ApplicationWrapper from './pages/user_application/ApplicationWrapper'
+import UserLoanWrapper from './pages/user_loan/UserLoanWrapper'
 
 function AdminWrapper() {
     const [showNav, setShowNav] = useState(false)
@@ -26,11 +28,11 @@ function AdminWrapper() {
                 <div className=' overflow-y-auto '>
                 <Routes>
                     <Route path='' element={<DashboardWrapper />} />
-                    <Route path='/loans' element={<Loans />} />
-                    <Route path='/loans/applications' element={<Applications />} />
+                    <Route path='/loans/*' element={<UserLoanWrapper />} />
+                    <Route path='applications/*' element={<ApplicationWrapper />} />
                     <Route path='/users' element={<UsersList />} />
-                    <Route path='/users/account' element={<UserAccount />} />
-                    <Route path='/users/olakay' element={<UserProfile />} />
+                    <Route path='/users/olakay' element={<UserAccount />} />
+                    {/* <Route path='/users/olakay' element={<UserProfile />} /> */}
                     <Route path='/users/olakay/loan' element={<UserLoanHistory />} />
                     <Route path='/users/olakay/loan/1/history' element={<UserLoanRepaymentHistory />} />
                 </Routes>

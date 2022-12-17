@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from '../../contexts/ContextProvider';
 
 function RepaymentCard({amount, paidDate , status}){
+
     
     return (
         <div className=' border border-loan-primary flex flex-col gap-2 justify-between p-2 px-6 rounded-md my-2'>
@@ -26,13 +28,14 @@ function RepaymentCard({amount, paidDate , status}){
 
 function Loan() {
     let navigate = useNavigate()
+    const {validLoanPrice, hasValidLoan} = useContext(AuthContext)
   return (
     <div className='p-4 w-full h-full'>
         <div className='p-4 py-7 bg-loan-light min-w-sm w-full text-loan-secondary flex flex-col gap-4 rounded-md'>
             <h2 className=' text-base font-bold'>Loan Disbursed</h2>
             <h1 className=' flex items-center text-5xl font-bold'>
                 <TbCurrencyNaira />
-                <span>169,700.00</span>
+                <span>{validLoanPrice}</span>
             </h1>
         </div>
         <div className=' w-full'>

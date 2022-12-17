@@ -13,7 +13,8 @@ function CustomersLoanHistoryCard({name, loanDate , status , amount}){
                 {status ? <span className=' text-yellow-500 '>PEN</span>  : <span className=' text-green-500'>APP</span> }
             </th>
             <td class="py-3 px-6 w-fit truncate">
-                LN-20121012-987
+                <Link to='/admin/loans/detail' ><span className=' cursor-pointer hover:text-loanBlue-primary'>LN-20121012-987 </span></Link>
+                
             </td>
             <td class="py-3 px-6 w-fit truncate">
                 <Link to='/admin/users/olakay'><span className=' cursor-pointer hover:text-loanBlue-primary'> programmerolakay@gmail</span></Link>
@@ -63,7 +64,7 @@ function LoanDashboard() {
             </select>
     </div>
 
-    <p className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary text-loanBlue-primary bg-white cursor-pointer rounded text-xs' >Export csv</p>
+        <p className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary text-loanBlue-primary bg-white cursor-pointer rounded text-xs' >Export csv</p>
 
         </div>  
         <div class="overflow-x-auto relative shadow-md ">  

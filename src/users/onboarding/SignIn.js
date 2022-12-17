@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from "react-router-dom";
 import OnboardHeader from './OnboardHeader';
 import logo2 from '../../assets/l2.jpeg'
 import {Link } from "react-router-dom";
+import { AuthContext } from '../../contexts/ContextProvider';
 
 
 
@@ -11,8 +12,17 @@ import {Link } from "react-router-dom";
 
 
 function SignIn() {
+
+    const {setIsAuthenticated , login} = useContext(AuthContext)
+
     let navigate = useNavigate()
 
+    
+
+    function handleSubmit(){
+        login()
+        navigate('/')
+    }
   return (
     <div className='flex items-center justify-center h-screen mb-12 bg-fixed bg-center bg-cover custom-img' style={{ backgroundImage: `url(${logo2})`}}>
       {/* Overlay */}
@@ -39,7 +49,7 @@ function SignIn() {
                     <input type="number" className=' input-primary'  placeholder="******" />
                 </div>  
                 <div className=' w-full my-4 mt-8'>
-                    <button type="button" onClick={()=> navigate('/m')}   className="btn-primary">SIGNIN</button>
+                    <button type="button" onClick={handleSubmit} className="btn-primary">SIGNIN</button>
                 </div>
                 <div className=' w-full flex items-center place-content-center gap-4  py-4 '>
                     <p className='text-description text-sm text-loan-secondary'>Need an account? <Link to={'/signup'} className='text-loanBlue-primary'> SignUp</Link></p>

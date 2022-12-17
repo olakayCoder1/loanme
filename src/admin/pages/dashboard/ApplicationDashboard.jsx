@@ -13,7 +13,8 @@ function CustomersLoanHistoryCard({name, loanDate , status , amount}){
                 {status ? <span className=' text-yellow-500 '>Pending</span>  : <span className=' text-green-500'>Approved</span> }   
             </th>
             <td class="py-3 px-6 w-fit truncate">
-                APP-20121012-987
+                <Link to='/admin/applications/detail'><span className=' cursor-pointer hover:text-loanBlue-primary'>APP-20121012-987</span></Link>
+                
             </td>
             <td class="py-3 px-6 w-fit truncate">
                 <Link to='/admin/users/olakay'><span className=' cursor-pointer hover:text-loanBlue-primary'>programmerolakay@gmail</span></Link>

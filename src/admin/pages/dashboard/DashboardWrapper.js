@@ -21,8 +21,8 @@ function Card({title, val , col ,Icon}){
             <div className=' flex flex-col justify-between'>
                 <h3 className=' uppercase text-gray-400 text-base font-medium hover:text-loanBlue-primary'>{title}</h3>
                 <h2 className=' flex items-center text-2xl font-medium text-gray-800'>
-                    {title === 'total earning' && <TbCurrencyNaira />}
-                    {title === 'my balance' && <TbCurrencyNaira />}
+                    {title === 'sum of active loans' && <TbCurrencyNaira />}
+                    {title === 'sum total loans' && <TbCurrencyNaira />}
                     <span>{val}</span>
                 </h2>
                 {/* <p className=' text-sm font-normal text-loanBlue-primary cursor-pointer'>view</p> */}
@@ -58,10 +58,10 @@ function DashboardWrapper() {
         </div>
 
         <div className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 py-4'>
-            <Card title='active loan' val='5464738.00' Icon={RiMoneyDollarCircleLine} col='green'/>
-            <Card title='sum of active loan' val='1,012' Icon={SiWebmoney} col='red'/>
-            <Card title='total loans' val='5464738.00' Icon={FiUsers} col='blue'/>
-            <Card title='sum total loan' val='390,383.00' Icon={BsWallet2} col='yellow'/>
+            <Card title='active loan' val='54' Icon={RiMoneyDollarCircleLine} col='green'/>
+            <Card title='sum of active loans' val='1,750,012' Icon={SiWebmoney} col='red'/>
+            <Card title='total loans' val='546' Icon={FiUsers} col='blue'/>
+            <Card title='sum total loans' val='70,390,383.00' Icon={BsWallet2} col='yellow'/>
         </div>
       
         <div className=' w-full bg-white box-border pt-4 m-4 text-sm font-medium  mx-auto'>

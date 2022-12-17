@@ -1,8 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from '../../contexts/ContextProvider';
 
 function LoanApplyDetail() {
+    const {setValidLoanPrice } = useContext(AuthContext)
+
     let navigate = useNavigate()
+
+    function handleSubmit(){
+        setValidLoanPrice('90,000.00')
+        localStorage.setItem('validLoanPrice', JSON.stringify('90,000.00'))
+        localStorage.setItem('hasValidLoan', JSON.stringify(true))
+        navigate('/')
+    }
   return (
     <div className=' py-4'>
         <div className='text-loan-secondary flex justify-between items-center bg-loan-light p-4 px-8'>
@@ -34,7 +44,7 @@ function LoanApplyDetail() {
             </select>
             <div className=' w-full flex gap-2'>
                 <button type="button" onClick={()=> navigate('/loan/request/address')} className="w-[50%] py-4 px-5 mr-2 my-4 text-sm font-medium focus:outline-none text-loanBlue-primary bg-white rounded-md border border-gray-200 ">PREVIOUS</button>
-                <button type="button" onClick={()=> navigate('/loan/request')} className="w-[50%] py-4 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-200 ">COMPLETE</button>
+                <button type="button" onClick={handleSubmit} className="w-[50%] py-4 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-200 ">COMPLETE</button>
             </div>
            
         </form>

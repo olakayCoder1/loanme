@@ -11,7 +11,7 @@ function NavLink({name , toHref}){
     if(window.location.pathname === toHref){
         return (
             <div className=' border-b md:p-3 py-3 px-2'>
-                <p onClick={()=> navigate(`${toHref}`)} to={toHref} className='text-loanBlue-primary text-sm md:text-base font-medium cursor-pointer'>{name}</p>
+                <p onClick={()=> navigate(`${toHref}`)} to={toHref} className='text-loanBlue-primary text-sm  font-medium cursor-pointer'>{name}</p>
             </div>
         )
     }
@@ -37,7 +37,7 @@ function AdminNavBar({showNavBar, setShowNavBar}) {
                 <div className=' w-full flex items-center gap-4  py-8 p-4 md:px-6'>
                     {/* <p onClick={setShowNavBar} className=' cursor-pointer md:hidden'><RxCross1 className=' w-6 h-6'/></p> */}
                     <img src={logo} alt='quick_loan' className='w-10 h-10 text-gray-700'/>
-                    <h2 className=' text-xl font-bold font-headingFont'>Quick Loan</h2>
+                    <h2 className=' text-xl font-bold font-headingFont'>LoanIt</h2>
                 </div>
             {/*  */}
                 <div className='my-2 p-4'>
@@ -46,8 +46,8 @@ function AdminNavBar({showNavBar, setShowNavBar}) {
                             <NavLink name='Dashboard' toHref='/admin' />
                             <NavLink name='Customers' toHref='/admin/users'/>
                             <NavLink name='Loans' toHref='/admin/loans'/>
-                            <NavLink name='Applications' toHref='/admin/loans/applications'/>
-                            <NavLink name='System Settings' toHref='/account' />
+                            <NavLink name='Applications' toHref='/admin/applications'/>
+                            <NavLink name='System Settings' toHref='#' />
                             <NavLink name='Account' toHref='/account' />
                         </>
                     ): (
@@ -120,8 +120,9 @@ function AdminNavBar({showNavBar, setShowNavBar}) {
                     <>
                         <NavLink name='Dashboard' toHref='/admin' />
                         <NavLink name='Customers' toHref='/admin/users'/>
-                        <NavLink name='Loan Application History' toHref='/loan/history' />
-                        <NavLink name='System Settings' toHref='/account' />
+                        <NavLink name='Loans' toHref='/admin/loans'/>
+                        <NavLink name='Applications' toHref='/admin/applications'/>
+                        <NavLink name='System Settings' toHref='#' />
                         <NavLink name='Account' toHref='/account' />
                     </>
                 ): (
