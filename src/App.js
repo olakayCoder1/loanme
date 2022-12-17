@@ -5,18 +5,26 @@ import AdminWrapper from "./admin/AdminWrapper";
 import Container from "./users";
 import AccountContainer from "./users/account/AccountContainer";
 import Onboarding from "./users/onboarding/Onboarding";
+import SignIn from "./users/onboarding/SignIn";
+import { useState } from "react";
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(true)
   return (
     <div className=" w-full  text-loan-primary font-noto">
       <Router>
       <Routes>
         <Route path="/admin/*"  element={<AdminWrapper />} />
-        <Route path='' element={<Welcome />}  />
+        {isAuthenticated ? (
+          <Route path='/*' element={<Container />}  />
+        ): (
+          <Route path='' element={<Welcome />}  />
+        )}
+        <Route path='/signin' element={<SignIn />}  />
         <Route path='/signup/*' element={<Onboarding />}  />
         <Route path='/account' element={<AccountContainer/>}  />
         {/* <Route path='/w' element={<WelcomeHeader />}  /> */}
-        <Route path='m/*' element={<Container />}  />
+        
       </Routes>
       </Router>
     </div>

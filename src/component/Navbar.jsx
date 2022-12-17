@@ -26,7 +26,7 @@ function NavLink({name , toHref}){
 
 function Navbar({showNavBar, setShowNavBar}) {
 
-    const [hasSetUpAccount , setHasSetUpAccount] = useState(true)
+    const [hasSetUpAccount , setHasSetUpAccount] = useState(false)
     const [logoutAccount , setLogoutAccount] = useState(false)
 
   return (

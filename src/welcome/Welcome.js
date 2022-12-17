@@ -1,5 +1,5 @@
 import React from 'react'
-import laptop from '../assets/laptop.jpeg'
+import laptop from '../assets/loanp10.jpeg'
 import WelcomeNav from './WelcomeNav';
 import WelcomeFooter from './WelcomeFooter';
 import { useNavigate } from 'react-router-dom';
@@ -21,7 +21,7 @@ const Hero = () => {
                 /> */}
 
         <p className='py-5 text-xl'>Need some fast case? Bad credit history? Try LoanIt and feel secure in your future</p>
-        <button onClick={()=> navigate('/register')} className='px-8 py-4 border bg-white text-black/70 font-bold duration-500 hover:bg-black/70 hover:text-white'>Get started</button>
+        <button onClick={()=> navigate('/signup')} className='px-8 py-4 border bg-white text-black/70 font-bold duration-500 hover:bg-black/70 hover:text-white'>Get started</button>
       </div>
     </div>
   );

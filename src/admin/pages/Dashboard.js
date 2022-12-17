@@ -62,7 +62,8 @@ function Dashboard() {
             <p class="font-normal">kkk </p>
         </div>
       </div>
-
+    
+   
     <div className='p-4 bg-white md:m-4 rounded-md'>
         <h2 className='text-base font-bold text-gray-800 py-4'>Customers with loan</h2>
         <div className='flex justify-between items-center my-4'>

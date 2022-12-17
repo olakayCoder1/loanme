@@ -6,36 +6,24 @@ function OnboardingPersonalInfo() {
     let navigate = useNavigate()
 
   return (
-    <form className=' flex flex-col gap-4'>
+    <form className='w-full flex flex-col gap-4'>
         <OnboardHeader  name='Personal Details' c='3'/>
         <div>
-            <label for="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">First Name</label>
-            <input type="text" aria-describedby="helper-text-explanation" id="disabled-input" aria-label="disabled input"
-                class="bg-gray-50 mb-3 border border-gray-300  text-sm rounded focus:ring-loan-primary focus:border-loan-primary block w-full p-3 focus:outline-none" 
-                placeholder="Olanrewaju"/>
+            <label for="helper-text" className="text-input-label">First Name</label>
+            <input type="text"className='input-primary' name='first_name'   placeholder=""/>
         </div>
-
         <div>
-            <label for="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">First Name</label>
-            <input type="text" aria-describedby="helper-text-explanation" id="disabled-input" aria-label="disabled input"
-                class="bg-gray-50 mb-3 border border-gray-300  text-sm rounded focus:ring-loan-primary focus:border-loan-primary block w-full p-3 focus:outline-none" 
-                placeholder="Nigeria"/>
+            <label for="helper-text" className="text-input-label">Last Name</label>
+            <input type="text" className='input-primary' name='last_name' placeholder=""/>
         </div>
-
-
         <div>
-            <label for="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">First Name</label>
-            <input type="text" aria-describedby="helper-text-explanation" id="disabled-input" aria-label="disabled input"
-                class="bg-gray-50 mb-3 border border-gray-300  text-sm rounded focus:ring-loan-primary focus:border-loan-primary block w-full p-3 focus:outline-none" 
-                placeholder="Nigeria"/>
+            <label for="helper-text" className="text-input-label">Email</label>
+            <input type="email" className='input-primary' name='email' placeholder=""/>
         </div>
-
-
-        <div className=' w-full my-4 flex gap-2'>
-            <button type="button" onClick={()=> navigate('/signup/phone-verify')} className="w-full py-4 px-5 mr-2 my-4 text-sm font-medium focus:outline-none text-loanBlue-primary bg-white rounded-md border border-gray-200 ">PREVIOUS</button>
-            <button type="button" onClick={()=> navigate('/signup/address')} className="w-full py-4 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-200 ">CONTINUE</button>
-        </div>
-        
+        <div className=' w-full my-4 mt-8 flex gap-2'>
+            <button type="button" onClick={()=> navigate('/signup/phone-verify')} className="btn-primary-white">PREVIOUS</button>
+            <button type="button" onClick={()=> navigate('/signup/address')} className="btn-primary">CONTINUE</button>
+        </div>  
     </form>
   )
 }
