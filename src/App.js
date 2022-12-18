@@ -8,6 +8,7 @@ import AccountContainer from "./users/account/AccountContainer";
 import Onboarding from "./users/onboarding/Onboarding";
 import SignIn from "./users/onboarding/SignIn";
 import { useContext, useState } from "react";
+import OfferCalculating from "./component/OfferCalculating";
 
 function App() {
   const { isAuthenticated }= useContext(AuthContext)
@@ -22,6 +23,7 @@ function App() {
               <Route path='' element={<Welcome />}  />
             )}
             <Route path='/signin' element={<SignIn />}  />
+            <Route path='/s' element={<OfferCalculating />}  />
             <Route path='/signup/*' element={<Onboarding />}  />
             <Route path='/account' element={<AccountContainer/>}  />
             {/* <Route path='/w' element={<WelcomeHeader />}  /> */}

@@ -7,10 +7,10 @@ import {BsChevronDoubleRight,BsChevronDoubleLeft} from 'react-icons/bs'
 function Header({handleDisplayNav}) {
 
   return (
-    <div className='w-full flex justify-between bg-white border border-white p-4 sticky top-0 z-20'>
+    <div className='w-full flex justify-between bg-white border-b border-gray-100 p-4 sticky top-0 z-20'>
       <div className=' flex items-center gap-2'>
         <span onClick={handleDisplayNav} className=' md:hidden cursor-pointer'><RxHamburgerMenu className=' w-5 h-5' /></span>
-        {window.location.pathname === '/admin' && <span>Dashboard</span>}
+        {/* {window.location.pathname === '/admin' && <span>Dashboard</span>} */}
         
         </div>
       <div className=' flex items-center gap-4'>

@@ -58,10 +58,10 @@ function DashboardWrapper() {
         </div>
 
         <div className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 py-4'>
-            <Card title='active loan' val='54' Icon={RiMoneyDollarCircleLine} col='green'/>
-            <Card title='sum of active loans' val='1,750,012' Icon={SiWebmoney} col='red'/>
-            <Card title='total loans' val='546' Icon={FiUsers} col='blue'/>
-            <Card title='sum total loans' val='70,390,383.00' Icon={BsWallet2} col='yellow'/>
+            <Card title='active loan' val='54' Icon={SiWebmoney} col='green'/>
+            <Card title='sum of active loans' val='1,750,012' Icon={RiMoneyDollarCircleLine} col='red'/>
+            <Card title='total loans' val='546' Icon={SiWebmoney} col='blue'/>
+            <Card title='sum total loans' val='70,390,383.00' Icon={RiMoneyDollarCircleLine} col='yellow'/>
         </div>
       
         <div className=' w-full bg-white box-border pt-4 m-4 text-sm font-medium  mx-auto'>

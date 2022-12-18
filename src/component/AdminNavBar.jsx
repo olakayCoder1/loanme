@@ -47,8 +47,8 @@ function AdminNavBar({showNavBar, setShowNavBar}) {
                             <NavLink name='Customers' toHref='/admin/users'/>
                             <NavLink name='Loans' toHref='/admin/loans'/>
                             <NavLink name='Applications' toHref='/admin/applications'/>
-                            <NavLink name='System Settings' toHref='#' />
-                            <NavLink name='Account' toHref='/account' />
+                            {/* <NavLink name='System Settings' toHref='#' /> */}
+                            <NavLink name='Account' toHref='/admin/account' />
                         </>
                     ): (
                         <div role="status" className="max-w-sm animate-pulse">
@@ -122,8 +122,8 @@ function AdminNavBar({showNavBar, setShowNavBar}) {
                         <NavLink name='Customers' toHref='/admin/users'/>
                         <NavLink name='Loans' toHref='/admin/loans'/>
                         <NavLink name='Applications' toHref='/admin/applications'/>
-                        <NavLink name='System Settings' toHref='#' />
-                        <NavLink name='Account' toHref='/account' />
+                        {/* <NavLink name='System Settings' toHref='#' /> */}
+                        <NavLink name='Account' toHref='/admin/account' />
                     </>
                 ): (
                     <div role="status" className="max-w-sm animate-pulse">

@@ -8,7 +8,7 @@ import { useNavigate} from 'react-router-dom'
 function SmallUserDetail(){
     let navigate = useNavigate()
     return (
-        <div className=' w-[30%]  border-gray-300 h-full'>
+        <div className='w-full lg:w-[30%]  border-gray-300 h-full'>
             <div>
                 <div className=' flex items-center place-content-center py-8'>
                     <div className=' bottom-[-50%] left-[50%] right-[50%] flex items-center place-content-center flex-col gap-6'>
@@ -45,9 +45,9 @@ function ApplicationDetail() {
   return (
     <div className=' w-full flex flex-col lg:flex-row'>
         <SmallUserDetail />
-        <div className=' w-full lg:w-[70%] m-4'>
+        <div className=' w-full lg:w-[70%] lg:m-4'>
             <div className='flex justify-between gap-4 items-center my-4'>
-                <div className=' text-sm font-medium flex  gap-4 items-center text-gray-800'>
+                <div className=' text-sm px-6 font-medium flex  gap-4 items-center text-gray-800'>
                     AHMED's Application ( <span className=' text-loanBlue-primary'>APP-20121012-987</span>  )
                 </div>
                 {/* <p className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary text-loanBlue-primary bg-white cursor-pointer rounded text-xs' >Disabled</p> */}

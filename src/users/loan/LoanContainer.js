@@ -5,6 +5,7 @@ import Loan from './Loan';
 import LoanRepayment from './LoanRepayment';
 import LoanApply from './LoanApply';
 import LoanHistory from './LoanHistory';
+import OfferCalculating from '../../component/OfferCalculating';
 
 function LoanContainer({showNavBar, setShowNavBar}) {
   return (
@@ -13,6 +14,7 @@ function LoanContainer({showNavBar, setShowNavBar}) {
         <LoanDetailHeader  showNavBar={showNavBar} setShowNavBar={setShowNavBar} name='Olanrewaju' title='Loan Details' /> 
         <Routes>
             <Route path='' element={<Loan />} />
+            <Route path='/s' element={<OfferCalculating />} />
             <Route path='/repayment' element={<LoanRepayment />} />
             <Route path='/history' element={<LoanHistory />} />
             <Route path='/request/*' element={<LoanApply />} />

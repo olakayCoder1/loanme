@@ -7,7 +7,7 @@ import Information from './Information'
 
 function SmallUserDetail(){
     return (
-        <div className=' w-[30%]  border-gray-300 h-full'>
+        <div className='w-full lg:w-[30%]  border-gray-300 h-full'>
             <div>
                 <div className=' flex items-center place-content-center py-8'>
                     <div className=' bottom-[-50%] left-[50%] right-[50%] flex items-center place-content-center flex-col gap-6'>
@@ -40,8 +40,8 @@ function UserAccount() {
   return (
     <div className=' w-full flex flex-col lg:flex-row'>
         <SmallUserDetail />
-        <div className=' w-full lg:w-[70%] m-4'>
-            <div className='flex justify-between gap-4 items-center my-4'>
+        <div className=' w-full lg:w-[70%] lg:m-4'>
+            <div className='flex justify-between gap-4 items-center my-4 px-4'>
                 <div className=' text-sm font-medium flex  gap-4 items-center text-gray-800'>
                     AHMED's Account
                 </div>
