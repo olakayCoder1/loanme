@@ -17,7 +17,7 @@
 
 @layer components {
     .btn-primary-white {
-      @apply w-full py-3 px-4 text-loanBlue-primary bg-white text-sm font-medium rounded border-[1px]  border-[#aeb0b1]  focus:outline-none focus:ring-0 uppercase ;
+      @apply w-full py-3 px-4 text-loanBlue-primary bg-white text-sm font-medium rounded border-[1px]  border-loanBlue-primary  focus:outline-none focus:ring-0 uppercase ;
     }
   }
 

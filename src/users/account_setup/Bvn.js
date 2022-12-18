@@ -22,16 +22,17 @@ function Bvn({showNavBar, setShowNavBar}) {
             <div className='flex items-center justify-between pt-12'>
                 <form className='w-full min-w-sm max-w-md flex flex-col gap-2'>
                     <label for="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Identity Type</label>
-                    <input type="text" aria-describedby="helper-text-explanation" id="disabled-input" aria-label="disabled input"
-                        class="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
+                    <input type="text" 
+                        className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
                         placeholder="BVN"  value='BVN' disable />
 
                     <label for="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Bank Verification Number</label>
-                    <input type="number" id="helper-text" aria-describedby="helper-text-explanation" 
+                    <input type="number" 
                         className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
                         placeholder="*********" />
-                    <button type="button" onClick={()=> navigate('/setup/account/card')}
-                        className="w-full py-4 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-200 ">VERIFY</button>
+                    <button type="button" 
+                        onClick={()=> navigate('/setup/account/card')}      
+                        className="w-full py-4 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-200 cursor-pointer ">VERIFY</button>
 
                     <p onClick={()=> setHowToBvn(true)} className=' text-loanBlue-primary underline-offset-2 underline cursor-pointer'>How can I get it ?</p>
                     <p onClick={()=> setWhyBvn(true)}  className=' text-loanBlue-primary underline-offset-2 underline cursor-pointer'>Why ask for BVN?</p>

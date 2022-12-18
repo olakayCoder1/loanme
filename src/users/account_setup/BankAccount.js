@@ -3,19 +3,39 @@ import WelcomeHeader from '../../component/WelcomeHeader'
 import {BsBank2} from 'react-icons/bs'
 import { AuthContext } from '../../contexts/ContextProvider'
 import { useNavigate } from "react-router-dom";
+import Load from '../../Load';
 
 function BankAccount({showNavBar, setShowNavBar}) {
 
-    const {setHasCompletedKyc} = useContext(AuthContext)
+    const {setHasCompletedKyc, displayNotification} = useContext(AuthContext)
     let navigate = useNavigate()
     const [whyBvn , setWhyBvn] = useState(false)
 
 
+ 
+    const [ loading ,setLoading] = useState(false)
+
     function handleSubmit(){
-        setHasCompletedKyc(true)
-        localStorage.setItem('hasCompletedKyc', JSON.stringify(true))
-        navigate('/')
+        setLoading(true)
+        demo()  
     }
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    
+    async function demo() {
+        for (let i = 0; i < 2 ; i++) {
+            await sleep(i * 1000);
+        }
+        setLoading(false)
+        setHasCompletedKyc(true)
+        displayNotification('success','Account set up completed')
+        localStorage.setItem('hasCompletedKyc', JSON.stringify(true))
+        navigate('/')  
+    }
+
+
   return (
     <div className=' w-full h-full p-4 md:px-20'>
         <WelcomeHeader showNavBar={showNavBar} setShowNavBar={setShowNavBar} name='Olanrewaju'/>

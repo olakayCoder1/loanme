@@ -33,7 +33,7 @@ function SmallUserDetail(){
 
 function Account() {
 
-    const [activeTab, setActiveTab] = useState('Customer Information')
+    const [activeTab, setActiveTab] = useState('security')
 
   return (
     <div className=' w-full flex flex-col lg:flex-row'>
@@ -49,13 +49,14 @@ function Account() {
             <div class="text-sm font-medium text-center text-gray-500 bg-white border-b border-gray-200  bg-white0">
                 <ul class="flex flex-wrap -mb-px">
                     <li class="mx-2">
-                        <p onClick={()=>setActiveTab('Applications')} className={`${activeTab === 'Applications' ? 'inline-block p-4 px-8 text-loanBlue-primary rounded-t-lg border-b-2 border-loanBlue-primary ' : 'inline-block p-4 px-8 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 '} cursor-pointer`}>
+                        <p onClick={()=>setActiveTab('security')} className={`${activeTab === 'security' ? 'inline-block p-4 px-8 text-loanBlue-primary rounded-t-lg border-b-2 border-loanBlue-primary ' : 'inline-block p-4 px-8 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 '} cursor-pointer`}>
                             Security
                         </p>
                     </li>
                 </ul>
             </div>
-            <Security />
+            {activeTab === 'security' && <Security />}
+            
 
       </div>
     </div>

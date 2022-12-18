@@ -7,12 +7,13 @@ import cal from '../../admin/pages/user_account/done_ok.json'
 
 function LoanOffer() {
 
-    const {setValidLoanPrice } = useContext(AuthContext)
+    const {setValidLoanPrice, displayNotification } = useContext(AuthContext)
 
     let navigate = useNavigate()
 
     function handleSubmit(){
-        setValidLoanPrice('90,000.00')
+        displayNotification('success','You account have been credited with 95,000.00')
+        setValidLoanPrice('95,000.00')
         localStorage.setItem('validLoanPrice', JSON.stringify('95,000.00'))
         localStorage.setItem('hasValidLoan', JSON.stringify(true))
         navigate('/')

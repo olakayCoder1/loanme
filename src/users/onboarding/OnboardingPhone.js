@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from "react-router-dom";
 import OnboardHeader from './OnboardHeader';
 import {Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { AuthContext } from '../../contexts/ContextProvider';
 
 function OnboardingPhone() {
     let navigate = useNavigate()
+    const notify = () => toast("Invalid phone number!");
+    const {displayNotification} = useContext(AuthContext)
 
   return (
     <form className='w-full flex flex-col gap-4 px-4'>
+        
         <OnboardHeader  name='Phone Number' c='1'/>
+        
         <div>
             <label for="helper-text" className="text-input-label ">Country</label>
             <input type="text" className=' input-primary'placeholder="Nigeria"  value='Nigeria' disable />
