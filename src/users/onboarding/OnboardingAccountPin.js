@@ -14,7 +14,7 @@ function OnboardingAccountPin() {
         </div>
         <div className=' w-full my-4 mt-8 flex gap-2'>
             <button type="button" onClick={()=> navigate('/signup/address')} className='btn-primary-white'>PREVIOUS</button>
-            <button type="button" onClick={()=> navigate('/')} className='btn-primary'>COMPLETE</button>
+            <button type="button" onClick={()=> navigate('/signin')} className='btn-primary'>COMPLETE</button>
         </div>
         <p className=' text-description italic'>By clicking on the complete you agree to our <span className=' text-loanBlue-primary cursor-pointer'>Terms</span> and have read and acknowledge <span className=' text-loanBlue-primary cursor-pointer'>Global Privacy</span></p>
     </form>

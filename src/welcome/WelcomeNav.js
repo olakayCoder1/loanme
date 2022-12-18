@@ -68,7 +68,7 @@ function WelcomeNav() {
           
           <ul>
             <li onClick={handleNav} className='p-4 text-4xl hover:text-gray-500'>
-              <Link to='#'>Sign In</Link>
+              <Link to='/signin'>Sign In</Link>
             </li>
             <li onClick={handleNav} className='p-4 text-4xl hover:text-gray-500'>
               <Link to='/signup'>Sign Up</Link>

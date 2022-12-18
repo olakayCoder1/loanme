@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from "react-router-dom";
-import OnboardHeader from './OnboardHeader';
 import logo2 from '../../assets/l2.jpeg'
+import logo1 from '../../assets/loanme.png'
 import {Link } from "react-router-dom";
+import { AuthContext } from '../../contexts/ContextProvider';
 
 
 
@@ -11,16 +12,29 @@ import {Link } from "react-router-dom";
 
 
 function SignIn() {
+
+    const {setIsAuthenticated , login} = useContext(AuthContext)
+
     let navigate = useNavigate()
 
+    
+
+    function handleSubmit(){
+        login()
+        navigate('/')
+    }
   return (
     <div className='flex items-center justify-center h-screen mb-12 bg-fixed bg-center bg-cover custom-img' style={{ backgroundImage: `url(${logo2})`}}>
       {/* Overlay */}
       <div className='absolute top-0 left-0 right-0 bottom-0 bg-black/70 z-[2]' />
-      <div className='z-[2] w-full max-w-sm '>
+      <div className='z-[2] w-full max-w-sm  md:max-w-md '>
         <div className=' w-full  mx-auto py-6 p-4 border bg-white rounded shadow-md'>
             <div className=' w-full flex items-center place-content-center gap-4  py-4 pb-12 r  '>
-                <h2 className=' logo-primary'>LoanIt</h2>
+                <div className=' flex items-center gap-2'>
+                    <img src={logo1} alt='logo'  className=' w-10 h-10' />
+                    <h2 className=' logo-primary font-bold text-xl'>LoanIt</h2>
+                </div>
+                
             </div>
             <form className=' flex flex-col gap-4'>
                 <div className='flex items-center justify-between my-2'>
@@ -39,7 +53,7 @@ function SignIn() {
                     <input type="number" className=' input-primary'  placeholder="******" />
                 </div>  
                 <div className=' w-full my-4 mt-8'>
-                    <button type="button" onClick={()=> navigate('/m')}   className="btn-primary">SIGNIN</button>
+                    <button type="button" onClick={handleSubmit} className="btn-primary">SIGNIN</button>
                 </div>
                 <div className=' w-full flex items-center place-content-center gap-4  py-4 '>
                     <p className='text-description text-sm text-loan-secondary'>Need an account? <Link to={'/signup'} className='text-loanBlue-primary'> SignUp</Link></p>

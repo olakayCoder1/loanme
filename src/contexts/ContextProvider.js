@@ -2,14 +2,12 @@ import React, {  useEffect, useState } from "react";
 import { createContext  } from "react";
 import {fetchProducts} from './utils/functions.js'
 
-
 export const AuthContext = createContext()
 
 
 
 
 export default function AuthContextProvider({children}){
-
     
     const apiDomainName = 'https://habibi-and-habibat-api.herokuapp.com'  
     // const apiDomainName = 'http://127.0.0.1:8000' 
@@ -67,9 +65,44 @@ export default function AuthContextProvider({children}){
              }
     } 
 
+
+
+    const [ isAdminUser, setIsAdminUser  ]  = useState(()=> JSON.parse(localStorage.getItem('isAdminUser'))|| false )
+    const [ hasCompletedKyc , setHasCompletedKyc  ]  = useState(()=> JSON.parse(localStorage.getItem('hasCompletedKyc'))|| false )
+    const [ hasCompletedSignUp , setHasCompletedSignUp  ]  = useState(()=> JSON.parse(localStorage.getItem('hasCompletedSignUp'))|| false )
+    const [ hasValidLoan , setHasValidLoan  ]  = useState(()=> JSON.parse(localStorage.getItem('hasValidLoan'))|| false )
+    const [ validLoanPrice , setValidLoanPrice  ]  = useState(()=> JSON.parse(localStorage.getItem('validLoanPrice'))|| '0.00' )
+    const [ isAuthenticated, setIsAuthenticated  ]  = useState(()=> JSON.parse(localStorage.getItem('isAuthenticated'))|| false )
  
 
 
+    useEffect(() => {
+        setIsAuthenticated(JSON.parse(localStorage.getItem('isAuthenticated')))
+        setHasCompletedKyc(JSON.parse(localStorage.getItem('hasCompletedKyc')))
+        setHasValidLoan(JSON.parse(localStorage.getItem('hasValidLoan')))
+        setValidLoanPrice(JSON.parse(localStorage.getItem('validLoanPrice')))
+
+
+    },[isAuthenticated, hasCompletedKyc, hasValidLoan , validLoanPrice])
+
+
+    function logout(){
+        localStorage.clear()
+        // localStorage.setItem('isAuthenticated', JSON.stringify(false))
+        // localStorage.setItem('hasCompletedKyc', JSON.stringify(false))
+        // localStorage.setItem('isAdminUser', JSON.stringify(false))
+        // localStorage.setItem('hasValidLoan', JSON.stringify(false))
+        // localStorage.setItem('validLoanPrice', JSON.stringify('0.00'))
+        // localStorage.setItem('hasCompletedSignUp', JSON.stringify(false))
+
+        window.location.pathname = '/'
+    }
+
+    function login(){
+        setIsAuthenticated(true)
+        localStorage.setItem('isAuthenticated', JSON.stringify(true))
+
+    }
 
 
 
@@ -77,7 +110,16 @@ export default function AuthContextProvider({children}){
 
 
 
- const value = { registerUser,Loading, }
+
+
+ const value = { 
+    registerUser, logout,
+    Loading, login ,validLoanPrice , setValidLoanPrice ,
+    isAdminUser, setIsAdminUser ,hasValidLoan , setHasValidLoan ,
+    hasCompletedKyc , setHasCompletedKyc,
+    hasCompletedSignUp , setHasCompletedSignUp,
+    isAuthenticated , setIsAuthenticated 
+ }
      
 
 

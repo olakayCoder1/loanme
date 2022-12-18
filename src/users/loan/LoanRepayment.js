@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import LoanDetailHeader from '../../component/LoanDetailHeader'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import {BsCircle} from 'react-icons/bs'
 import {FcOk} from 'react-icons/fc'
-
+import { AuthContext } from '../../contexts/ContextProvider'
+import { useNavigate } from "react-router-dom";
 
 
 function LoanRepayment() {
-
+    let navigate = useNavigate()
+    const {setHasValidLoan, setValidLoanPrice  } = useContext(AuthContext)
     const [amountToPay, setAmountToPay] = useState(null)
 
     function handleClickFull(){
@@ -18,6 +20,14 @@ function LoanRepayment() {
     }
     function handleCustomFocus(event){
         setAmountToPay(event.target.value)
+    }
+
+    function handleSubmit(){
+        setValidLoanPrice('0.00')
+        setHasValidLoan(false)
+        localStorage.setItem('hasValidLoan', JSON.stringify(false))
+        localStorage.setItem('validLoanPrice', JSON.stringify('0.00'))
+        navigate('/')
     }
 
   return (
@@ -64,7 +74,8 @@ function LoanRepayment() {
                         placeholder="Enter Custom Amount" />
         <div className=' w-full'>
 
-            <button  type="button" className="w-full py-3 px-5 mr-2 my-4 mb-12 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-300 ">MAKE PAYMENT</button>
+            <button  type="button" onClick={handleSubmit}
+             className="w-full py-3 px-5 mr-2 my-4 mb-12 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-300 ">MAKE PAYMENT</button>
         </div>
 
     </div>

@@ -8,17 +8,23 @@ import {BsAward} from 'react-icons/bs'
 function UserListTableRow({name , email , isActive , joinDate}){
     const navigate = useNavigate()
     return (
-        <tr class="bg-white border-b hover:bg-gray-200 ">
+        <tr class="bg-white border-b hover:bg-gray-200 text-xs ">
+            <th scope="row" class="py-4 px-6 font-medium  whitespace-nowrap ">
+            CUS-2010220-1920
+            </th>
             <th scope="row" class="py-4 px-6 font-medium  whitespace-nowrap ">
             {name}
             </th>
+            <td class="py-4 px-6">
+                090838377373
+            </td>
             <td class="py-4 px-6">
                 {email}
             </td>
             <td class="py-4 px-6">
                 {joinDate}
             </td>
-            {isActive ?  <td class="py-4 px-6"> Active</td> : <td class="py-4 px-6"> InActive</td>}
+            {isActive ?  <td class="py-4 px-6 text-green-600"> Active</td> : <td class="py-4 px-6"> InActive</td>}
             
             <td class="py-4 px-6 text-right">
                 <p onClick={()=> navigate('loan/user/olakay')}  class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">View</p>
@@ -63,29 +69,29 @@ function UsersList() {
             <Card Icon={BsAward} title='Total customers' col='green' val='1,012'/>
             <Card title='Active customers' val='1,012' Icon={BsAward} col='blue'/>
             <Card title='Disabled customer' val='5438' Icon={BsAward} col='gray'/>
-            <Card title='lOAN' val='383' Icon={BsAward} col='red'/>
+            {/* <Card title='lOAN' val='383' Icon={BsAward} col='red'/> */}
         </div>
         <div className='p-4 bg-white m-4 rounded-md'>
             <h2 className='text-base font-bold text-gray-800 py-4'>Customers</h2>
             <div className='flex flex-col lg:flex-row justify-between gap-4 lg:items-center my-4'>
-
-                <div className='grow flex gap-3 items-center'>
-                    <form className=' grow'>
-                        <input className='w-full border-[1px] px-4 py-2 focus:ring-0 focus:outline-none bg-gray-100 hover:border-gray-300 focus:border-loan-outline rounded-md placeholder:text-sm'
-                        type='search' placeholder='Search for customer, email .....' />
+                <div className=' flex  gap-4 items-center'>
+                    <form>
+                        <input className='border-[1px] px-4 py-2 focus:ring-0 focus:outline-none focus:border-loan-outline rounded placeholder:text-xs'
+                        type='search' placeholder='Search user' />
+                    </form>
+                    <form>
+                        <input className='border-[1px] px-4 py-2 focus:ring-0 focus:outline-none focus:border-loan-outline rounded placeholder:text-xs'
+                        type='search' placeholder='Search loan id...' />
                     </form>
                     <select id="bank" 
-                            className="border-[1px] w-fit  text-sm rounded-md focus:ring-0 hover:border-gray-300 focus:border-loan-outline block  p-2.5 focus:outline-none" 
+                            className="border-[1px] w-fit  rounded focus:ring-0 hover:border-gray-300 focus:border-loan-outline block  p-2 focus:outline-none text-xs" 
                             >
-                        <option selected disabled hidden>Filter</option>
-                        <option value="fisrt_bank">First Bank</option>
-                        <option value="uba">United Bank For Africa</option>
-                        <option value="union">Union Bank</option>
-                        <option value="polaris">Polaris Bank</option>
+                        <option selected disabled hidden>Status</option>
+                        <option value="fisrt_bank">Pending</option>
+                        <option value="uba">Approved</option>
                         </select>
                 </div>
-
-                <p className='w-fit border-[2px] px-4 py-2 bg-loanBlue-primary text-white cursor-pointer rounded-md' >Export Excel</p>
+                <p className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary text-loanBlue-primary bg-white cursor-pointer rounded text-xs' >Export csv</p>
 
             </div>
             
@@ -94,13 +100,19 @@ function UsersList() {
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                     <tr>
                         <th scope="col" class="py-3 px-6">
-                            Name
+                            Customer id
+                        </th>
+                        <th scope="col" class="py-3 px-6">
+                            Full name
+                        </th>
+                        <th scope="col" class="py-3 px-6">
+                            Phone Number
                         </th>
                         <th scope="col" class="py-3 px-6">
                             Email
                         </th>
                         <th scope="col" class="py-3 px-6">
-                            Joined Date
+                            Created at
                         </th>
                         <th scope="col" class="py-3 px-6">
                             status

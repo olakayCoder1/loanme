@@ -4,6 +4,8 @@ import LoanApplyAddress from './LoanApplyAddress';
 import LoanApplyDetail from './LoanApplyDetail';
 import LoanApplyEmployment from './LoanApplyEmployment';
 import LoanApplyPersonal from './LoanApplyPersonal';
+import LoanOffer from './LoanOffer';
+
 
 function LoanApply() {
   return (
@@ -11,9 +13,11 @@ function LoanApply() {
       <div>
         <Routes>
             <Route path='' element={<LoanApplyPersonal />}/>
+            
             <Route path='/education-employment' element={<LoanApplyEmployment />}/>
             <Route path='/address' element={<LoanApplyAddress />}/>
             <Route path='/amount' element={<LoanApplyDetail />}/>
+            <Route path='/offer' element={<LoanOffer />}/>
         </Routes>
       </div>
     </div>

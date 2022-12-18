@@ -1,11 +1,21 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import WelcomeHeader from '../../component/WelcomeHeader'
 import {BsBank2} from 'react-icons/bs'
-
+import { AuthContext } from '../../contexts/ContextProvider'
+import { useNavigate } from "react-router-dom";
 
 function BankAccount({showNavBar, setShowNavBar}) {
 
+    const {setHasCompletedKyc} = useContext(AuthContext)
+    let navigate = useNavigate()
     const [whyBvn , setWhyBvn] = useState(false)
+
+
+    function handleSubmit(){
+        setHasCompletedKyc(true)
+        localStorage.setItem('hasCompletedKyc', JSON.stringify(true))
+        navigate('/')
+    }
   return (
     <div className=' w-full h-full p-4 md:px-20'>
         <WelcomeHeader showNavBar={showNavBar} setShowNavBar={setShowNavBar} name='Olanrewaju'/>
@@ -39,7 +49,7 @@ function BankAccount({showNavBar, setShowNavBar}) {
                     <input type="number" id="helper-text" aria-describedby="helper-text-explanation" 
                         className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
                         placeholder=""  disabled/>
-                    <button type="button" 
+                    <button type="button" onClick={handleSubmit}
                         className="w-full py-4 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-200 ">ADD BANK ACCOUNT</button>
 
                     <p onClick={()=> setWhyBvn(true)}  className=' text-loanBlue-primary underline-offset-2 underline cursor-pointer'>Why ask for Bank Account?</p>
@@ -53,7 +63,7 @@ function BankAccount({showNavBar, setShowNavBar}) {
 
 
     {whyBvn && (
-    <div className=' fixed w-full h-full top-0 left-0 right-0 bottom-0 bg-gray-600 z-50 bg-blend-overlay  flex items-center place-content-center'>
+    <div className=' fixed w-full h-full top-0 left-0 right-0 bottom-0 bg-gray-600 z-50 bg-blend-overlay opacity-95  flex items-center place-content-center'>
         <div className="z-50 p-4  md:inset-0  h-full flex items-center place-content-center">
             <div className="relative w-full  max-w-md h-auto">
                 <div className="relative bg-white rounded-lg shadow ">

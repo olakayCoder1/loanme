@@ -45,7 +45,7 @@ function Bvn({showNavBar, setShowNavBar}) {
 
 
     {howToBvn && (
-    <div className=' fixed w-full h-full top-0 left-0 right-0 bottom-0 bg-gray-600 z-50 bg-blend-overlay  flex items-center place-content-center'>
+    <div className=' fixed w-full h-full top-0 left-0 right-0 bottom-0 bg-gray-600 z-50 bg-blend-overlay  opacity-90 flex items-center place-content-center'>
         <div className="z-50 p-4  md:inset-0  h-full flex items-center place-content-center">
             <div className="relative w-full  max-w-md h-auto">
                 <div className="relative bg-white rounded-lg shadow ">
@@ -68,7 +68,7 @@ function Bvn({showNavBar, setShowNavBar}) {
     )}
     
     {whyBvn && (
-    <div className=' fixed w-full h-full top-0 left-0 right-0 bottom-0 bg-gray-600 z-50 bg-blend-overlay  flex items-center place-content-center'>
+    <div className=' fixed w-full h-full top-0 left-0 right-0 bottom-0 bg-gray-600 z-50 bg-blend-overlay opacity-90  flex items-center place-content-center'>
         <div className="z-50 p-4  md:inset-0  h-full flex items-center place-content-center">
             <div className="relative w-full  max-w-md h-auto">
                 <div className="relative bg-white rounded-lg shadow ">
