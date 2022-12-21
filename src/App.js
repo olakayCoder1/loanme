@@ -17,7 +17,7 @@ import Load from "./Load";
 
 
 function App() {
-  const { isAuthenticated ,Loading , setLoading  }= useContext(AuthContext)
+  const { isAuthenticated , Loading , setLoading  }= useContext(AuthContext)
   return (
     <div className=" w-full  text-loan-primary font-noto">
       {Loading  && <div className="absolute w-full h-full  left-0 bottom-0 top-0">
@@ -26,16 +26,23 @@ function App() {
         <ToastContainer />
         <Router>
           <Routes>
-            <Route path="/admin/*"  element={<AdminWrapper />} />
+            
             {isAuthenticated  ? (
-              <Route path='/*' element={<Container />}  />
+              <>
+                <Route path="/admin/*"  element={<AdminWrapper />} />
+                <Route path='/*' element={<Container />}  />
+                <Route path='/s' element={<OfferCalculating />}  />
+                <Route path='/account' element={<AccountContainer/>}  />
+              </>
+               
             ): (
-              <Route path='' element={<Welcome />}  />
+              <>
+                <Route path='/signup/*' element={<Onboarding />}  />
+                <Route path='' element={<Welcome />}  />
+                <Route path='/signin' element={<SignIn />}  />
+              </>
+              
             )}
-            <Route path='/signin' element={<SignIn />}  />
-            <Route path='/s' element={<OfferCalculating />}  />
-            <Route path='/signup/*' element={<Onboarding />}  />
-            <Route path='/account' element={<AccountContainer/>}  />
           </Routes>
         </Router>      
     </div>

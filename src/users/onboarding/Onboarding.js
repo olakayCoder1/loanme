@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import logo from '../../assets/loanme.png'
 import {Route, Routes } from "react-router-dom";
 // import logo1 from '../../assets/laptop.jpeg'
@@ -11,6 +11,7 @@ import OnboardingPersonalInfo from './OnboardingPersonalInfo';
 import OnboardAddress from './OnboardAddress';
 import OnboardingAccountPin from './OnboardingAccountPin';
 import logo1 from '../../assets/loanme.png'
+import { AuthContext } from '../../contexts/ContextProvider';
 
 
 
@@ -20,6 +21,27 @@ import logo1 from '../../assets/loanme.png'
 
 
 function Onboarding() {
+
+  const {} = useContext(AuthContext)
+  const [onboardingData , setOnboardingData] = useState({
+    phone : '' , country : 'Nigeria', first_name : '',
+    last_name : '', email : '', address_1:'', address_2 :'',
+    state: '',city:'', pin:''
+  })
+
+
+  function handleValueChange( key , val ){
+    setOnboardingData( prev => {
+      return {
+          ...prev ,
+          [key]: val
+      }
+    })
+  }
+
+
+  console.log(onboardingData)
+
   return (
     <div className='flex items-center justify-center h-screen mb-12 bg-fixed bg-center bg-cover custom-img' style={{ backgroundImage: `url(${logo2})`}}>
       {/* Overlay */}
@@ -33,11 +55,11 @@ function Onboarding() {
                 </div>
             </div>
             <Routes>
-                <Route path='' element={<OnboardingPhone />} />
+                <Route path='' element={<OnboardingPhone onboardingData={onboardingData} handleValueChange={handleValueChange}/>} />
                 <Route path='/phone-verify' element={<OnboardingPhoneVerify />} />
-                <Route path='/personaldetails' element={<OnboardingPersonalInfo />} />
-                <Route path='/address' element={<OnboardAddress />} />
-                <Route path='/pin' element={<OnboardingAccountPin />} />
+                <Route path='/personaldetails' element={<OnboardingPersonalInfo onboardingData={onboardingData} handleValueChange={handleValueChange}/>} />
+                <Route path='/address' element={<OnboardAddress onboardingData={onboardingData} handleValueChange={handleValueChange} />} />
+                <Route path='/pin' element={<OnboardingAccountPin onboardingData={onboardingData} handleValueChange={handleValueChange} />} />
             </Routes>
         </div>
       </div>

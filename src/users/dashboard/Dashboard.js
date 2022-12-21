@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import DashboardWelcomeHeader from '../../component/DashboardWelcomeHeader'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import {BsFillCreditCard2BackFill} from 'react-icons/bs'
@@ -6,12 +6,11 @@ import {FcOk} from 'react-icons/fc'
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../../contexts/ContextProvider'
 
-function Dashboard({showNavBar, setShowNavBar}) {
+function Dashboard() {
   let navigate = useNavigate()
 
   const { hasCompletedKyc , validLoanPrice , hasValidLoan } = useContext(AuthContext)
 
-  console.log(hasValidLoan)
   useEffect(()=> {
     if(!hasCompletedKyc){
       navigate('/setup/account/bvn')
@@ -23,7 +22,7 @@ function Dashboard({showNavBar, setShowNavBar}) {
   return (
     <div className='p-4 w-full h-screen'>
       <div className=' w-full md:w-[70%] lg:w-[50%] mx-auto'>
-        <DashboardWelcomeHeader showNavBar={showNavBar} setShowNavBar={setShowNavBar} name='Olanrewaju'/>
+        <DashboardWelcomeHeader name='Olanrewaju'/>
         <div>
           <h2 className=' font-normal text-base py-4'>Dashboard</h2>
             {!hasValidLoan ? (

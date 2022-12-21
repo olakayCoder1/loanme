@@ -1,7 +1,5 @@
 import React, { useContext, useState } from 'react'
-import {Route, Routes } from "react-router-dom";
 import userDefault from '../../assets/user-default.jpeg'
-import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../../contexts/ContextProvider';
 
 
@@ -68,21 +66,18 @@ function Account() {
                     <div className=' flex items-center  gap-16 p-3 h-14'>
                         <h3 className='w-[70px] uppercase font-normal'>Password</h3>
                         <div className='grow flex justify-between items-center'>
-                            {/* <img src={userDefault} alt='profile-image' className=' w-10 h-10  rounded-full'/> */}
                             <p onClick={()=>{ setResetConfirm(true)}} className=' p-2 px-3 w-fit bg-[#33b5a8] cursor-pointer text-white font-light'>Reset Password</p>
                         </div>
                     </div>
                     <div className=' flex items-center  gap-16 p-3 h-14'>
                         <h3 className='w-[70px] uppercase font-normal'>Logout</h3>
                         <div className='grow flex justify-between items-center'>
-                            {/* <img src={userDefault} alt='profile-image' className=' w-10 h-10  rounded-full'/> */}
                             <p onClick={() => setLogoutAccount(true)}  className=' p-2 px-3 w-fit bg-[#33b5a8] cursor-pointer text-white font-light'>Logout</p>
                         </div>
                     </div>
                     <div className=' flex items-center  gap-16 p-3 h-14'>
                         <h3 className='w-[70px] uppercase font-normal'>Delete</h3>
                         <div className='grow flex justify-between items-center'>
-                            {/* <img src={userDefault} alt='profile-image' className=' w-10 h-10  rounded-full'/> */}
                             <p onClick={() => setDeleteAccount(true)} className=' p-2 px-3 w-fit bg-red-600 cursor-pointer text-white font-light'>Delete Account</p>
                         </div>
                     </div>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {Route, Routes } from "react-router-dom";
 import LoanApplyAddress from './LoanApplyAddress';
 import LoanApplyDetail from './LoanApplyDetail';
@@ -8,12 +8,16 @@ import LoanOffer from './LoanOffer';
 
 
 function LoanApply() {
+
+  const [ loanApplicationData , setLoanApplicationData ] = useState({})
+  
+  
+
   return (
     <div className=' w-full h-full'>
       <div>
         <Routes>
             <Route path='' element={<LoanApplyPersonal />}/>
-            
             <Route path='/education-employment' element={<LoanApplyEmployment />}/>
             <Route path='/address' element={<LoanApplyAddress />}/>
             <Route path='/amount' element={<LoanApplyDetail />}/>

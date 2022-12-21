@@ -3,17 +3,18 @@ import WelcomeHeader from '../../component/WelcomeHeader'
 import {BsBank2} from 'react-icons/bs'
 import { AuthContext } from '../../contexts/ContextProvider'
 import { useNavigate } from "react-router-dom";
-import Load from '../../Load';
 
-function BankAccount({showNavBar, setShowNavBar}) {
 
-    const {setHasCompletedKyc, displayNotification} = useContext(AuthContext)
+
+function BankAccount() {
+
+    const {setHasCompletedKyc, displayNotification ,setLoading} = useContext(AuthContext)
     let navigate = useNavigate()
     const [whyBvn , setWhyBvn] = useState(false)
 
 
  
-    const [ loading ,setLoading] = useState(false)
+    // const [ loading ,setLoading] = useState(false)
 
     function handleSubmit(){
         setLoading(true)
@@ -30,7 +31,7 @@ function BankAccount({showNavBar, setShowNavBar}) {
         }
         setLoading(false)
         setHasCompletedKyc(true)
-        displayNotification('success','Account set up completed')
+        displayNotification('success','Bank Account successfully added')
         localStorage.setItem('hasCompletedKyc', JSON.stringify(true))
         navigate('/')  
     }
@@ -38,7 +39,7 @@ function BankAccount({showNavBar, setShowNavBar}) {
 
   return (
     <div className=' w-full h-full p-4 md:px-20'>
-        <WelcomeHeader showNavBar={showNavBar} setShowNavBar={setShowNavBar} name='Olanrewaju'/>
+        <WelcomeHeader name='Olanrewaju'/>
         <div className=''>
             <h2 className=' font-medium text-base my-4'>Complete Account Setup</h2>
             <div className='text-loan-secondary flex justify-between items-center bg-loan-light p-4 px-8'>
@@ -50,9 +51,7 @@ function BankAccount({showNavBar, setShowNavBar}) {
                 <form className='w-full min-w-sm max-w-md flex flex-col gap-2'>
 
                     <label htmlFor="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Select Bank</label>
-                    <select id="bank" 
-                        className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
-                        >
+                    <select id="bank"  className="input-primary"   >
                     <option selected disabled hidden>Select a bank</option>
                     <option value="fisrt_bank">First Bank</option>
                     <option value="uba">United Bank For Africa</option>
@@ -61,14 +60,10 @@ function BankAccount({showNavBar, setShowNavBar}) {
                     </select>
 
                     <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Account Number</label>
-                    <input type="text" aria-describedby="helper-text-explanation" id="disabled-input" aria-label="disabled input"
-                        className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
-                        placeholder="" /> 
+                    <input type="text"  className="input-primary"  placeholder="" /> 
 
                     <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Account Name</label>
-                    <input type="number" id="helper-text" aria-describedby="helper-text-explanation" 
-                        className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
-                        placeholder=""  disabled/>
+                    <input type="number" className="input-primary"   placeholder=""  disabled/>
                     <button type="button" onClick={handleSubmit}
                         className="w-full py-4 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-200 ">ADD BANK ACCOUNT</button>
 

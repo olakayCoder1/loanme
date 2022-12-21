@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import OnboardHeader from './OnboardHeader';
 import {Link } from "react-router-dom";
@@ -6,27 +6,45 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from '../../contexts/ContextProvider';
 
-function OnboardingPhone() {
+function OnboardingPhone({onboardingData ,handleValueChange}) {
     let navigate = useNavigate()
     const notify = () => toast("Invalid phone number!");
     const {displayNotification} = useContext(AuthContext)
+    const [ changeNumberValue , setChangeNumberValue  ] = useState('')
+
+
+    function handleChange(){
+        if(changeNumberValue != ''){
+            if(onboardingData['phone'] != changeNumberValue ){
+                displayNotification('info','Verification code sent to your number')
+                handleValueChange('phone', changeNumberValue )
+                navigate('phone-verify')
+            }
+            else{
+                handleValueChange('phone', changeNumberValue )
+                navigate('phone-verify')
+            } 
+        }else{
+            displayNotification('error','Phone number is required') 
+        }   
+    }
+
 
   return (
     <form className='w-full flex flex-col gap-4 px-4'>
-        
         <OnboardHeader  name='Phone Number' c='1'/>
         
         <div>
             <label for="helper-text" className="text-input-label ">Country</label>
-            <input type="text" className=' input-primary'placeholder="Nigeria"  value='Nigeria' disable />
+            <input type="text" className=' input-primary' placeholder="Nigeria"  value='Nigeria' disable />
         </div>
         <div>
         <label for="helper-text" className="text-input-label ">Number</label>
-            <input type="text" className=' input-primary'  placeholder="+234 908 345 5489" />
+            <input type="text" value={changeNumberValue} onChange={(e)=> setChangeNumberValue(e.target.value)} className=' input-primary'  placeholder="+234 908 345 5489" />
             <p className=' text-description'>A verification code will be sent to your number</p>
         </div>  
         <div className=' w-full my-4 mt-8'>
-            <button type="button" onClick={()=> navigate('phone-verify')}   className="btn-primary">CONTINUE</button>
+            <button type="button" onClick={handleChange}   className="btn-primary">CONTINUE</button>
         </div>
         <div className=' w-full flex items-center place-content-center gap-4  py-4 '>
             <p className='text-description text-sm text-loan-secondary'>Have an account? <Link to={'/signin'} className='text-loanBlue-primary'> SignIn</Link></p>
@@ -36,3 +54,20 @@ function OnboardingPhone() {
 }
 
 export default OnboardingPhone
+
+
+
+
+
+{/* <label>
+            <input type="file" class="text-sm text-grey-500
+            file:mr-5 file:py-2 file:px-6
+            file:rounded-full file:border-0
+            file:text-sm file:font-medium
+            file:bg-blue-50 file:text-blue-700
+            hover:file:cursor-pointer hover:file:bg-amber-50
+            hover:file:text-amber-700
+          " />
+        </label> */}
+
+        // <input type='date' className=' input-primary' />

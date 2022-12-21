@@ -67,8 +67,9 @@ export default function AuthContextProvider({children}){
              }
     } 
 
+    
 
-
+    const [ showNavigationBar , setShowNavigationBar] = useState(()=> JSON.parse(localStorage.getItem('showNavigationBar')) || false )
     const [ isAdminUser, setIsAdminUser  ]  = useState(()=> JSON.parse(localStorage.getItem('isAdminUser'))|| false )
     const [ hasCompletedKyc , setHasCompletedKyc  ]  = useState(()=> JSON.parse(localStorage.getItem('hasCompletedKyc'))|| false )
     const [ hasCompletedSignUp , setHasCompletedSignUp  ]  = useState(()=> JSON.parse(localStorage.getItem('hasCompletedSignUp'))|| false )
@@ -88,16 +89,10 @@ export default function AuthContextProvider({children}){
     },[isAuthenticated, hasCompletedKyc, hasValidLoan , validLoanPrice])
 
 
+
     function logout(){
         displayNotification('info','You are logged out')
         localStorage.clear()
-        // localStorage.setItem('isAuthenticated', JSON.stringify(false))
-        // localStorage.setItem('hasCompletedKyc', JSON.stringify(false))
-        // localStorage.setItem('isAdminUser', JSON.stringify(false))
-        // localStorage.setItem('hasValidLoan', JSON.stringify(false))
-        // localStorage.setItem('validLoanPrice', JSON.stringify('0.00'))
-        // localStorage.setItem('hasCompletedSignUp', JSON.stringify(false))
-
         window.location.pathname = '/'
     }
 
@@ -109,7 +104,7 @@ export default function AuthContextProvider({children}){
 
 
 
-
+    
 
 
 
@@ -167,11 +162,10 @@ export default function AuthContextProvider({children}){
 
 
  const value = { 
-    registerUser, logout,
-    Loading, login ,validLoanPrice , setValidLoanPrice ,
+    registerUser, logout, login ,validLoanPrice , setValidLoanPrice ,
     isAdminUser, setIsAdminUser ,hasValidLoan , setHasValidLoan ,
     hasCompletedKyc , setHasCompletedKyc, displayNotification,
-    hasCompletedSignUp , setHasCompletedSignUp,
+    hasCompletedSignUp , setHasCompletedSignUp,showNavigationBar , setShowNavigationBar,
     isAuthenticated , setIsAuthenticated ,Loading , setLoading 
  }
      

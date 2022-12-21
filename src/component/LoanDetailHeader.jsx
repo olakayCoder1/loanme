@@ -1,19 +1,20 @@
-import React from 'react'
-import userDefault from '../assets/user-default.jpeg'
+import React, { useContext } from 'react'
 import {RxHamburgerMenu} from 'react-icons/rx'
 import {BsChevronDoubleLeft} from 'react-icons/bs'
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from '../contexts/ContextProvider';
 
 
-function LoanDetailHeader({showNavBar, setShowNavBar, name , title}) {
+function LoanDetailHeader({name , title}) {
     let navigate = useNavigate()
 
+    const {showNavigationBar , setShowNavigationBar} = useContext(AuthContext)
 
   return (
     <>
         <div className='py-4 flex justify-between items-center'>
             <div className=' flex items-center gap-3'>
-                {!showNavBar && <p onClick={setShowNavBar} className=' md:hidden cursor-pointer'><RxHamburgerMenu className='w-6 h-6'/></p>}
+                {!showNavigationBar && <p onClick={() => setShowNavigationBar(!showNavigationBar) } className=' md:hidden cursor-pointer'><RxHamburgerMenu className='w-6 h-6'/></p>}
             </div>
             <div className=' flex items-center gap-2'>
                 <h1 className=' font-bold text-xl text-loan-secondary'>{name}</h1>   

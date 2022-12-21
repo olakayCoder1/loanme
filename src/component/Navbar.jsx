@@ -8,11 +8,12 @@ import { AuthContext } from '../contexts/ContextProvider';
 
 
 
-function NavLink({name , toHref , setShowNavBar}){
+function NavLink({name , toHref }){
+    const { showNavigationBar , setShowNavigationBar } =  useContext(AuthContext) 
     let navigate = useNavigate()
 
     function handleClick(){
-        setShowNavBar()
+        setShowNavigationBar(!showNavigationBar)
         navigate(`${toHref}`)
     }
     if(window.location.pathname === toHref){
@@ -35,10 +36,9 @@ function NavLink({name , toHref , setShowNavBar}){
 
 
 
-function Navbar({showNavBar, setShowNavBar}) {
+function Navbar() {
 
-
-    const { hasCompletedKyc , logout ,hasValidLoan  } =  useContext(AuthContext) 
+    const { hasCompletedKyc , logout ,hasValidLoan ,showNavigationBar , setShowNavigationBar } =  useContext(AuthContext) 
 
     const [hasSetUpAccount , setHasSetUpAccount] = useState(true)
     const [logoutAccount , setLogoutAccount] = useState(false)
@@ -120,9 +120,9 @@ function Navbar({showNavBar, setShowNavBar}) {
                 whileInView={{x:0}}
                 transition={{duration:0.5}}
                 onExit={{x:-100}}
-            className={`${showNavBar ? 'fixed  w-[25%] max-w-[270px] min-w-[250px] h-full   border-r  shadow-md bg-white' : 'hidden' } md:hidden z-50`}>
+            className={`${showNavigationBar ? 'fixed  w-[25%] max-w-[270px] min-w-[250px] h-full   border-r  shadow-md bg-white' : 'hidden' } md:hidden z-50`}>
         <div className=' w-full flex items-center gap-4  py-4 md:py-8 p-4 md:px-6'>
-            <p onClick={setShowNavBar} className=' cursor-pointer md:hidden'><RxCross1 className=' w-6 h-6'/></p>
+            <p onClick={()=> setShowNavigationBar(!showNavigationBar)} className=' cursor-pointer md:hidden'><RxCross1 className=' w-6 h-6'/></p>
             <img src={logo} alt='quick_loan' className='w-10 h-10 text-gray-700'/>
             <h2 className=' text-xl font-bold font-headingFont'>LoanIt</h2>
         </div>
@@ -130,10 +130,10 @@ function Navbar({showNavBar, setShowNavBar}) {
             <div className='my-2 p-4'>
                 {hasSetUpAccount ? (
                     <>
-                        <NavLink name='Dashboard' toHref='/' setShowNavBar={setShowNavBar} />
-                        {!hasValidLoan && <NavLink name='Apply For Loan' toHref='/loan/request' setShowNavBar={setShowNavBar} />}
-                        <NavLink name='Loan Application History' toHref='/loan/history' setShowNavBar={setShowNavBar} />
-                        <NavLink name='Account' toHref='/account' setShowNavBar={setShowNavBar} />
+                        <NavLink name='Dashboard' toHref='/' />
+                        {!hasValidLoan && <NavLink name='Apply For Loan' toHref='/loan/request' />}
+                        <NavLink name='Loan Application History' toHref='/loan/history' />
+                        <NavLink name='Account' toHref='/account' />
                     </>
                 ): (
                     <div role="status" className="max-w-sm animate-pulse">
