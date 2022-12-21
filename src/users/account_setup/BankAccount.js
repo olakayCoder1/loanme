@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import WelcomeHeader from '../../component/WelcomeHeader'
 import {BsBank2} from 'react-icons/bs'
 import { AuthContext } from '../../contexts/ContextProvider'
 import { useNavigate } from "react-router-dom";
-
+import { bank_list } from './bank_list';
 
 
 function BankAccount() {
@@ -11,10 +11,80 @@ function BankAccount() {
     const {setHasCompletedKyc, displayNotification ,setLoading} = useContext(AuthContext)
     let navigate = useNavigate()
     const [whyBvn , setWhyBvn] = useState(false)
-
+    const [ banks , setBanks ] = useState(bank_list) 
+    const [ bankAccountDetails , setBankAccountDetails ] = useState(null)
+    const [ ifAccountName , setIfAccountName ] = useState(false)
+    const [ accountNumber , setAccountNumber ] = useState('')
+    const [ bankCode , setBankCode ] = useState(null)
+    const [ bankName , setBankName ] = useState(null)
+    const [ accountName , setAccountName ] = useState('')
 
  
-    // const [ loading ,setLoading] = useState(false)
+    const [ fetching , setFetching ] = useState(false)   //2136873152
+
+    function handleVerify(){
+        console.log('click') 
+        if(bankCode && accountNumber.length == 10 ){
+                const url = `https://api.paystack.co/bank/resolve?account_number=${accountNumber}&bank_code=${bankCode}`
+                fetch(url,{ method : 'GET', headers:{ 'Authorization' : 'Bearer sk_test_14eca726d98d0f387f1aa6ae9f2e4f17d7c0e5a8'} })
+                .then(res => res.json())
+                .then(val => {
+                    console.log(val)
+                    if(val.status){
+                        setAccountName(val.data.account_name) 
+                        setIfAccountName(true)
+                        console.log(val.data.account_name) 
+                    }else{
+                        displayNotification('error','Invalid account number for chosen bank') 
+                    }
+                })
+                .catch(err => displayNotification('error','An error occurred') )
+        }
+    }
+
+    function handleSubmitCard(){
+        if(bankName && accountNumber && accountName && bankCode ){
+            const data = {
+                'name': bankName, 
+                'account_number': accountNumber,
+                'account_name': accountName,
+                'code': bankCode,
+            
+            }
+            const url = `http://127.0.0.1:8000/api/v1/account/bank/add`
+                fetch(url,{
+                    method : 'POST',
+                    headers : {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(res => res.json())
+                .then(val => { 
+                    // console.log(val) 
+                    setHasCompletedKyc(true)
+                    displayNotification('success','Bank Account successfully added')
+                    localStorage.setItem('hasCompletedKyc', JSON.stringify(true))
+                    navigate('/')  
+              })
+                .catch(err=> console.log(err))
+        }else{
+            displayNotification('error','Enter neccessary detail')
+        }       
+    }
+
+    function handleNumberChange(e){ 
+        setAccountNumber(e.target.value)
+    }
+
+    function handleBankNameChange(e){
+        setBankCode(e.target.value) 
+        const what = e.target.value
+        const search = banks.find(element => element.code === what);
+        setBankName(search.name)
+    }
+
+    // console.log(bankName) 
 
     function handleSubmit(){
         setLoading(true)
@@ -51,22 +121,34 @@ function BankAccount() {
                 <form className='w-full min-w-sm max-w-md flex flex-col gap-2'>
 
                     <label htmlFor="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Select Bank</label>
-                    <select id="bank"  className="input-primary"   >
-                    <option selected disabled hidden>Select a bank</option>
-                    <option value="fisrt_bank">First Bank</option>
-                    <option value="uba">United Bank For Africa</option>
-                    <option value="union">Union Bank</option>
-                    <option value="polaris">Polaris Bank</option>
+                    <select id="bank"  className="input-primary"  onChange={handleBankNameChange}  >
+                        <option value="">Select bank</option>
+                    {banks ? banks?.map((val)=>{ 
+                        return <option key={val.id} value={val.code}>{val.name}</option> 
+                    }): (
+                        <option value="">loading....</option>
+                    )}
                     </select>
 
                     <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Account Number</label>
-                    <input type="text"  className="input-primary"  placeholder="" /> 
+                    <input type="number" maxLength={10}  value={accountNumber}  onChange={handleNumberChange}
+                        className="input-primary" id='account-number'  placeholder="" /> 
+                    {ifAccountName && (
+                        <>
+                            <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Account Name</label>
+                            <input type="text"  value={accountName}  
+                            className="input-primary" id='account-number'  placeholder="" disabled/> 
+                        </>
+                    )}
 
-                    <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Account Name</label>
-                    <input type="number" className="input-primary"   placeholder=""  disabled/>
-                    <button type="button" onClick={handleSubmit}
-                        className="w-full py-4 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-200 ">ADD BANK ACCOUNT</button>
-
+                    {ifAccountName ? (
+                        <button type="button" onClick={handleSubmitCard} className="w-full py-4 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-200 ">
+                            ADD BANK ACCOUNT
+                        </button>
+                    ): (
+                        <button type="button" onClick={handleVerify}  className="text-center w-full py-3 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-200 ">VERIFY</button>
+                    )}
+                    
                     <p onClick={()=> setWhyBvn(true)}  className=' text-loanBlue-primary underline-offset-2 underline cursor-pointer'>Why ask for Bank Account?</p>
                 </form>
 

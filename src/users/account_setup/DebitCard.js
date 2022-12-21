@@ -3,7 +3,7 @@ import WelcomeHeader from '../../component/WelcomeHeader'
 import {BsFillCreditCard2BackFill} from 'react-icons/bs'
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../../contexts/ContextProvider'
-
+import { usePaystackPayment } from 'react-paystack';
 
 
 function DebitCard() {
@@ -11,7 +11,7 @@ function DebitCard() {
     let navigate = useNavigate()
     const [whyBvn , setWhyBvn] = useState(false)
     const {displayNotification ,setLoading} = useContext(AuthContext)
-
+    const [ paymentData , setPaymentData ] = useState({})
 
     function handleSubmit(){
         setLoading(true)
@@ -29,9 +29,59 @@ function DebitCard() {
         setLoading(false)
         displayNotification('success','Card successfully added')
         navigate('/setup/account/bankaccount')
+    }  
+    
+
+    const onSuccess = (reference) => {
+        const data = {
+            'reference': reference,
+            'type':'success'
+        }
+        fetch(`http://127.0.0.1:8000/api/v1/payment/verify`, {
+            method : 'POST',
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })  
+        .then(res => res.json())
+        .then(data =>{ console.log(data)  })
+        .catch(err => console.log(err)) 
+      };
+
+    const onClose = () => {
+        const data = {'reference': paymentData.reference,'type':'failed'}
+        fetch(`http://127.0.0.1:8000/api/v1/payment/verify`, {
+            method : 'POST',
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })  
+        .then(res => res.json())
+        .then(data =>{ console.log(data)  })
+        .catch(err => console.log(err)) 
+      };
+
+    function handleAddDebit(){
+        fetch(`http://127.0.0.1:8000/api/v1/account/debit`)  
+        .then(res => res.json())
+        .then(data =>{
+            console.log(data)
+             const config = {
+                reference: data.reference,
+                email: data.email,  
+                amount: 5000,
+                publicKey: data.paystack_public
+            };
+            setPaymentData(config)
+            document.getElementById('pay-with-paystack').click()
+            
+            })
+        .catch(err => console.log(err)) 
     }
 
-
+    const initializePayment = usePaystackPayment(paymentData);
 
   return (
     <div className=' w-full h-full p-4 md:px-20'>
@@ -42,10 +92,11 @@ function DebitCard() {
                 <p className=' font-bold text-base '>Add Debit Card</p>
                 <p>2/3</p>
             </div>
+            <button className='hidden' id='pay-with-paystack' onClick={() => { initializePayment(onSuccess, onClose)  }}>Paystack</button>
             <div className='flex items-center justify-between pt-12'>
                 <form className='w-full min-w-sm max-w-md flex flex-col gap-2'>
-                    <button type="button" onClick={handleSubmit}   className="my-4 btn-primary">CLICK TO LINK DEBIT CARD</button>
-
+                    <button type="button" onClick={handleAddDebit}   className="my-4 btn-primary">CLICK TO LINK DEBIT CARD</button>
+ 
                     <p onClick={()=> setWhyBvn(true)}  className=' text-loanBlue-primary underline-offset-2 underline cursor-pointer w-fit'>Why ask for debit card?</p>
                 </form>
                 <div className='hidden w-80 h-80 bg-loan-light lg:flex place-content-center items-center'>
