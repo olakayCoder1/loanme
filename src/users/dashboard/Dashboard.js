@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import DashboardWelcomeHeader from '../../component/DashboardWelcomeHeader'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import {BsFillCreditCard2BackFill} from 'react-icons/bs'
@@ -6,12 +6,11 @@ import {FcOk} from 'react-icons/fc'
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../../contexts/ContextProvider'
 
-function Dashboard({showNavBar, setShowNavBar}) {
+function Dashboard() {
   let navigate = useNavigate()
 
   const { hasCompletedKyc , validLoanPrice , hasValidLoan } = useContext(AuthContext)
 
-  console.log(hasValidLoan)
   useEffect(()=> {
     if(!hasCompletedKyc){
       navigate('/setup/account/bvn')
@@ -23,7 +22,7 @@ function Dashboard({showNavBar, setShowNavBar}) {
   return (
     <div className='p-4 w-full h-screen'>
       <div className=' w-full md:w-[70%] lg:w-[50%] mx-auto'>
-        <DashboardWelcomeHeader showNavBar={showNavBar} setShowNavBar={setShowNavBar} name='Olanrewaju'/>
+        <DashboardWelcomeHeader name='Olanrewaju'/>
         <div>
           <h2 className=' font-normal text-base py-4'>Dashboard</h2>
             {!hasValidLoan ? (
@@ -32,11 +31,11 @@ function Dashboard({showNavBar, setShowNavBar}) {
                   <h2 className=' text-base font-bold'>Your Loan</h2>
                   <h1 className=' flex items-center text-5xl font-bold'>
                       <TbCurrencyNaira />
-                      <span>{validLoanPrice}</span>
+                      <span>0.00</span>
                   </h1>
                 </div>
                 <div cl w-full>
-                <button onClick={()=> navigate('/loan/request')}  type="button" className="w-[50%] py-3 px-5 mr-2 my-4 mb-12 text-sm font-medium focus:outline-none text-loanBlue-primary bg-white rounded-md border border-gray-300 ">APPLY FOR A LOAN</button>
+                <button onClick={()=> navigate('/loan/request')}  type="button" className=" btn-primary-white w-[50%] my-4">APPLY FOR A LOAN</button>
                 </div>
 
               </>
@@ -49,9 +48,9 @@ function Dashboard({showNavBar, setShowNavBar}) {
                         <span>{validLoanPrice}</span>
                     </h1>
                   </div>
-                  <div className=' flex items-center gap-2'>
-                    <button onClick={()=> navigate('/loan')}  type="button" className="w-full py-3 px-5 mr-2 my-4 mb-12 text-sm font-medium focus:outline-none text-loanBlue-primary bg-white rounded-md border border-gray-300 ">VIEW LOAN DETAILS</button>
-                    <button onClick={()=> navigate('/loan/repayment')}  type="button" className="w-full py-3 px-5 mr-2 my-4 mb-12 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-300 ">MAKE PAYMENT</button>
+                  <div className=' flex items-center gap-2 my-4'>
+                    <button onClick={()=> navigate('/loan')}  type="button" className=" btn-primary-white">VIEW LOAN DETAILS</button>
+                    <button onClick={()=> navigate('/loan/repayment')}  type="button" className=" btn-primary">MAKE PAYMENT</button>
                   </div>
               </>
             )}

@@ -1,17 +1,41 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import WelcomeHeader from '../../component/WelcomeHeader'
 import me from '../../assets/icons8-identity-64.png'
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from '../../contexts/ContextProvider'
 
-function Bvn({showNavBar, setShowNavBar}) {
+
+function Bvn() {
+
+    const {displayNotification ,setLoading} = useContext(AuthContext)
 
     let navigate = useNavigate()
     const [whyBvn , setWhyBvn] = useState(false)
     const [howToBvn , setHowToBvn] = useState(false)
 
+
+    function handleSubmit(){
+        setLoading(true)
+        demo()  
+    }
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    
+    async function demo() {
+        for (let i = 0; i < 2 ; i++) {
+            await sleep(i * 1000);
+        }
+        setLoading(false)
+        displayNotification('success','BVN successfully added')
+        navigate('/setup/account/card')
+    }
+
+
   return (
     <div className=' w-full h-full p-4 md:px-20'>
-        <WelcomeHeader showNavBar={showNavBar} setShowNavBar={setShowNavBar} name='Olanrewaju'/>
+        <WelcomeHeader name='Olanrewaju'/>
         <div className=''>
             <h2 className=' font-medium text-base my-4'>Complete Account Setup</h2>
             <div className='text-loan-secondary flex justify-between items-center bg-loan-light p-4 px-8'>
@@ -22,19 +46,14 @@ function Bvn({showNavBar, setShowNavBar}) {
             <div className='flex items-center justify-between pt-12'>
                 <form className='w-full min-w-sm max-w-md flex flex-col gap-2'>
                     <label for="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Identity Type</label>
-                    <input type="text" aria-describedby="helper-text-explanation" id="disabled-input" aria-label="disabled input"
-                        class="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
-                        placeholder="BVN"  value='BVN' disable />
+                    <input type="text"   className="input-primary mb-2"  placeholder="BVN"  value='BVN' disable />
 
                     <label for="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Bank Verification Number</label>
-                    <input type="number" id="helper-text" aria-describedby="helper-text-explanation" 
-                        className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
-                        placeholder="*********" />
-                    <button type="button" onClick={()=> navigate('/setup/account/card')}
-                        className="w-full py-4 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-200 ">VERIFY</button>
+                    <input type="number"  className="input-primary"   placeholder="*********" />
+                    <button type="button"  onClick={handleSubmit}   className="my-4 btn-primary">VERIFY</button>
 
-                    <p onClick={()=> setHowToBvn(true)} className=' text-loanBlue-primary underline-offset-2 underline cursor-pointer'>How can I get it ?</p>
-                    <p onClick={()=> setWhyBvn(true)}  className=' text-loanBlue-primary underline-offset-2 underline cursor-pointer'>Why ask for BVN?</p>
+                    <p onClick={()=> setHowToBvn(true)} className=' text-loanBlue-primary underline-offset-2 underline cursor-pointer w-fit'>How can I get it ?</p>
+                    <p onClick={()=> setWhyBvn(true)}  className=' text-loanBlue-primary underline-offset-2 underline cursor-pointer w-fit'>Why ask for BVN?</p>
                 </form>
 
                 <div className='hidden w-80 h-80 bg-loan-light lg:flex place-content-center items-center'>

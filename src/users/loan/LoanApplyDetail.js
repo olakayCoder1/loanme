@@ -34,7 +34,7 @@ function LoanApplyDetail() {
         
     }
     
-    ;
+    
 
   return (
     <div className=' py-4'>
@@ -49,14 +49,10 @@ function LoanApplyDetail() {
 
             <form className='w-full  flex flex-col gap-2 my-8'>
                 <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Loan Amount</label>
-                <input type="number" aria-describedby="helper-text-explanation" id="disabled-input" aria-label="disabled input"
-                    className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
-                    placeholder="" /> 
+                <input type="number"   className="input-primary"  placeholder="" /> 
 
                 <label htmlFor="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Loan Reason</label>
-                <select id="bank" 
-                    className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
-                    >
+                <select id="bank"   className="input-primary"   >
                 <option selected disabled hidden></option>
                 <option value="fisrt_bank">Education</option>
                 <option value="fisrt_bank">Medical</option>
@@ -69,9 +65,9 @@ function LoanApplyDetail() {
                 <option value="fisrt_bank">Other</option>
                 <option value="uba">Rented</option>
                 </select>
-                <div className=' w-full flex gap-2'>
-                    <button type="button" onClick={()=> navigate('/loan/request/address')} className="w-[50%] py-4 px-5 mr-2 my-4 text-sm font-medium focus:outline-none text-loanBlue-primary bg-white rounded-md border border-gray-200 ">PREVIOUS</button>
-                    <button type="button" onClick={handleSubmit} className="w-[50%] py-4 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-200 ">CONTINUE</button>
+                <div className=' w-full flex gap-2 py-6'>
+                    <button type="button" onClick={()=> navigate('/loan/request/address')} className=" btn-primary-white">PREVIOUS</button>
+                    <button type="button" onClick={handleSubmit} className="btn-primary">CONTINUE</button>
                 </div>
             </form>
             </>

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 function LoanRepayment() {
     let navigate = useNavigate()
-    const {setHasValidLoan, setValidLoanPrice  } = useContext(AuthContext)
+    const {setHasValidLoan, setValidLoanPrice , displayNotification } = useContext(AuthContext)
     const [amountToPay, setAmountToPay] = useState(null)
 
     function handleClickFull(){
@@ -23,6 +23,7 @@ function LoanRepayment() {
     }
 
     function handleSubmit(){
+        displayNotification('success','Repayment successfull')
         setValidLoanPrice('0.00')
         setHasValidLoan(false)
         localStorage.setItem('hasValidLoan', JSON.stringify(false))

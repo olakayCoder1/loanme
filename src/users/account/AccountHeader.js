@@ -1,5 +1,4 @@
 import React from 'react'
-import userDefault from '../../assets/user-default.jpeg'
 import {RxHamburgerMenu} from 'react-icons/rx'
 import {BsChevronDoubleLeft} from 'react-icons/bs'
 import { useNavigate } from "react-router-dom";

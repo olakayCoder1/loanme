@@ -23,7 +23,7 @@ function CustomersLoanHistoryCard({customer}){
                 <p className=' flex items-center'>
                     <TbCurrencyNaira className=' w-5 h-5'/><span>{amount}</span>
                 </p>
-            </td>
+            </td> 
             <td class="py-3 px-6 w-fit truncate">
                 <p className=' flex items-center'>
                     <TbCurrencyNaira className=' w-5 h-5'/><span>{amount}</span>
@@ -56,7 +56,7 @@ function Applications({user_id}) {
         .then(data => setUserApplication(data))
         .catch(err => console.log(err)) 
     },[])
-    
+
     console.log(userApplication)
   return (
     <div className=' p-6 bg-gray-50 '>

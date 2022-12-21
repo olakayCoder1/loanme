@@ -1,6 +1,8 @@
 import React, {  useEffect, useState } from "react";
 import { createContext  } from "react";
 import {fetchProducts} from './utils/functions.js'
+import { ToastContainer, toast } from 'react-toastify';
+
 
 export const AuthContext = createContext()
 
@@ -19,7 +21,7 @@ export default function AuthContextProvider({children}){
     // LOADING STATE TO DETERMINE WHEN TO UPDATE TOKEN 
     const [ loginError, setLoginError] = useState(false)
 
-    const [ Loading , setLoading] = useState(null)
+    const [ Loading , setLoading ] = useState(null)
      // REFRESH TOKEN WHILE USER STILL ONLINE 
         const registerUser = async (e) => {
          e.preventDefault();
@@ -65,8 +67,9 @@ export default function AuthContextProvider({children}){
              }
     } 
 
+    
 
-
+    const [ showNavigationBar , setShowNavigationBar] = useState(()=> JSON.parse(localStorage.getItem('showNavigationBar')) || false )
     const [ isAdminUser, setIsAdminUser  ]  = useState(()=> JSON.parse(localStorage.getItem('isAdminUser'))|| false )
     const [ hasCompletedKyc , setHasCompletedKyc  ]  = useState(()=> JSON.parse(localStorage.getItem('hasCompletedKyc'))|| false )
     const [ hasCompletedSignUp , setHasCompletedSignUp  ]  = useState(()=> JSON.parse(localStorage.getItem('hasCompletedSignUp'))|| false )
@@ -86,15 +89,10 @@ export default function AuthContextProvider({children}){
     },[isAuthenticated, hasCompletedKyc, hasValidLoan , validLoanPrice])
 
 
-    function logout(){
-        localStorage.clear()
-        // localStorage.setItem('isAuthenticated', JSON.stringify(false))
-        // localStorage.setItem('hasCompletedKyc', JSON.stringify(false))
-        // localStorage.setItem('isAdminUser', JSON.stringify(false))
-        // localStorage.setItem('hasValidLoan', JSON.stringify(false))
-        // localStorage.setItem('validLoanPrice', JSON.stringify('0.00'))
-        // localStorage.setItem('hasCompletedSignUp', JSON.stringify(false))
 
+    function logout(){
+        displayNotification('info','You are logged out')
+        localStorage.clear()
         window.location.pathname = '/'
     }
 
@@ -106,19 +104,69 @@ export default function AuthContextProvider({children}){
 
 
 
+    
 
 
+
+    function displayNotification(type, text ){
+        if(type==='info'){
+            toast.info(`${text}`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+        }
+        else if(type==='success'){
+            toast.success(`${text}`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+        }
+        else if(type==='error'){
+            toast.error(`${text}`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+        }else{
+            toast(`${text}`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+        }
+    }
 
 
 
 
  const value = { 
-    registerUser, logout,
-    Loading, login ,validLoanPrice , setValidLoanPrice ,
+    registerUser, logout, login ,validLoanPrice , setValidLoanPrice ,
     isAdminUser, setIsAdminUser ,hasValidLoan , setHasValidLoan ,
-    hasCompletedKyc , setHasCompletedKyc,
-    hasCompletedSignUp , setHasCompletedSignUp,
-    isAuthenticated , setIsAuthenticated 
+    hasCompletedKyc , setHasCompletedKyc, displayNotification,
+    hasCompletedSignUp , setHasCompletedSignUp,showNavigationBar , setShowNavigationBar,
+    isAuthenticated , setIsAuthenticated ,Loading , setLoading 
  }
      
 

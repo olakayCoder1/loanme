@@ -12,9 +12,7 @@ function LoanApplyEmployment() {
 
         <form className='w-full  flex flex-col gap-2 my-8'>
             <label htmlFor="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Level of Education</label>
-            <select id="bank" 
-                className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
-                >
+            <select id="bank"  className="input-primary" >
             <option selected disabled hidden></option>
             <option value="fisrt_bank">Undergraduate</option>
             <option value="uba">Graduate</option>
@@ -24,9 +22,7 @@ function LoanApplyEmployment() {
 
 
             <label htmlFor="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Employment Status</label>
-            <select id="bank" 
-                className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
-                >
+            <select id="bank"  className="input-primary"   >
             <option selected disabled hidden></option>
             <option value="fisrt_bank">Unemployed</option>
             <option value="uba">Employed</option>
@@ -34,24 +30,18 @@ function LoanApplyEmployment() {
             </select>
 
             <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Employer/Business Name</label>
-            <input type="text" aria-describedby="helper-text-explanation" id="disabled-input" aria-label="disabled input"
-                className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
-                placeholder="" /> 
+            <input type="text"   className="input-primary"  placeholder="" /> 
 
             <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">When you started working there</label>
-            <input type="text" aria-describedby="helper-text-explanation" id="disabled-input" aria-label="disabled input"
-                className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
-                placeholder="" /> 
+            <input type="text" className="input-primary"  placeholder="" /> 
 
 
             <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Monthly Income</label>
-            <input type="number" aria-describedby="helper-text-explanation" id="disabled-input" aria-label="disabled input"
-                className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
-                placeholder="" />  
+            <input type="number"   className="input-primary"  placeholder="" />  
 
-            <div className=' w-full flex gap-2'>
-                <button type="button" onClick={()=> navigate('/loan/request')}  className="w-[50%] py-4 px-5 mr-2 my-4 text-sm font-medium focus:outline-none text-loanBlue-primary bg-white rounded-md border border-gray-200 ">PREVIOUS</button>
-                <button type="button" onClick={()=> navigate('/loan/request/address')}  className="w-[50%] py-4 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-200 ">CONTINUE</button>
+            <div className=' w-full flex gap-2 py-6'>
+                <button type="button" onClick={()=> navigate('/loan/request')}  className=" btn-primary-white ">PREVIOUS</button>
+                <button type="button" onClick={()=> navigate('/loan/request/address')}  className=" btn-primary">CONTINUE</button>
             </div>
            
         </form>

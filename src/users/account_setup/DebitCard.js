@@ -1,16 +1,41 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import WelcomeHeader from '../../component/WelcomeHeader'
 import {BsFillCreditCard2BackFill} from 'react-icons/bs'
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from '../../contexts/ContextProvider'
 
-function DebitCard({showNavBar, setShowNavBar}) {
+
+
+function DebitCard() {
 
     let navigate = useNavigate()
     const [whyBvn , setWhyBvn] = useState(false)
+    const {displayNotification ,setLoading} = useContext(AuthContext)
+
+
+    function handleSubmit(){
+        setLoading(true)
+        demo()  
+    }
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    
+    async function demo() {
+        for (let i = 0; i < 2 ; i++) {
+            await sleep(i * 1000);
+        }
+        setLoading(false)
+        displayNotification('success','Card successfully added')
+        navigate('/setup/account/bankaccount')
+    }
+
+
 
   return (
     <div className=' w-full h-full p-4 md:px-20'>
-        <WelcomeHeader showNavBar={showNavBar} setShowNavBar={setShowNavBar} name='Olanrewaju'/>
+        <WelcomeHeader name='Olanrewaju'/>
         <div className=''>
             <h2 className=' font-medium text-base my-4'>Complete Account Setup</h2>
             <div className='text-loan-secondary flex justify-between items-center bg-loan-light p-4 px-8'>
@@ -19,10 +44,9 @@ function DebitCard({showNavBar, setShowNavBar}) {
             </div>
             <div className='flex items-center justify-between pt-12'>
                 <form className='w-full min-w-sm max-w-md flex flex-col gap-2'>
-                    <button type="button" onClick={()=> navigate('/setup/account/bankaccount')} 
-                        className="w-full py-4 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-200 ">CLICK TO LINK DEBIT CARD</button>
+                    <button type="button" onClick={handleSubmit}   className="my-4 btn-primary">CLICK TO LINK DEBIT CARD</button>
 
-                    <p onClick={()=> setWhyBvn(true)}  className=' text-loanBlue-primary underline-offset-2 underline cursor-pointer'>Why ask for debit card?</p>
+                    <p onClick={()=> setWhyBvn(true)}  className=' text-loanBlue-primary underline-offset-2 underline cursor-pointer w-fit'>Why ask for debit card?</p>
                 </form>
                 <div className='hidden w-80 h-80 bg-loan-light lg:flex place-content-center items-center'>
                     <BsFillCreditCard2BackFill className=' w-32 h-32 text-gray-300'/>

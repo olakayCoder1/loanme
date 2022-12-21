@@ -12,32 +12,22 @@ function LoanApplyPersonal() {
 
         <form className='w-full  flex flex-col gap-2 my-8'>
             <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">First Name</label>
-            <input type="text" aria-describedby="helper-text-explanation" id="disabled-input" aria-label="disabled input"
-                className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
-                placeholder="Olanrewaju"  disabled value='Olanrewaju'/> 
+            <input type="text"   placeholder="Olanrewaju" className='input-primary'  disabled value='Olanrewaju'/> 
             <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Last Name</label>
-            <input type="text" aria-describedby="helper-text-explanation" id="disabled-input" aria-label="disabled input"
-                className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
-                placeholder="AbdulKabeer" disabled value='AbdulKabeer'/> 
+            <input type="text"  className=" input-primary"   placeholder="AbdulKabeer" disabled value='AbdulKabeer'/> 
 
             <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Date of brith</label>
-            <input type="text" aria-describedby="helper-text-explanation" id="disabled-input" aria-label="disabled input"
-                className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
-                placeholder="20/4/1020" disabled value='20/4/1020'/> 
+            <input type="text"  className=" input-primary"   placeholder="20/4/1020" disabled value='20/4/1020'/> 
 
             <label htmlFor="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Gender</label>
-            <select id="bank" value=''
-                className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
-                >
+            <select id="bank" value='' className=" input-primary"   >
             <option selected disabled hidden>Gender</option>
             <option value="fisrt_bank">Male</option>
             <option value="uba">Female</option>
             </select>
 
             <label htmlFor="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Marital Status</label>
-            <select id="bank" value=''
-                className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
-                >
+            <select id="bank" value=''className="input-primary"   >
             <option selected disabled hidden>Marital Status</option>
             <option value="fisrt_bank">Single</option>
             <option value="uba">Married</option>
@@ -45,18 +35,16 @@ function LoanApplyPersonal() {
             </select>
 
             <label htmlFor="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Number of children</label>
-            <select id="bank" value=''
-                className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-2.5 focus:outline-none" 
-                >
+            <select id="bank" value='' className=" input-primary"   >
             <option selected disabled hidden>Number of children</option>
             <option value="fisrt_bank">1 child</option>
             <option value="uba">2 children</option>
             <option value="union">3 children</option>
             <option value="polaris">4 and above</option>
             </select>
-            <div className=' w-full'>
+            <div className=' w-full py-6'>
                 <button type="button" onClick={()=> navigate('education-employment')} 
-                    className="w-[50%] py-4 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-200 ">CONTINUE</button>
+                    className=" btn-primary">CONTINUE</button>
             </div>
         </form>
     </div>
