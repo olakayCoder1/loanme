@@ -1,22 +1,23 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {TbCurrencyNaira} from 'react-icons/tb'
-import { useNavigate} from 'react-router-dom'
+import { useNavigate , Link } from 'react-router-dom'
 import {motion} from 'framer-motion'
 import {BsAward} from 'react-icons/bs'
+import { NoContentToShow } from './user_application/ApplicationDetailScore'
 
 
-function UserListTableRow({name , email , isActive , joinDate}){
+function UserListTableRow({first_name , last_name , phone, email , isActive , joinDate , id }){
     const navigate = useNavigate()
     return (
         <tr class="bg-white border-b hover:bg-gray-200 text-xs ">
             <th scope="row" class="py-4 px-6 font-medium  whitespace-nowrap ">
-            CUS-2010220-1920
+                { id }
             </th>
             <th scope="row" class="py-4 px-6 font-medium  whitespace-nowrap ">
-            {name}
+            {first_name && <>{first_name}</>}  {last_name && <>{last_name}</>}
             </th>
             <td class="py-4 px-6">
-                090838377373
+                {phone}
             </td>
             <td class="py-4 px-6">
                 {email}
@@ -27,7 +28,7 @@ function UserListTableRow({name , email , isActive , joinDate}){
             {isActive ?  <td class="py-4 px-6 text-green-600"> Active</td> : <td class="py-4 px-6"> InActive</td>}
             
             <td class="py-4 px-6 text-right">
-                <p onClick={()=> navigate('loan/user/olakay')}  class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">View</p>
+                <Link to={`${id}`} class="font-medium text-blue-600  hover:underline cursor-pointer">View</Link>
             </td>
         </tr>
     )
@@ -35,7 +36,6 @@ function UserListTableRow({name , email , isActive , joinDate}){
 
 
 function Card({title, val , col ,Icon}){
-    console.log(title)
     
     return (
         <motion.div initial={{y:0}} whileHover={{y:-6}} animate={{transition:{duration:3} , translate:{duration:2} }}
@@ -63,12 +63,36 @@ function Card({title, val , col ,Icon}){
 function UsersList() {
     const navigate = useNavigate()
     const users = Array.from(Array(10).keys()).slice(1);
+
+    const [customers , setCustomers] = useState(null)
+    const [customerSummary , setCustomerSummary] = useState({
+        active : null,
+        all : null,
+        disabled : null
+    })
+
+    useEffect(()=>{
+        fetch('http://127.0.0.1:8000/api/v1/admin/summary/customers')
+        .then(res => res.json())
+        .then(data => setCustomerSummary(data))
+        .catch(err => console.log(err)) 
+    },[]) 
+
+
+    useEffect(()=>{
+        fetch('http://127.0.0.1:8000/api/v1/admin/customers')
+        .then(res => res.json())
+        .then(data => setCustomers(data))
+        .catch(err => console.log(err)) 
+    },[]) 
+    console.log(customers) 
+
   return (
     <div>
         <div className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4'>
-            <Card Icon={BsAward} title='Total customers' col='green' val='1,012'/>
-            <Card title='Active customers' val='1,012' Icon={BsAward} col='blue'/>
-            <Card title='Disabled customer' val='5438' Icon={BsAward} col='gray'/>
+            <Card Icon={BsAward} title='Total customers' col='green' val={customerSummary.all}/> 
+            <Card title='Active customers' val={customerSummary.active} Icon={BsAward} col='blue'/>
+            <Card title='Disabled customer' val={customerSummary.disabled} Icon={BsAward} col='gray'/>
             {/* <Card title='lOAN' val='383' Icon={BsAward} col='red'/> */}
         </div>
         <div className='p-4 bg-white m-4 rounded-md'>
@@ -123,11 +147,23 @@ function UsersList() {
                     </tr>
                     </thead>
                     <tbody>
-                        {users.map(()=> {
+                        {customers ?  customers?.map((val)=> {
                             return (
-                                <UserListTableRow name='Sirajudeen Bolanle'  email='programmerolakay@gmail.com' joinDate='21,May 2020' isActive={true}/>
+                                <UserListTableRow 
+                                    key={val.uuid}
+                                    id={val.uuid}
+                                    first_name={val.first_name}
+                                    last_name={val.last_name}
+                                    phone={val.phone}
+                                    name='Sirajudeen Bolanle'  
+                                    email={val.email}
+                                    joinDate={val.created_at} 
+                                    isActive={val.is_active}
+                                />
                             )
-                        })}
+                        }): (
+                            <NoContentToShow description='No customer to show'/>
+                        )}
                     </tbody>
                 </table>
             </div>

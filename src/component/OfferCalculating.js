@@ -1,13 +1,13 @@
 import React from 'react'
 import cal from '../admin/pages/user_account/lighthourglass.json'
 import cal1 from '../admin/pages/user_account/fullglass.json'
-import  Lottie from 'lottie-react'
+// import  Lottie from 'lottie-react'
 
 
 function OfferCalculating() {
   return (
     <div className=' text-center'>
-            <Lottie animationData={cal1} className='w-32 h-32   text-center mx-auto'/>
+            {/* <Lottie animationData={cal1} className='w-32 h-32   text-center mx-auto'/> */}
       
       <div className=' flex flex-col items-center place-content-center'>
         <h2 className=' text-sm font-bold text-gray-800'>Fetching your loan offers</h2>

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate, Link} from 'react-router-dom'
 
@@ -6,34 +7,45 @@ import { useNavigate, Link} from 'react-router-dom'
 
 
 
-function CustomersLoanHistoryCard({name, loanDate , status , amount}){
+function CustomersLoanHistoryCard({customer}){
+    const data = JSON.parse(customer.data)
+    const amount = data.amount
+    console.log(customer.status)  
+    // APP-20121012-987
+    // programmerolakay@gmail
     return (
         <tr class="bg-white border-b hover:bg-gray-200  text-xs font-medium  ">
             <th scope="row" class="py-3 px-6   whitespace-nowrap flex items-center gap-4 ">
-                {status ? <span className=' text-yellow-500 '>Pending</span>  : <span className=' text-green-500'>Approved</span> }   
+                {customer.status =='pending' && <span className=' text-yellow-500 '>Pending</span> }   
+                {customer.status =='accepted' && <span className=' text-green-500 '>Approved</span> }   
+                {customer.status =='rejected' && <span className=' text-red-500 '>Rejected</span> }    
             </th>
             <td class="py-3 px-6 w-fit truncate">
-                <Link to='/admin/applications/detail'><span className=' cursor-pointer hover:text-loanBlue-primary'>APP-20121012-987</span></Link>
+                <Link to='/admin/applications/detail'><span className=' cursor-pointer hover:text-loanBlue-primary'>{customer.uuid}</span></Link>
                 
             </td>
             <td class="py-3 px-6 w-fit truncate">
-                <Link to='/admin/users/olakay'><span className=' cursor-pointer hover:text-loanBlue-primary'>programmerolakay@gmail</span></Link>
+                <Link to='/admin/users/olakay'><span className=' cursor-pointer hover:text-loanBlue-primary'>{customer.user.email}</span></Link>
             </td>
             <td class="py-3 px-6 w-fit truncate">
-                <Link to='/admin/users/olakay'><span className=' cursor-pointer hover:text-loanBlue-primary'>{name}</span></Link>
+                <Link to='/admin/users/olakay'>
+                    <span className=' cursor-pointer hover:text-loanBlue-primary'>
+                        {customer.user.first_name && <>{customer.user.first_name}</>}  {customer.user.last_name && <>{customer.user.last_name}</>}
+                    </span>
+                </Link>
             </td>
             <th class="py-3 px-6  w-fit truncate">
-                <p className=' flex items-center'>
+                <p className=' flex items-center'>  
                     <TbCurrencyNaira className=' w-5 h-5'/><span>{amount}</span>
                 </p>
             </th>
             <th class="py-3 px-6  w-fit truncate">
                 <p className=' flex items-center'>
-                    <TbCurrencyNaira className=' w-5 h-5'/><span>{amount}</span>
+                    <TbCurrencyNaira className=' w-5 h-5'/><span>N/A</span>
                 </p>
             </th>
             <td class="py-3 px-6 w-fit truncate">
-                {loanDate}
+                {customer.created_at}
             </td>
             
         </tr>
@@ -43,6 +55,14 @@ function CustomersLoanHistoryCard({name, loanDate , status , amount}){
 
 
 function ApplicationDashboard() {
+
+    const [customerApplicationList, setCustomerApplicationList] = useState([])
+    useEffect(()=>{
+        fetch('http://127.0.0.1:8000/api/v1/admin/applications')
+        .then(res => res.json())
+        .then(data => setCustomerApplicationList(data))
+        .catch(err => console.log(err)) 
+    },[])
   return (
         <>
             <div className='flex flex-col lg:flex-row justify-between gap-4 lg:items-center my-4 px-6'>
@@ -97,13 +117,21 @@ function ApplicationDashboard() {
                         </tr>
                     </thead>
                     <tbody>
-                        <CustomersLoanHistoryCard name='Sirajudeen Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={false}/>
-                        <CustomersLoanHistoryCard name='Sirajudeen Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={true}/>
-                        <CustomersLoanHistoryCard name='Sirajudeen Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={true}/>
-                        <CustomersLoanHistoryCard name='Sirajudeen Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={true}/>
-                        <CustomersLoanHistoryCard name='Sirajudeen Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={true}/>
-                        <CustomersLoanHistoryCard name='Sirajudeen Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={true}/>
-                        <CustomersLoanHistoryCard name='Sirajudeen Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={true}/>
+                        {customerApplicationList.length > 0 ? (
+                            customerApplicationList.map((val)=>{
+                                return (
+                                    <CustomersLoanHistoryCard 
+                                        key={val.uuid}
+                                        customer={val}
+                                    />
+                                )
+                            })
+                        ): (
+                            <>
+                                <h1>FETCHING...................</h1>
+                            </>
+                        )}
+                        
                     </tbody>
                 </table>
             </div>

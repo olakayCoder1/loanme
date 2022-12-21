@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../../contexts/ContextProvider';
-import  Lottie from 'lottie-react'
+// import  Lottie from 'lottie-react'
 import cal from '../../admin/pages/user_account/done_ok.json'
 
 function LoanOffer() {
@@ -21,7 +21,7 @@ function LoanOffer() {
   return (
     <div className=' p-12 py-6'>
       <div className=' flex flex-col gap-4 text-sm font-normal  '>
-        <Lottie animationData={cal} className='w-28 h-28   text-center mx-auto'/>
+        {/* <Lottie animationData={cal} className='w-28 h-28   text-center mx-auto'/> */}
         <h2 className='text-center text-lg font-normal text-loanBlue-primary'>Congratulations!</h2>
         <p>Your loan offer, Select your repayment period to proceed
             As part of our ongoing efforts to provide the best service to learners, customers,

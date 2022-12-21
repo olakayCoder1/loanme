@@ -1,4 +1,5 @@
 import React from 'react'
+import { NoContentToShow } from './ApplicationDetailScore'
 
 
 
@@ -12,7 +13,10 @@ function Card({label , value}){
 }
 
 
-function ApplicationDetailData() {
+function ApplicationDetailData({info}) {
+    if(info === null){
+        return <NoContentToShow />
+    }
   return (
     <div className=' bg-white text-sm font-normal'>
         <div className='flex justify-between gap-4 items-center py-4 px-4 md:px-12'>
@@ -22,20 +26,26 @@ function ApplicationDetailData() {
             <p className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary bg-loanBlue-primary text-white cursor-pointer rounded text-xs' >Export Excel</p> 
         </div>
         <div className=' w-full  px-6 md:px-8 py-6 '>
-        <Card label='name' value='Olanrewaju AbdulKabeer'/>
-            <Card label='email' value='programmerolakay@gmail.com'/>
-            <Card label='phone' value='09082455467'/>
-            <Card label='Bvn:Fist name' value='AbdulKabeer'/>
-            <Card label='Bvn:Last name' value='Olanrewaju'/>
-            <Card label='Bvn:Date of Birth' value='April 4, 8923'/>
-            <Card label='Bvn:Gender' value='Male'/>
+
+            <Card label='name' value='Olanrewaju AbdulKabeer'/>
+            <Card label='email' value={info.email}/>
+            <Card label='phone' value={info.phone}/>
+            <Card label='Bvn:Fist name' value={info.first_name}/>
+            <Card label='Bvn:Last name' value={info.last_name}/>
+            <Card label='Bvn:Date of Birth' value={info.date_of_birth}/>
+            <Card label='Bvn:Gender' value={info.gender}/>
             <Card label='Bvn:Image' value=''/>
             <Card label='Address' value="'setHasLoanRecord' is assigned a value but never used"/>
-            <Card label='Employment status' value=''/>
-            <Card label='Employer Name' value=''/>
-            <Card label='Country' value='Nigeria'/>
+            <Card label='Children' value={info.children}/>
+            <Card label='Level of education' value={info.education}/>
+            <Card label='Employment status' value={info.employment}/>
+            <Card label='Employer Name' value={info.employer}/>
+            <Card label='Reason' value={info.reason}/>
+            <Card label='Marital Status' value={info.marital}/>
             <Card label='State' value='Lagos'/>
             <Card label='City' value='Mainland'/>
+            <Card label='Residence' value={info.residence}/>
+            <Card label='Year at residence' value={info.years_at_residence}/>
         </div>
     </div>
   )

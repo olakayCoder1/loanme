@@ -8,7 +8,7 @@ function ApplicationWrapper() {
     <div>
         <Routes>
             <Route path='' element={<Applications />} />
-            <Route path='/detail' element={<ApplicationDetail />} />
+            <Route path='/:id' element={<ApplicationDetail />} />
         </Routes>
     </div>
   )

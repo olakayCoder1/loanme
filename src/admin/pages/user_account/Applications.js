@@ -1,18 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate, Link} from 'react-router-dom'
 import {ImFilesEmpty} from 'react-icons/im'
+import { NoContentToShow } from '../user_application/ApplicationDetailScore'
 
 
 
-function CustomersLoanHistoryCard({name, loanDate , status , amount}){
+function CustomersLoanHistoryCard({customer}){
+    const data = JSON.parse(customer.data)
+    const amount = data.amount
     return (
         <tr class="bg-white border-b hover:bg-gray-200  text-xs font-medium  ">
             <th scope="row" class="py-3 px-6   whitespace-nowrap flex items-center gap-4 ">
-                {status ? <span className=' text-yellow-500 '>Pending</span>  : <span className=' text-green-500'>Approved</span> }   
+                {customer.status =='pending' && <span className=' text-yellow-500 '>Pending</span> }   
+                {customer.status =='accepted' && <span className=' text-green-500 '>Approved</span> }   
+                {customer.status =='rejected' && <span className=' text-red-500 '>Rejected</span> }  
             </th>
             <td class="py-3 px-6 w-fit truncate">
-                APP-20121012-987
+                {customer.uuid}
             </td>
             <td class="py-3 px-6 w-fit truncate">
                 <p className=' flex items-center'>
@@ -30,7 +35,7 @@ function CustomersLoanHistoryCard({name, loanDate , status , amount}){
                 </p>
             </th>
             <td class="py-3 px-6 w-fit truncate">
-                {loanDate}
+                {customer.created_at}
             </td>
             
         </tr>
@@ -39,10 +44,20 @@ function CustomersLoanHistoryCard({name, loanDate , status , amount}){
 
 
 
-function Applications() {
-
+function Applications({user_id}) {
+ 
     const [ hasLoanRecord , setHasLoanRecord ] = useState(true)
 
+    const [userApplication , setUserApplication] = useState([])
+
+    useEffect(()=>{
+        fetch(`http://127.0.0.1:8000/api/v1/admin/customers/${user_id}/applications`)  
+        .then(res => res.json())
+        .then(data => setUserApplication(data))
+        .catch(err => console.log(err)) 
+    },[])
+    
+    console.log(userApplication)
   return (
     <div className=' p-6 bg-gray-50 '>
         {hasLoanRecord ? (
@@ -71,8 +86,22 @@ function Applications() {
                     </tr>
                 </thead>
                 <tbody>
-                    <CustomersLoanHistoryCard name='Sirajudeen Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={false}/>
-                    <CustomersLoanHistoryCard name='Sirajudeen Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={true}/>
+                    {userApplication && userApplication.length > 0  ? (
+                        userApplication.map((val)=>{
+                            <CustomersLoanHistoryCard
+                                key={val.uuid}
+                                customer={val}
+                            name='Sirajudeen Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={false}
+                        />
+                        })
+                        
+                    ): (
+                        <NoContentToShow description='No application history' />
+                    )}
+                    {/* <CustomersLoanHistoryCard
+                        name='Sirajudeen Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={false}
+                    />
+                    <CustomersLoanHistoryCard name='Sirajudeen Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={true}/> */}
                 </tbody>
             </table>
             </div>

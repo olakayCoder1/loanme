@@ -33,7 +33,7 @@ function AdminWrapper() {
                     <Route path='/account' element={<Account />} />
                     <Route path='applications/*' element={<ApplicationWrapper />} />
                     <Route path='/users' element={<UsersList />} />
-                    <Route path='/users/olakay' element={<UserAccount />} />
+                    <Route path='/users/:id' element={<UserAccount />} />
                     <Route path='/users/olakay/loan' element={<UserLoanHistory />} />
                     <Route path='/users/olakay/loan/1/history' element={<UserLoanRepaymentHistory />} />
                 </Routes>

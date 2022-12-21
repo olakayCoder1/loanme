@@ -12,7 +12,9 @@ function Card({label , value}){
 }
 
 
-function ApplicationDetailInformation() {
+function ApplicationDetailInformation({info}) { 
+    
+    
   return (
     <div className=' bg-white text-sm font-normal'>
         <div className='flex justify-between gap-4 items-center py-4 px-4 md:px-12'>
@@ -22,12 +24,12 @@ function ApplicationDetailInformation() {
             <p className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary bg-loanBlue-primary text-white cursor-pointer rounded text-xs' >Export Excel</p> 
         </div>
         <div className=' w-full  px-6 md:px-8 py-6 '>
-            <Card label='application ID' value='APP-29993883-1002'/>
-            <Card label='Requested amount' value='150,000.00'/>
+            <Card label='application ID' value={info && info.uuid}/>
+            <Card label='Requested amount' value={info && JSON.parse(info.data)['amount']}/>
             <Card label='Interest' value='150,000.00'/>
-            <Card label='Processinf fee' value='N/A'/>
-            <Card label='status' value='Approved'/>
-            <Card label='Created at' value='April 4, 5050'/>
+            <Card label='Processing fee' value='N/A'/>
+            <Card label='status' value={info && info.status}/>
+            <Card label='Created at' value={info && info.created_at}/>
         </div>
     </div>
   )

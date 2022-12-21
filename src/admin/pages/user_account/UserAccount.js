@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect  } from 'react'
 import Applications from './Applications'
 import Loans from './Loans'
 import Information from './Information'
-
+import { useNavigate,useParams} from 'react-router-dom'
 
 
 function SmallUserDetail(){
@@ -30,12 +30,25 @@ function SmallUserDetail(){
         </div>
     )
 }
-
+ 
 
 
 function UserAccount() {
 
+    const {id} = useParams();
+
     const [activeTab, setActiveTab] = useState('Customer Information')
+
+    const [ user , setUser] = useState(null)
+
+    useEffect(()=>{
+        fetch(`http://127.0.0.1:8000/api/v1/admin/customers/${id}`)
+        .then(res => res.json())
+        .then(data => {
+            setUser(data)
+        }) 
+        .catch(err => console.log(err)) 
+    },[])
 
   return (
     <div className=' w-full flex flex-col lg:flex-row'>
@@ -43,7 +56,7 @@ function UserAccount() {
         <div className=' w-full lg:w-[70%] lg:m-4'>
             <div className='flex justify-between gap-4 items-center my-4 px-4'>
                 <div className=' text-sm font-medium flex  gap-4 items-center text-gray-800'>
-                    AHMED's Account
+                    {user && user.first_name}'s Account
                 </div>
                 <p className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary text-loanBlue-primary bg-white cursor-pointer rounded text-xs' >Disabled</p>
             </div>
@@ -68,9 +81,9 @@ function UserAccount() {
                 </ul>
             </div>
 
-            {activeTab === 'Applications' && <Applications/>}
-            {activeTab === 'Loans' && <Loans />}
-            {activeTab === 'Customer Information' && <Information />}
+            {activeTab === 'Applications' && <Applications user_id={user && user.uuid}/>}
+            {activeTab === 'Loans' && <Loans user_id={user && user.uuid}/>}
+            {activeTab === 'Customer Information' && <Information user_id={user && user}/>}
             
 
       </div>

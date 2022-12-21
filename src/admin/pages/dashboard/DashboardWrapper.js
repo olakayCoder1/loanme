@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate, Link} from 'react-router-dom'
 import {RiMoneyDollarCircleLine} from 'react-icons/ri'
@@ -13,7 +13,6 @@ import LoanDashboard from './LoanDashboard'
 
 
 function Card({title, val , col ,Icon}){
-    console.log(title)
     
     return (
         <motion.div initial={{y:0}} whileHover={{y:-6}} animate={{transition:{duration:3} }}
@@ -44,6 +43,21 @@ function Card({title, val , col ,Icon}){
 function DashboardWrapper() {
 
 
+    const [loanSummary, setLoanSummary ] = useState( { 
+        'total':  null,
+        'active_loan':null,
+        'completed': null,
+        'sum_of_total_loan':  null,
+        'sum_of_active_loan':  null, 
+        'total_repayment':  null ,  
+    } )
+    useEffect(()=>{
+        fetch('http://127.0.0.1:8000/api/v1/admin/summary/loans')
+        .then(res => res.json())
+        .then(data => setLoanSummary(data))
+        .catch(err => console.log(err)) 
+    },[])
+    
     const [activeTab, setActiveTab] = useState('loan')
   return (
     <div className='  w-full  p-4'>
@@ -58,10 +72,10 @@ function DashboardWrapper() {
         </div>
 
         <div className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 py-4'>
-            <Card title='active loan' val='54' Icon={SiWebmoney} col='green'/>
-            <Card title='sum of active loans' val='1,750,012' Icon={RiMoneyDollarCircleLine} col='red'/>
-            <Card title='total loans' val='546' Icon={SiWebmoney} col='blue'/>
-            <Card title='sum total loans' val='70,390,383.00' Icon={RiMoneyDollarCircleLine} col='yellow'/>
+            <Card title='active loan' val={loanSummary.active_loan } Icon={SiWebmoney} col='green'/>
+            <Card title='sum of active loans' val={loanSummary.sum_of_active_loan} Icon={RiMoneyDollarCircleLine} col='red'/>
+            <Card title='total loans' val={loanSummary.total} Icon={SiWebmoney} col='blue'/>
+            <Card title='sum total loans' val={loanSummary.sum_of_total_loan} Icon={RiMoneyDollarCircleLine} col='yellow'/>
         </div>
       
         <div className=' w-full bg-white box-border pt-4 m-4 text-sm font-medium  mx-auto'>

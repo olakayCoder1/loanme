@@ -1,19 +1,21 @@
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ApplicationDetailInformation from './ApplicationDetailInformation'
 import ApplicationDetailData from './ApplicationDetailData'
 import ApplicationDetailScore from './ApplicationDetailScore'
-import { useNavigate} from 'react-router-dom'
+import { useNavigate,useParams} from 'react-router-dom'
 
 
-function SmallUserDetail(){
+function SmallUserDetail({id, email, first_name , last_name}){
     let navigate = useNavigate()
     return (
         <div className='w-full lg:w-[30%]  border-gray-300 h-full'>
             <div>
                 <div className=' flex items-center place-content-center py-8'>
                     <div className=' bottom-[-50%] left-[50%] right-[50%] flex items-center place-content-center flex-col gap-6'>
-                        <h2 className=' font-medium text-2xl border-3 border-gray-300 bg-white text-gray-800 p-6 rounded-full'>OL</h2>
-                        <h2 className=' text-xl font-medium truncate  text-gray-800'>Ahmed Olanrewaju</h2>
+                        <h2 className=' font-medium text-2xl border-3 border-gray-300 bg-white text-gray-800 p-6 rounded-full'>
+                           {first_name && <>{first_name[0]}</>}{last_name && <>{last_name[0]}</>} 
+                        </h2>
+                        <h2 className=' text-xl font-medium truncate  text-gray-800'>{first_name} {last_name}</h2> 
                     </div>
                 </div>
                 <div className='flex items-center place-content-center text-center w-full '>
@@ -24,11 +26,11 @@ function SmallUserDetail(){
                     <h2 className=' text-gray-800'>Personal Information</h2>
                     <div className='py-4 text-xs font-normal flex justify-between border-b'>
                         <p className='font-light'>Customer ID</p>
-                        <p className=' text-gray-800'>ACC-202211290540-4686</p>
+                        <p className=' text-gray-800'>{id}</p>
                     </div>
                     <div className='py-4 text-xs font-normal flex justify-between border-b'>
-                        <p className='font-light'>Contact Email</p>
-                        <p className=' text-gray-800'>programmerolakay@gmail.com</p>
+                        <p className='font-light'>Email</p>
+                        <p className=' text-gray-800'>{email}</p>
                     </div>
                 </div>
             </div>
@@ -40,15 +42,37 @@ function SmallUserDetail(){
 
 function ApplicationDetail() {
 
-    const [activeTab, setActiveTab] = useState('Information')
 
-  return (
+    const {id} = useParams();
+    // console.log(id)
+    const [activeTab, setActiveTab] = useState('Information')
+    const [customerApplicationDetail , setCustomerApplicationDetail ] = useState(null)
+    const [ applicationInformation , setApplicationInformation] = useState(null)
+
+    useEffect(()=>{
+        fetch(`http://127.0.0.1:8000/api/v1/admin/applications/${id}`)
+        .then(res => res.json())
+        .then(data => {
+            setCustomerApplicationDetail(data)
+            const appInfo = JSON.parse(data.data)
+            setApplicationInformation(appInfo) 
+        }) 
+        .catch(err => console.log(err)) 
+    },[])
+    console.log(customerApplicationDetail) //APP-20221219225430-2022
+    
+  return ( 
     <div className=' w-full flex flex-col lg:flex-row'>
-        <SmallUserDetail />
+        <SmallUserDetail 
+            id={customerApplicationDetail && customerApplicationDetail.user.uuid}
+            email={customerApplicationDetail && customerApplicationDetail.user.email} 
+            first_name={customerApplicationDetail && customerApplicationDetail.user.first_name}
+            last_name={customerApplicationDetail && customerApplicationDetail.user.last_name}
+        />
         <div className=' w-full lg:w-[70%] lg:m-4'>
             <div className='flex justify-between gap-4 items-center my-4'>
                 <div className=' text-sm px-6 font-medium flex  gap-4 items-center text-gray-800'>
-                    AHMED's Application ( <span className=' text-loanBlue-primary'>APP-20121012-987</span>  )
+                    {customerApplicationDetail && customerApplicationDetail.user.first_name}'s Application ( <span className=' text-loanBlue-primary'>{id}</span>  )
                 </div>
                 {/* <p className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary text-loanBlue-primary bg-white cursor-pointer rounded text-xs' >Disabled</p> */}
             </div>
@@ -73,8 +97,8 @@ function ApplicationDetail() {
                 </ul>
             </div>
 
-            {activeTab === 'Data' && <ApplicationDetailData />}
-            {activeTab === 'Information' && <ApplicationDetailInformation />}
+            {activeTab === 'Data' && <ApplicationDetailData  info={applicationInformation}  />}
+            {activeTab === 'Information' && <ApplicationDetailInformation  info={customerApplicationDetail} />}
             {activeTab === 'Score board' && <ApplicationDetailScore />}
             
 

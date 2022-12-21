@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Security from './Security'
 import cal from '../user_account/calculating.json'
-import  Lottie from 'lottie-react'
 
 function SmallUserDetail(){
     return (
