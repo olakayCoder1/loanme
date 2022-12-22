@@ -11,6 +11,9 @@ import OfferCalculating from "./component/OfferCalculating";
 import { ToastContainer, toast } from 'react-toastify';
 import Load from "./Load";
 import LoadingSpinner from "./LoadingSpinner";
+import Offer from "./users/loan/Offer";
+import OfferError from "./users/loan/OfferError";
+import PageNotFound from "./PageNotFound";
 
 
 
@@ -39,9 +42,12 @@ function App() {
                 <Route path='/signup/*' element={<Onboarding />}  />
                 <Route path='' element={<Welcome />}  />
                 <Route path='/signin' element={<SignIn />}  />
+                <Route path="/offer" element={<Offer />} />
+                <Route path="/error" element={<OfferError />} />
               </>
               
             )}
+            <Route path="*" element={<PageNotFound />} />
           </Routes>
         </Router>      
     </div>

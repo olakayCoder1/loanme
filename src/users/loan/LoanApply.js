@@ -6,6 +6,7 @@ import LoanApplyDetail from './LoanApplyDetail';
 import LoanApplyEmployment from './LoanApplyEmployment';
 import LoanApplyPersonal from './LoanApplyPersonal';
 import LoanOffer from './LoanOffer';
+import Offer from './Offer';
 
 
 function LoanApply() {
@@ -60,7 +61,8 @@ function LoanApply() {
             <Route path='/education-employment' element={<LoanApplyEmployment loanApplicationData={loanApplicationData} handleValueChange={handleValueChange}/>}/>
             <Route path='/address' element={<LoanApplyAddress loanApplicationData={loanApplicationData} handleValueChange={handleValueChange}/>}/>
             <Route path='/amount' element={<LoanApplyDetail loanApplicationData={loanApplicationData} handleValueChange={handleValueChange}/>}/>
-            <Route path='/offer' element={<LoanOffer loanApplicationData={loanApplicationData} handleValueChange={handleValueChange}/>}/>
+            {/* <Route path='/offer' element={<LoanOffer loanApplicationData={loanApplicationData} handleValueChange={handleValueChange}/>}/> */}
+            <Route path='/offer' element={<Offer loanApplicationData={loanApplicationData} handleValueChange={handleValueChange}/>}/>
         </Routes>
       </div>
     </div>
