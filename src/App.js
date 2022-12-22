@@ -10,6 +10,7 @@ import { useContext, useState } from "react";
 import OfferCalculating from "./component/OfferCalculating";
 import { ToastContainer, toast } from 'react-toastify';
 import Load from "./Load";
+import LoadingSpinner from "./LoadingSpinner";
 
 
 
@@ -20,9 +21,7 @@ function App() {
   const { isAuthenticated , Loading , setLoading  }= useContext(AuthContext)
   return (
     <div className=" w-full  text-loan-primary font-noto">
-      {Loading  && <div className="absolute w-full h-full  left-0 bottom-0 top-0">
-        <Load /> 
-      </div>}
+      {Loading  &&  <LoadingSpinner /> } 
         <ToastContainer />
         <Router>
           <Routes>

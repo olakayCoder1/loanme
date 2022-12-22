@@ -35,12 +35,7 @@ function Onboarding() {
       'pin':'',
     })
 
-    useEffect(()=>{
-      // if(authUser){
-      //   // navigate('/')   
-      // }
-      navigate('/')
-    },[])
+    
 
 
 

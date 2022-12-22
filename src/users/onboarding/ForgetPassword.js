@@ -12,7 +12,7 @@ import Load from '../../Load';
 
 
 
-function SignIn() {
+function ForgetPassword() {
 
     const { BACKEND_DOMAIN, login ,displayNotification , setLoading , setAuthToken , setAuthUser } = useContext(AuthContext)
     // const [ loading ,setLoading] = useState(false)
@@ -123,5 +123,4 @@ function SignIn() {
 
 
 
-
-export default SignIn
+export default ForgetPassword
