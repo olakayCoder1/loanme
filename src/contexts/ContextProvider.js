@@ -35,10 +35,12 @@ export default function AuthContextProvider({children}){
     const [ isAuthenticated, setIsAuthenticated  ]  = useState(()=> JSON.parse(localStorage.getItem('isAuthenticated'))|| false )
  
 
-    // if(authToken){
-    //     const data = jwt_decode(authToken.access)
-    //     setAuthUser(data) 
-    // }
+    useEffect(()=> {
+        if(authUser && authUser.verification_completed){
+            setHasCompletedKyc(true)
+            localStorage.setItem('hasCompletedKyc', JSON.stringify(true)) 
+        }
+    },[])
 
     useEffect(() => {
         setIsAuthenticated(JSON.parse(localStorage.getItem('isAuthenticated')))

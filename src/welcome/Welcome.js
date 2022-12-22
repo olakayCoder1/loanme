@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import laptop from '../assets/loanp10.jpeg'
 import WelcomeNav from './WelcomeNav';
 import WelcomeFooter from './WelcomeFooter';
 import { useNavigate } from 'react-router-dom';
 import WelcomeFlow from './WelcomeFlow';
+import { AuthContext } from '../contexts/ContextProvider';
 
 
 const Hero = () => {
 
   let navigate = useNavigate()
+  const { authUser } = useContext(AuthContext)
+  
   return (
     <div className='flex items-center justify-center h-screen mb-12 bg-fixed bg-center bg-cover custom-img' style={{ backgroundImage: `url(${laptop})`}}>
       {/* Overlay */}

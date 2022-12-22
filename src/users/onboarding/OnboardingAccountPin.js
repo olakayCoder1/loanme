@@ -34,8 +34,8 @@ function OnboardingAccountPin({onboardingData ,handleValueChange}) {
           setAuthToken(data.tokens)
           setAuthUser(data.user)
           displayNotification('success','You are logged in')
-          login()
-          navigate('/')
+          // login()
+          // navigate('/')
         })  
         }else{
           displayNotification('error','Pin should be at least 6 characters long')

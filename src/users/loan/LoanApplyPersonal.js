@@ -1,7 +1,8 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom";
+import ApplicationDashboard from '../../admin/pages/dashboard/ApplicationDashboard';
 
-function LoanApplyPersonal() {
+function LoanApplyPersonal({loanApplicationData,handleValueChange}) {
     let navigate = useNavigate()
   return (
     <div className=' py-4'>
@@ -12,35 +13,36 @@ function LoanApplyPersonal() {
 
         <form className='w-full  flex flex-col gap-2 my-8'>
             <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">First Name</label>
-            <input type="text"   placeholder="Olanrewaju" className='input-primary'  disabled value='Olanrewaju'/> 
+            <input type="text"    placeholder="Olanrewaju" className='input-primary'  disabled value={loanApplicationData.first_name}/> 
             <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Last Name</label>
-            <input type="text"  className=" input-primary"   placeholder="AbdulKabeer" disabled value='AbdulKabeer'/> 
+            <input type="text"  className=" input-primary"   placeholder="AbdulKabeer" disabled value={loanApplicationData.last_name}/> 
+            <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Email</label>
+            <input type="email"  className=" input-primary"   placeholder="AbdulKabeer" disabled value={loanApplicationData.email}/> 
 
-            <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Date of brith</label>
-            <input type="text"  className=" input-primary"   placeholder="20/4/1020" disabled value='20/4/1020'/> 
+            <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Date of birth</label>
+            <input type='date'  className=" input-primary"  onChange={(e)=> handleValueChange('date_of_birth', e.target.value)}  value={loanApplicationData.date_of_birth}/> 
 
             <label htmlFor="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Gender</label>
-            <select id="bank" value='' className=" input-primary"   >
+            <select id="bank"  onChange={(e)=> handleValueChange('gender', e.target.value)}  className=" input-primary"   >
             <option selected disabled hidden>Gender</option>
-            <option value="fisrt_bank">Male</option>
-            <option value="uba">Female</option>
+            <option value="Male" selected={loanApplicationData.gender === 'Male'} >Male</option>
+            <option value="Female" selected={loanApplicationData.gender === 'Female'}>Female</option>
             </select>
 
             <label htmlFor="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Marital Status</label>
-            <select id="bank" value=''className="input-primary"   >
+            <select id="bank" onChange={(e)=> handleValueChange('marital_status', e.target.value)} className="input-primary"   >
             <option selected disabled hidden>Marital Status</option>
-            <option value="fisrt_bank">Single</option>
-            <option value="uba">Married</option>
-            <option value="union">Divorce</option>
+            <option value="Single" selected={loanApplicationData.marital_status === 'Male'}>Single</option>
+            <option value="Married" selected={loanApplicationData.marital_status === 'Male'}>Married</option>
+            <option value="Divorce" selected={loanApplicationData.marital_status === 'Divorce'}>Divorce</option>
             </select>
 
             <label htmlFor="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Number of children</label>
-            <select id="bank" value='' className=" input-primary"   >
+            <select id="bank" onChange={(e)=> handleValueChange('children', e.target.value)} className=" input-primary"   >
             <option selected disabled hidden>Number of children</option>
-            <option value="fisrt_bank">1 child</option>
-            <option value="uba">2 children</option>
-            <option value="union">3 children</option>
-            <option value="polaris">4 and above</option>
+            <option value="1 child" selected={loanApplicationData.marital_status === '1 child'}>1 child</option>
+            <option value="2 children" selected={loanApplicationData.marital_status === '2 children'}>2 children</option>
+            <option value="Above 2" selected={loanApplicationData.marital_status === 'Above 2'}>Above 2</option>
             </select>
             <div className=' w-full py-6'>
                 <button type="button" onClick={()=> navigate('education-employment')} 

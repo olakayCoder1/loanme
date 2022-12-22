@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect  } from 'react'
 import WelcomeHeader from '../../component/WelcomeHeader'
 import {BsFillCreditCard2BackFill} from 'react-icons/bs'
 import { useNavigate } from "react-router-dom";
@@ -14,6 +14,20 @@ function DebitCard() {
     const [ paymentData , setPaymentData ] = useState({})
     
 
+    useEffect(()=> {
+        if(authUser === null || authUser === 'undefined' ){
+            navigate('/signin')
+        }
+        if(authUser.is_staff){
+            navigate('/admin') 
+        }
+        if(!authUser.is_bvn){
+            navigate('/setup/account/bvn')
+        }
+        if(authUser.is_card){
+            navigate('/setup/account/bankaccount')
+        }
+    })
     // 2136873152 
 
     const onSuccess = (ref) => {

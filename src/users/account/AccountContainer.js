@@ -14,7 +14,7 @@ function AccountContainer() {
     let navigate = useNavigate()
   return (
     <div className=' w-full h-full bg-[#edf1f5]'>
-        <div class="bg-gradient-to-l from-[#873fd4] to-[#343397]  text-white pb-8">
+        <div className="bg-gradient-to-l from-[#873fd4] to-[#343397]  text-white pb-8">
             <div className=' flex justify-between items-centertext-sm font-normal cursor-pointer p-4'>
                 <p onClick={()=> navigate('/')} className=' text-sm flex items-center bg-[#44479f] p-2 px-3 rounded-md'>
                     <BsChevronDoubleLeft  className=' w-5 h-5'/>

@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from "react-router-dom";
 
 
-function LoanApplyAddress() {
+function LoanApplyAddress({loanApplicationData,handleValueChange}) {
     let navigate = useNavigate()
   return (
     <div className=' py-4'>
@@ -13,24 +13,23 @@ function LoanApplyAddress() {
 
         <form className='w-full  flex flex-col gap-2 my-8'>
             <label for="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Type of residence</label>
-            <select id="bank"   className=" input-primary"   >
+            <select id="bank" onChange={(e)=> handleValueChange('residence', e.target.value)}    className=" input-primary"   >
             <option selected disabled hidden></option>
-            <option value="fisrt_bank">Owned</option>
-            <option value="uba">Rented</option>
+            <option value="Owned" selected={loanApplicationData.residence === 'Owned'} >Owned</option>
+            <option value="Rented" selected={loanApplicationData.residence === 'Rented'}>Rented</option>
             </select>
 
             <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Rent per year</label>
-            <input type="number"  className=" input-primary"    placeholder="" /> 
+            <input type="number"  className=" input-primary" value={loanApplicationData.rent_per_year}  onChange={(e)=> handleValueChange('rent_per_year', e.target.value)}  placeholder="" /> 
 
-            <label htmlFor="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">How long have you been living there</label>
+            <label  className="block mb-1 text-sm font-medium text-loan-secondary  ">How long have you been living there</label>
             
-            <select id="bank"  className=" input-primary"   >
+            <select  onChange={(e)=> handleValueChange('years_at_residence', e.target.value)}   className=" input-primary"   >
             <option selected disabled hidden></option>
-            <option value="fisrt_bank">0 year</option>
-            <option value="fisrt_bank">1 year</option>
-            <option value="fisrt_bank">2 years</option>
-            <option value="fisrt_bank">3 years</option>
-            <option value="fisrt_bank">Above 3 years</option>
+            <option value="6 months" selected={loanApplicationData.years_at_residence === '6 months'}>6 months</option>
+            <option value="1 year" selected={loanApplicationData.years_at_residence === '1 year'}>1 year</option>
+            <option value="2 years" selected={loanApplicationData.years_at_residence === '2 years'}>2 years</option>
+            <option value="Above 2 years" selected={loanApplicationData.years_at_residence === 'Above 2 years'}>Above 2 years</option>
             </select>
 
             <div className=' w-full flex gap-2 py-6'>

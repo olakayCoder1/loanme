@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect  } from 'react'
 import WelcomeHeader from '../../component/WelcomeHeader'
 import me from '../../assets/icons8-identity-64.png'
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,20 @@ function Bvn() {
     const [whyBvn , setWhyBvn] = useState(false)
     const [howToBvn , setHowToBvn] = useState(false)
 
-    
+
+    useEffect(()=> {
+        if(authUser === null || authUser === 'undefined' ){
+            navigate('/signin')
+        }
+        if(authUser.is_staff){
+            navigate('/admin') 
+        }
+        if(authUser.is_bvn){
+            navigate('/setup/account/card')
+          }
+    },[])
+
+
 
     function handleSubmit(){
         setLoading(true)
@@ -33,7 +46,7 @@ function Bvn() {
         navigate('/setup/account/card')
     }
 
-    console.log(authUser)
+    
 
   return (
     <div className=' w-full h-full p-4 md:px-20'>

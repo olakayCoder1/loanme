@@ -15,7 +15,7 @@ function Container() {
         <Navbar showNavBar={showNavBar} setShowNavBar={()=> setShowNavBar(!showNavBar)} />
         <div className='grow w-full md:w-[75%] h-full overflow-y-auto'>
             <Routes>
-                <Route path='' element={<Dashboard />} />
+                <Route path='/' element={<Dashboard />} />
                 <Route path='/setup/account/bvn' element={<Bvn />} />
                 <Route path='/setup/account/bankaccount' element={<BankAccount />} />
                 <Route path='/setup/account/card' element={<DebitCard />} />

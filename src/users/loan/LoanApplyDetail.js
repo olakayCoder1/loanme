@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../../contexts/ContextProvider';
 import OfferCalculating from '../../component/OfferCalculating';
 
-function LoanApplyDetail() {
-    const {setValidLoanPrice } = useContext(AuthContext)
+function LoanApplyDetail({loanApplicationData,handleValueChange} ) {
+    const {BACKEND_DOMAIN , displayNotification , authToken } = useContext(AuthContext)
 
     let navigate = useNavigate()
     const [loading , setLoading] = useState(false)
+
+
 
     const customLoad = () => {  
         setLoading(!loading)  
@@ -15,9 +17,35 @@ function LoanApplyDetail() {
             navigate('/')
         }
     }
-    function handleSubmit(){
-        setLoading(true)
-        demo()
+    function handleSubmit(e){
+
+        e.preventDefault()
+        const val = Object.values(loanApplicationData)
+        if ( val.includes(null) || val.includes('')){
+            displayNotification('error','All fields are required')
+        }else{
+            displayNotification('success','Request submitted')
+            setLoading(true)
+
+            // localStorage.removeItem(loanApplicationData)  
+            fetch(`${BACKEND_DOMAIN}/api/v1/loans/applications`, {
+                method : 'POST',
+                headers : {
+                    'Content-Type': 'application/json',
+                    'Authorization' : `Bearer ${authToken?.access}`
+                },
+                body: JSON.stringify(loanApplicationData)
+            })
+            .then(res => res.json())
+            .then(data =>{
+                setLoading(false)
+                navigate('/loan/request/offer')
+                console.log(data)}
+            )
+            .catch(err=> console.log(err))
+        }
+        // setLoading(true)
+        // demo()
     }
 
 
@@ -47,27 +75,26 @@ function LoanApplyDetail() {
                 <p>4/4</p>
             </div>
 
-            <form className='w-full  flex flex-col gap-2 my-8'>
+            <form className='w-full  flex flex-col gap-2 my-8' onSubmit={handleSubmit}>
                 <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Loan Amount</label>
-                <input type="number"   className="input-primary"  placeholder="" /> 
+                <input type="number" value={loanApplicationData.amount} onChange={(e)=> handleValueChange('amount', e.target.value)}   className="input-primary"  placeholder="" /> 
 
-                <label htmlFor="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Loan Reason</label>
-                <select id="bank"   className="input-primary"   >
+                <label    className="block mb-1 text-sm font-medium text-loan-secondary  ">Loan Reason</label>
+                <select  onChange={(e)=> handleValueChange('reason', e.target.value)} className="input-primary"   >
                 <option selected disabled hidden></option>
-                <option value="fisrt_bank">Education</option>
-                <option value="fisrt_bank">Medical</option>
-                <option value="fisrt_bank">Rent</option>
-                <option value="fisrt_bank">Travel</option>
-                <option value="fisrt_bank">Business</option>
-                <option value="fisrt_bank">Goods</option>
-                <option value="fisrt_bank">Events</option>
-                <option value="fisrt_bank">Household</option>
-                <option value="fisrt_bank">Other</option>
-                <option value="uba">Rented</option>
+                <option value="Education" selected={loanApplicationData.reason === 'Education'} >Education</option>
+                <option value="Medical" selected={loanApplicationData.reason === 'Medical'} >Medical</option>
+                <option value="Rent" selected={loanApplicationData.reason === 'Rent'} >Rent</option>
+                <option value="Travel" selected={loanApplicationData.reason === 'Travel'} >Travel</option>
+                <option value="Business" selected={loanApplicationData.reason === 'Business'} >Business</option>
+                <option value="Goods" selected={loanApplicationData.reason === 'Goods'} >Goods</option>
+                <option value="event" selected={loanApplicationData.reason === 'event'} >Events</option>
+                <option value="Household" selected={loanApplicationData.reason === 'Household'} >Household</option>
+                <option value="Other" selected={loanApplicationData.reason === 'Other'} >Other</option>
                 </select>
                 <div className=' w-full flex gap-2 py-6'>
                     <button type="button" onClick={()=> navigate('/loan/request/address')} className=" btn-primary-white">PREVIOUS</button>
-                    <button type="button" onClick={handleSubmit} className="btn-primary">CONTINUE</button>
+                    <button type="submit"  className="btn-primary">Apply</button>
                 </div>
             </form>
             </>

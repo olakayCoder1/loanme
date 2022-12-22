@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import LoanDetailHeader from '../../component/LoanDetailHeader'
 import {Route, Routes , useNavigate } from "react-router-dom";
 import Loan from './Loan';
@@ -9,8 +9,14 @@ import OfferCalculating from '../../component/OfferCalculating';
 import { AuthContext } from '../../contexts/ContextProvider';
 
 function LoanContainer({showNavBar, setShowNavBar}) {
-  const {displayNotification , hasCompletedKyc ,isAuthenticated  } = useContext(AuthContext)
-  let navigate = useNavigate()
+  const {authUser } = useContext(AuthContext)
+  let navigate = useNavigate() 
+
+  useEffect(()=> {
+    if(authUser === null || authUser === 'undefined' ){
+        navigate('/signin')
+    }
+})
   
   return (
     <div className='p-4 w-full h-full'>

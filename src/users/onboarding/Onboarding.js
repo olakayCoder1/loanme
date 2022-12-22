@@ -1,10 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
-import logo from '../../assets/loanme.png'
-import {Route, Routes } from "react-router-dom";
-// import logo1 from '../../assets/laptop.jpeg'
-import logo3 from '../../assets/loanp2.jpeg'
+import {Route, Routes , useNavigate } from "react-router-dom";
 import logo2 from '../../assets/l2.jpeg'
-// import logo2 from '../../assets/undraw7.svg'
 import OnboardingPhone from './OnboardingPhone';
 import OnboardingPhoneVerify from './OnboardingPhoneVerify';
 import OnboardingPersonalInfo from './OnboardingPersonalInfo';
@@ -21,8 +17,8 @@ import { AuthContext } from '../../contexts/ContextProvider';
 
 
 function Onboarding() {
-
-  const {authToken , setAuthToken } = useContext(AuthContext)
+  const navigate = useNavigate()
+  const {authToken , setAuthToken , authUser } = useContext(AuthContext)
   const [onboardingData , setOnboardingData] = useState(
     ()=> JSON.parse(localStorage.getItem('userOnboardingData'))|| {
       'phone': '',
@@ -37,7 +33,14 @@ function Onboarding() {
       'state' : '',
       'city': ' ',
       'pin':'',
-})
+    })
+
+    useEffect(()=>{
+      // if(authUser){
+      //   // navigate('/')   
+      // }
+      navigate('/')
+    },[])
 
 
 

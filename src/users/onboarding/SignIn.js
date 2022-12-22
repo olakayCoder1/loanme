@@ -28,8 +28,8 @@ function SignIn() {
         e.preventDefault()
         if(email && pin ){
             const data = {
-                'email':'olakay@gmail.com',
-                'password': 'olakay'
+                'email':email,
+                'password': pin
             }
             fetch(`${BACKEND_DOMAIN}/api/v1/signin/`,  {
                 method : 'POST',

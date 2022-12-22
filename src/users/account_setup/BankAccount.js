@@ -18,9 +18,25 @@ function BankAccount() {
     const [ bankCode , setBankCode ] = useState(null)
     const [ bankName , setBankName ] = useState(null)
     const [ accountName , setAccountName ] = useState('')
-
- 
     const [ fetching , setFetching ] = useState(false)   //2136873152
+
+    useEffect(()=> {
+        if(authUser === null || authUser === 'undefined' ){
+            navigate('/signin')
+        }
+        if(authUser.is_staff){
+            navigate('/admin') 
+        }
+        if(!authUser.is_bvn){
+            navigate('/setup/account/bvn')
+        }
+        if(!authUser.is_card){
+            navigate('/setup/account/bvn')
+        }
+        if(authUser.is_bank){
+            navigate('/')
+        }
+    })
 
     function handleVerify(){
         if(bankCode && accountNumber.length == 10 ){

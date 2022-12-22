@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState , useEffect } from 'react'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../../contexts/ContextProvider';
@@ -27,18 +27,66 @@ function RepaymentCard({amount, paidDate , status}){
 
 function LoanHistory() {
     let navigate = useNavigate()
-    const {validLoanPrice,hasValidLoan} = useContext(AuthContext)
+    const {validLoanPrice,setHasValidLoan , authUser ,authToken, BACKEND_DOMAIN} = useContext(AuthContext)
+    const [ userDebt , setUserDebt] = useState(null)
+    const [loans , setLoans] = useState(null)
+
+    useEffect(()=> {
+        if(authUser === null || authUser === 'undefined' ){
+            navigate('/signin')
+        }
+
+    const url1 = `${BACKEND_DOMAIN}/api/v1/users/loans`    
+    const url2 = `${BACKEND_DOMAIN}/api/v1/users/loandebt` 
+    Promise.all([
+      fetch(url1,{method : 'GET', headers : {
+            'Content-Type': 'application/json',
+            'Authorization' : `Bearer ${authToken?.access}`
+        }},),
+      fetch(url2,{ method : 'GET', headers : {
+              'Content-Type': 'application/json',
+              'Authorization' : `Bearer ${authToken?.access}`
+          }},),
+
+    ]).then(function (responses) {
+      // Get a JSON object from each of the responses
+      return Promise.all(responses.map(function (response) {
+        return response.json();
+      }));
+    }).then(function (data) {
+      // Log the data to the console
+      // You would do something with both sets of data here
+      setLoans(data[0]) 
+      setUserDebt(data[1]) 
+      if(data[1]['hasValidLoan']){
+        setHasValidLoan(true)
+        localStorage.getItem('hasValidLoan', JSON.stringify(true))
+      }else{
+        setHasValidLoan(false)
+        localStorage.getItem('hasValidLoan', JSON.stringify(false))
+      }
+      // console.log(data[0]);
+    }).catch(function (error) {
+      // if there's an error, log it
+        // console.log(error);
+    });
+
+
+
+    },[])
+
+
   return (
     <div className='p-4 w-full h-full'>
         <div className='p-4 py-7 bg-loan-light min-w-sm w-full text-loan-secondary flex flex-col gap-4 rounded-md'>
-            <h2 className=' text-base font-bold'>Active loan repayment balance: </h2>
+            <h2 className=' text-base font-bold'>You Loan </h2>
             <h1 className=' flex items-center text-5xl font-bold'>
                 <TbCurrencyNaira />
-                <span>{validLoanPrice} </span>
+                <span>{userDebt && userDebt['debt']} </span> 
             </h1>
         </div>
         <div className=' w-full'>
-        {!hasValidLoan ? (
+        {userDebt && !userDebt.hasValidLoan ? (
               <>
                 <div class='w-full' >
                     <button onClick={()=> navigate('/loan/request')}  type="button" className="w-[50%] py-3 px-5 mr-2 my-4 mb-12 text-sm font-medium focus:outline-none text-loanBlue-primary bg-white rounded-md border border-gray-300 ">APPLY FOR A LOAN</button>
@@ -58,11 +106,15 @@ function LoanHistory() {
         {/* REPAYMENT BREAKDOWN */}
         <div>
             <h2 className=' text-loan-secondary'>Loan History</h2>
-            <RepaymentCard paidDate='NOV 28 , 2020' status="ACTIVE"  amount="25,255"/>
-            <RepaymentCard paidDate='NOV 28 , 2020' status="COMPLETED"  amount="25,255"/>
-            <RepaymentCard paidDate='NOV 28 , 2020' status="COMPLETED"  amount="250,000"/>
-            <RepaymentCard paidDate='NOV 28 , 2020' status="COMPLETED"  amount="250,000"/>
-            <RepaymentCard paidDate='NOV 28 , 2020' status="COMPLETED"  amount="250,000"/>
+            {loans ? loans.lenght > 0 ? loans.map((data)=> (
+                    <RepaymentCard key={data.uuid} paidDate='NOV 28 , 2020' status="ACTIVE"  amount="25,255"/>
+            ))  : ( <>
+                    You have no loan history 
+                    </>
+            )  
+            : (
+                <h2>Loading.......</h2>
+            )}            
 
         </div>
 

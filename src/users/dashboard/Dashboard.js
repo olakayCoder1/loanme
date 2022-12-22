@@ -28,7 +28,7 @@ function AccountBank({number}){
 
 function AccountDebitCard({start , last , val }){
   // console.log(start , last  )
-  console.log(val  )
+  // console.log(val  )
   return (
     <div className=' flex justify-between items-center bg-loan-light p-4 rounded-md mb-4'>
         <div className=' grow flex items-center gap-8'>
@@ -55,51 +55,81 @@ function AccountDebitCard({start , last , val }){
 function Dashboard() {
   let navigate = useNavigate()
 
-  const {BACKEND_DOMAIN ,  hasCompletedKyc , validLoanPrice , hasValidLoan , authToken , setAuthToken , authUser } = useContext(AuthContext)
+  const {BACKEND_DOMAIN ,  setValidLoanPrice,  authToken , setAuthUser , authUser } = useContext(AuthContext)
 
   const [ userBanks , setUserBanks ] = useState(null)
   const [ userDebitCards , setUserDebitCards ] = useState(null)
+  const [ userDebt , setUserDebt] = useState(null)
 
   useEffect(()=> {
-    if(!hasCompletedKyc){
+
+
+
+    if(authUser === null || authUser === 'undefined' ){
+      navigate('/signin')
+    }
+    const url = `${BACKEND_DOMAIN}/api/v1/users/bankaccount`
+
+    fetch(url,{method : 'GET', headers : {
+      'Content-Type': 'application/json',
+      'Authorization' : `Bearer ${authToken?.access}`
+    }},)
+    .then(res => res.json())
+    .then( data => data )
+
+    if(authUser.is_staff){
+      navigate('/admin') 
+    }
+    else if(!authUser.is_bvn){
       navigate('/setup/account/bvn')
     }
-
-    // console.log(authUser)  
+    else if(!authUser.is_card){
+      navigate('/setup/account/card')
+    }
+    else if(!authUser.is_bank){ 
+      navigate('/setup/account/bankaccount')
+    }
+    else{
+      // console.log(authUser)  
     // console.log(authToken) 
-    const url1 = `${BACKEND_DOMAIN}/api/v1/users/bankaccount` 
-    const url2 = `${BACKEND_DOMAIN}/api/v1/users/debitcard` 
-    Promise.all([
+      const url1 = `${BACKEND_DOMAIN}/api/v1/users/bankaccount` 
+      const url2 = `${BACKEND_DOMAIN}/api/v1/users/debitcard` 
+      const url3 = `${BACKEND_DOMAIN}/api/v1/users/loandebt` 
+      Promise.all([
       fetch(url1,{method : 'GET', headers : {
             'Content-Type': 'application/json',
             'Authorization' : `Bearer ${authToken?.access}`
         }},),
-        fetch(url2,{ method : 'GET', headers : {
+      fetch(url2,{ method : 'GET', headers : {
               'Content-Type': 'application/json',
               'Authorization' : `Bearer ${authToken?.access}`
-          }},)
+          }},),
+      fetch(url3,{ method : 'GET', headers : {
+            'Content-Type': 'application/json',
+            'Authorization' : `Bearer ${authToken?.access}`
+        }},)
 
-    ]).then(function (responses) {
-      // Get a JSON object from each of the responses
-      return Promise.all(responses.map(function (response) {
-        return response.json();
-      }));
-    }).then(function (data) {
-      // Log the data to the console
-      // You would do something with both sets of data here
-      setUserBanks(data[0]) 
-      setUserDebitCards(data[1])
-      // console.log(data[0]);
-    }).catch(function (error) {
-      // if there's an error, log it
-        // console.log(error);
-    });
+        ]).then(function (responses) {
+          // Get a JSON object from each of the responses
+          return Promise.all(responses.map(function (response) {
+            return response.json();
+          }));
+        }).then(function (data) {
+          // Log the data to the console
+          // You would do something with both sets of data here
+          setUserBanks(data[0]) 
+          setUserDebitCards(data[1])
+          setUserDebt(data[2])
+          setValidLoanPrice(data[2]['debt'])  
+          // console.log(data[0]);
+        }).catch(function (error) {
+          // if there's an error, log it
+            // console.log(error);
+        });
+    }
   },[])
 
-   
-
-  
-
+ 
   
   // useEffect(()=> {
   //   const url1 = `${BACKEND_DOMAIN}/api/v1/users/bankaccount`
@@ -138,16 +168,16 @@ function Dashboard() {
         <DashboardWelcomeHeader name={authUser && authUser.first_name}/>
         <div>
           <h2 className=' font-normal text-base py-4'>Dashboard</h2>
-            {!hasValidLoan ? (
+            {userDebt ? (
               <>
                 <div className=' p-4 py-7 bg-loan-light min-w-sm w-full text-loan-secondary flex flex-col gap-4 rounded-md'>
                   <h2 className=' text-base font-bold'>Your Loan</h2>
                   <h1 className=' flex items-center text-5xl font-bold'>
                       <TbCurrencyNaira />
-                      <span>0.00</span>
+                      <span>{userDebt && userDebt['debt']}</span>
                   </h1>
                 </div>
-                <div cl w-full>
+                <div className='w-full'> 
                 <button onClick={()=> navigate('/loan/request')}  type="button" className=" btn-primary-white w-[50%] my-4">APPLY FOR A LOAN</button>
                 </div>
 
@@ -158,7 +188,7 @@ function Dashboard() {
                     <h2 className=' text-base font-bold'>Your Loan</h2>
                     <h1 className=' flex items-center text-5xl font-bold'>
                         <TbCurrencyNaira />
-                        <span>{validLoanPrice}</span>
+                        <span>{userDebt  && userDebt['debt']}</span>  
                     </h1>
                   </div>
                   <div className=' flex items-center gap-2 my-4'>

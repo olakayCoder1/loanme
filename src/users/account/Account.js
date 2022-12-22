@@ -1,7 +1,7 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import userDefault from '../../assets/user-default.jpeg'
 import { AuthContext } from '../../contexts/ContextProvider';
-
+import { useNavigate } from "react-router-dom";
 
 function AccountInfoCard({title, current_value , other}){
     return (
@@ -17,10 +17,17 @@ function AccountInfoCard({title, current_value , other}){
 
 
 function Account() {
-    const {logout} = useContext(AuthContext)
+    let navigate = useNavigate()
+    const {logout , authUser } = useContext(AuthContext)
     const [deleteAccount , setDeleteAccount] = useState(false)
     const [logoutAccount , setLogoutAccount] = useState(false)
     const [ resetConfirm , setResetConfirm ] = useState(false)
+
+    useEffect(()=> {
+        if(authUser === null || authUser === 'undefined' ){
+            navigate('/signin')
+        }
+    },[])
 
   return (
     <div className=' w-full h-full p-4 md:p-0'>
@@ -34,28 +41,28 @@ function Account() {
                         <h3 className='w-[70px] uppercase font-normal'>Photo</h3>
                         <div className='grow flex justify-between items-center'>
                             <img src={userDefault} alt='profile-image' className=' w-10 h-10  rounded-full'/>
-                            <p className=' cursor-pointer text-loanBlue-primary font-light'>Upload</p>
+                            {/* <p className=' cursor-pointer text-loanBlue-primary font-light'>Upload</p> */}
                         </div>
                     </div>
-                    <AccountInfoCard title='Name' current_value='Olanrewaju AbdulKabeer' />
-                    <AccountInfoCard title='Email' current_value='programmerolakay@gmail.com' />
-                    <AccountInfoCard title='Country' current_value='Nigeria' />
-                    <AccountInfoCard title='State' current_value='Lagos' />
-                    <AccountInfoCard title='City' current_value='Lagos' />
-                    <AccountInfoCard title='Date of Birth' current_value='April 27, 8020' />
+                    <AccountInfoCard title='First Name' current_value={authUser && authUser.first_name} />
+                    <AccountInfoCard title='Lats Name' current_value={authUser && authUser.last_name} />
+                    <AccountInfoCard title='Email' current_value={authUser && authUser.email} />
+                    <AccountInfoCard title='Country' current_value={authUser && authUser.country} />
+                    <AccountInfoCard title='State' current_value={authUser && authUser.state} />
+                    <AccountInfoCard title='City' current_value={authUser && authUser.city} />
+                    <AccountInfoCard title='Date of Birth' current_value={authUser && authUser.date_of_birth} />
                 </div>
 
                 <div className=' text-xs font-medium border border-[#c2cfd9]  divide-y-2 bg-white rounded-md'>
                     <h2 className=' text-loan-secondary p-4 px-2 text-lg h-14'>Other</h2>
-                    <AccountInfoCard title='Employment status' current_value='Employed' />
-                    <AccountInfoCard title='Educational Level' current_value='High School' />
-                    <AccountInfoCard title='Marital Status' current_value='Married' />
-                    <AccountInfoCard title='Children' current_value='Two' />
-                    <AccountInfoCard title='City' current_value='Lagos' />
+                    <AccountInfoCard title='Employment status' current_value={authUser && authUser.employment} />
+                    <AccountInfoCard title='Educational Level' current_value={authUser && authUser.education} />
+                    <AccountInfoCard title='Marital Status' current_value={authUser && authUser.marital} />
+                    <AccountInfoCard title='Children' current_value={authUser && authUser.children} />
                     <div className=' flex items-center  gap-16 p-3 h-14 '>
                         <p className='w-[70px] uppercase font-normal'>Address</p>
                         <div className='grow flex justify-between items-center'>
-                            <h3 className=' text-loan-secondary text-xs'>Redundant alt attribute. Screen-readers already announce `img` tags as an image. </h3>
+                            <h3 className=' text-loan-secondary text-xs'>{authUser && authUser.address}</h3>
                             {/* <p className=' cursor-pointer text-loanBlue-primary font-light'>Upload</p> */}
                         </div>
                     </div>

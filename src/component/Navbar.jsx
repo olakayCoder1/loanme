@@ -38,7 +38,7 @@ function NavLink({name , toHref }){
 
 function Navbar() {
 
-    const { hasCompletedKyc , logout ,hasValidLoan ,showNavigationBar , setShowNavigationBar } =  useContext(AuthContext) 
+    const { hasCompletedKyc , logout , hasValidLoan , showNavigationBar , setShowNavigationBar , authUser } =  useContext(AuthContext) 
 
     const [hasSetUpAccount , setHasSetUpAccount] = useState(true)
     const [logoutAccount , setLogoutAccount] = useState(false)
@@ -55,7 +55,7 @@ function Navbar() {
                 </div>
             {/*  */}
                 <div className='my-2 p-4'>
-                    {hasCompletedKyc ? (
+                    {authUser && authUser.verification_completed ? (
                         <>
                             <NavLink name='Dashboard' toHref='/' />
                             {!hasValidLoan && <NavLink name='Apply For Loan' toHref='/loan/request'/>}
@@ -96,7 +96,7 @@ function Navbar() {
                                 {/* <img src={me} alt='security' className=' w-12 h-12' /> */}
                                 <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 <p className="mb-4 text-lg font-normal text-gray-500">Are you sure you want to to logout? </p>
-                                <div class="p-6 text-center">
+                                <div className="p-6 text-center">
                                     <button onClick={logout}  type="button" className=" py-3 px-5 mr-2 my-4 text-sm font-medium focus:outline-none bg-red-600 text-white rounded-md border border-gray-200 ">
                                         Yes, I'm sure
                                     </button>
