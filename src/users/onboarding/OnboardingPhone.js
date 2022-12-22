@@ -5,6 +5,11 @@ import {Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from '../../contexts/ContextProvider';
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
+
+
+
 
 function OnboardingPhone({onboardingData ,handleValueChange}) {
     let navigate = useNavigate()
@@ -13,38 +18,52 @@ function OnboardingPhone({onboardingData ,handleValueChange}) {
     const [ changeNumberValue , setChangeNumberValue  ] = useState('')
 
 
-    function handleChange(){
-        if(changeNumberValue != ''){
-            if(onboardingData['phone'] != changeNumberValue ){
+    function handleChange(e){
+        handleValueChange('phone', e.target.value )
+    }
+
+    function handleSubmit(e){
+        e.preventDefault() 
+        const v = e.target.phonenumber.value
+        console.log(v.length )
+        if( v != '' ){
+            if( v.length  < 11 ){
+                displayNotification('error','Phone number is not valid 1') 
+                
+            }else if( v.length == 11 ){
                 displayNotification('info','Verification code sent to your number')
-                handleValueChange('phone', changeNumberValue )
                 navigate('phone-verify')
             }
             else{
-                handleValueChange('phone', changeNumberValue )
-                navigate('phone-verify')
+                // handleValueChange('phone', changeNumberValue )
+                displayNotification('error','Phone number is not valid 2') 
+                // navigate('phone-verify')
             } 
         }else{
             displayNotification('error','Phone number is required') 
         }   
     }
 
-
   return (
-    <form className='w-full flex flex-col gap-4 px-4'>
+    <form className='w-full flex flex-col gap-4 px-4' onSubmit={handleSubmit}>
         <OnboardHeader  name='Phone Number' c='1'/>
-        
         <div>
             <label for="helper-text" className="text-input-label ">Country</label>
             <input type="text" className=' input-primary' placeholder="Nigeria"  value='Nigeria' disable />
         </div>
         <div>
         <label for="helper-text" className="text-input-label ">Number</label>
-            <input type="text" value={changeNumberValue} onChange={(e)=> setChangeNumberValue(e.target.value)} className=' input-primary'  placeholder="+234 908 345 5489" />
+            <input type="number"  
+                value={onboardingData['phone']} 
+                onChange={handleChange} 
+                className=' input-primary'  
+                name='phonenumber'  
+                placeholder="0908 345 5489" 
+            />
             <p className=' text-description'>A verification code will be sent to your number</p>
         </div>  
         <div className=' w-full my-4 mt-8'>
-            <button type="button" onClick={handleChange}   className="btn-primary">CONTINUE</button>
+            <button type="submit"    className="btn-primary">CONTINUE</button>
         </div>
         <div className=' w-full flex items-center place-content-center gap-4  py-4 '>
             <p className='text-description text-sm text-loan-secondary'>Have an account? <Link to={'/signin'} className='text-loanBlue-primary'> SignIn</Link></p>

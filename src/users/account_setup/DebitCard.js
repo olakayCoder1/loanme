@@ -10,74 +10,65 @@ function DebitCard() {
 
     let navigate = useNavigate()
     const [whyBvn , setWhyBvn] = useState(false)
-    const {displayNotification ,setLoading} = useContext(AuthContext)
+    const {BACKEND_DOMAIN ,displayNotification ,setLoading ,authToken, authUser} = useContext(AuthContext)
     const [ paymentData , setPaymentData ] = useState({})
-
-    function handleSubmit(){
-        setLoading(true)
-        demo()  
-    }
-
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-    
-    async function demo() {
-        for (let i = 0; i < 2 ; i++) {
-            await sleep(i * 1000);
-        }
-        setLoading(false)
-        displayNotification('success','Card successfully added')
-        navigate('/setup/account/bankaccount')
-    }  
     
 
-    const onSuccess = (reference) => {
+    // 2136873152 
+
+    const onSuccess = (ref) => {
+        console.log(ref)
         const data = {
-            'reference': reference,
+            'reference': ref.reference,
             'type':'success'
         }
-        fetch(`http://127.0.0.1:8000/api/v1/payment/verify`, {
+
+        fetch(`${BACKEND_DOMAIN}/api/v1/payment/verify`, {
             method : 'POST',
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${authToken.access}`
             },
             body: JSON.stringify(data)
         })  
         .then(res => res.json())
-        .then(data =>{ console.log(data)  })
+        .then(data =>{
+            displayNotification('success', 'Debit card successfully added')
+            navigate('/setup/account/bankaccount'); 
+        })
         .catch(err => console.log(err)) 
       };
 
     const onClose = () => {
-        const data = {'reference': paymentData.reference,'type':'failed'}
-        fetch(`http://127.0.0.1:8000/api/v1/payment/verify`, {
-            method : 'POST',
-            headers : {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })  
-        .then(res => res.json())
-        .then(data =>{ console.log(data)  })
-        .catch(err => console.log(err)) 
+        // const data = {'reference': paymentData.reference,'type':'failed'}
+        // fetch(`${BACKEND_DOMAIN}/api/v1/payment/verify`, { 
+        //     method : 'POST',
+        //     headers : {
+        //         'Content-Type': 'application/json',
+        //         'Authorization' : `Bearer ${authToken.access}`
+        //     },
+        //     body: JSON.stringify(data)
+        // })  
+        // .then(res => res.json())
+        // .then(data =>{ console.log(data)  })
+        // .catch(err => console.log(err)) 
       };
 
     function handleAddDebit(){
-        fetch(`http://127.0.0.1:8000/api/v1/account/debit`)  
+        fetch(`${BACKEND_DOMAIN}/api/v1/account/debit/add`, {
+            method : 'GET',
+            headers : {
+                'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${authToken.access}`
+            },})  
         .then(res => res.json())
+
         .then(data =>{
-            console.log(data)
-             const config = {
-                reference: data.reference,
-                email: data.email,  
-                amount: 5000,
-                publicKey: data.paystack_public
-            };
+             const config = { reference: data.reference, email: data.email, amount: 5000,  publicKey: data.paystack_public  };
             setPaymentData(config)
             document.getElementById('pay-with-paystack').click()
             
-            })
+        })
         .catch(err => console.log(err)) 
     }
 
@@ -85,7 +76,7 @@ function DebitCard() {
 
   return (
     <div className=' w-full h-full p-4 md:px-20'>
-        <WelcomeHeader name='Olanrewaju'/>
+        <WelcomeHeader name={authUser && authUser.first_name} />
         <div className=''>
             <h2 className=' font-medium text-base my-4'>Complete Account Setup</h2>
             <div className='text-loan-secondary flex justify-between items-center bg-loan-light p-4 px-8'>

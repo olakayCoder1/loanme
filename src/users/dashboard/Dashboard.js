@@ -26,7 +26,9 @@ function AccountBank({number}){
   )
 }
 
-function AccountDebitCard({start , last }){
+function AccountDebitCard({start , last , val }){
+  // console.log(start , last  )
+  console.log(val  )
   return (
     <div className=' flex justify-between items-center bg-loan-light p-4 rounded-md mb-4'>
         <div className=' grow flex items-center gap-8'>
@@ -53,7 +55,7 @@ function AccountDebitCard({start , last }){
 function Dashboard() {
   let navigate = useNavigate()
 
-  const { hasCompletedKyc , validLoanPrice , hasValidLoan } = useContext(AuthContext)
+  const {BACKEND_DOMAIN ,  hasCompletedKyc , validLoanPrice , hasValidLoan , authToken , setAuthToken , authUser } = useContext(AuthContext)
 
   const [ userBanks , setUserBanks ] = useState(null)
   const [ userDebitCards , setUserDebitCards ] = useState(null)
@@ -63,36 +65,77 @@ function Dashboard() {
       navigate('/setup/account/bvn')
     }
 
+    // console.log(authUser)  
+    // console.log(authToken) 
+    const url1 = `${BACKEND_DOMAIN}/api/v1/users/bankaccount` 
+    const url2 = `${BACKEND_DOMAIN}/api/v1/users/debitcard` 
+    Promise.all([
+      fetch(url1,{method : 'GET', headers : {
+            'Content-Type': 'application/json',
+            'Authorization' : `Bearer ${authToken?.access}`
+        }},),
+        fetch(url2,{ method : 'GET', headers : {
+              'Content-Type': 'application/json',
+              'Authorization' : `Bearer ${authToken?.access}`
+          }},)
+
+    ]).then(function (responses) {
+      // Get a JSON object from each of the responses
+      return Promise.all(responses.map(function (response) {
+        return response.json();
+      }));
+    }).then(function (data) {
+      // Log the data to the console
+      // You would do something with both sets of data here
+      setUserBanks(data[0]) 
+      setUserDebitCards(data[1])
+      // console.log(data[0]);
+    }).catch(function (error) {
+      // if there's an error, log it
+        // console.log(error);
+    });
   },[])
 
+   
 
   
-  useEffect(()=> {
-    const url = 'http://127.0.0.1:8000/api/v1/users/bankaccount' 
-    fetch(url)
-    .then(res => res.json())
-    .then(val => {setUserBanks(val) })
-    .catch(err => console.log(err) )
 
-  },[])
+  
+  // useEffect(()=> {
+  //   const url1 = `${BACKEND_DOMAIN}/api/v1/users/bankaccount`
+  //   fetch(url1,{
+  //     method : 'GET',
+  //     headers : {
+  //         'Content-Type': 'application/json',
+  //         'Authorization' : `Bearer ${authToken.access}`
+  //     }},)
+  //   .then(res => res.json())
+  //   .then(val => {setUserBanks(val) })
+  //   .catch(err => console.log(err) )
 
-  useEffect(()=> {
-    const url = 'http://127.0.0.1:8000/api/v1/users/debitcard' 
-    fetch(url)
-    .then(res => res.json())
-    .then(val => {
-        console.log(val)
-        setUserDebitCards(val)
-    })
-    .catch(err => console.log(err) )
+  // },[])
 
-  },[])
+  // useEffect(()=> {
+  //   const url2 = `${BACKEND_DOMAIN}/api/v1/users/debitcard`  
+  //   fetch(url2,{
+  //     method : 'GET',
+  //     headers : {
+  //         'Content-Type': 'application/json',
+  //         'Authorization' : `Bearer ${authToken.access}`
+  //     }},)
+  //   .then(res => res.json())
+  //   .then(val => {
+  //       setUserDebitCards(val)
+  //   })
+  //   .catch(err => console.log(err) )
+
+  // },[])
 
 
   return (
     <div className='p-4 w-full h-screen'>
       <div className=' w-full md:w-[70%] lg:w-[50%] mx-auto'>
-        <DashboardWelcomeHeader name='Olanrewaju'/>
+        <DashboardWelcomeHeader name={authUser && authUser.first_name}/>
         <div>
           <h2 className=' font-normal text-base py-4'>Dashboard</h2>
             {!hasValidLoan ? (
@@ -127,7 +170,7 @@ function Dashboard() {
 
 
             {userBanks &&  userBanks.map((val)=> <AccountBank key={val.uuid} number={`${val.account_number}`} />)}
-            {userDebitCards &&  userBanks.map((val)=> <AccountDebitCard key={val.uuid} last={val.last}  start={val.start} />)}
+            {userDebitCards &&  userDebitCards.map((val)=> <AccountDebitCard key={val.uuid} last={val.last}  start={val.start} val={val} />)}
         </div>
       </div>
       

@@ -8,7 +8,7 @@ import { bank_list } from './bank_list';
 
 function BankAccount() {
 
-    const {setHasCompletedKyc, displayNotification ,setLoading} = useContext(AuthContext)
+    const {BACKEND_DOMAIN , setHasCompletedKyc, displayNotification ,setLoading , authUser , authToken  } = useContext(AuthContext)
     let navigate = useNavigate()
     const [whyBvn , setWhyBvn] = useState(false)
     const [ banks , setBanks ] = useState(bank_list) 
@@ -23,7 +23,6 @@ function BankAccount() {
     const [ fetching , setFetching ] = useState(false)   //2136873152
 
     function handleVerify(){
-        console.log('click') 
         if(bankCode && accountNumber.length == 10 ){
                 const url = `https://api.paystack.co/bank/resolve?account_number=${accountNumber}&bank_code=${bankCode}`
                 fetch(url,{ method : 'GET', headers:{ 'Authorization' : 'Bearer sk_test_14eca726d98d0f387f1aa6ae9f2e4f17d7c0e5a8'} })
@@ -33,7 +32,7 @@ function BankAccount() {
                     if(val.status){
                         setAccountName(val.data.account_name) 
                         setIfAccountName(true)
-                        console.log(val.data.account_name) 
+                        // console.log(val.data.account_name) 
                     }else{
                         displayNotification('error','Invalid account number for chosen bank') 
                     }
@@ -49,19 +48,18 @@ function BankAccount() {
                 'account_number': accountNumber,
                 'account_name': accountName,
                 'code': bankCode,
-            
             }
-            const url = `http://127.0.0.1:8000/api/v1/account/bank/add`
+            const url = `${BACKEND_DOMAIN}/api/v1/account/bank/add`
                 fetch(url,{
                     method : 'POST',
                     headers : {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization' : `Bearer ${authToken.access}`
                     },
                     body: JSON.stringify(data)
                 })
                 .then(res => res.json())
                 .then(val => { 
-                    // console.log(val) 
                     setHasCompletedKyc(true)
                     displayNotification('success','Bank Account successfully added')
                     localStorage.setItem('hasCompletedKyc', JSON.stringify(true))
@@ -69,7 +67,7 @@ function BankAccount() {
               })
                 .catch(err=> console.log(err))
         }else{
-            displayNotification('error','Enter neccessary detail')
+            displayNotification('error','Enter necessary detail')
         }       
     }
 
@@ -86,30 +84,10 @@ function BankAccount() {
 
     // console.log(bankName) 
 
-    function handleSubmit(){
-        setLoading(true)
-        demo()  
-    }
-
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-    
-    async function demo() {
-        for (let i = 0; i < 2 ; i++) {
-            await sleep(i * 1000);
-        }
-        setLoading(false)
-        setHasCompletedKyc(true)
-        displayNotification('success','Bank Account successfully added')
-        localStorage.setItem('hasCompletedKyc', JSON.stringify(true))
-        navigate('/')  
-    }
-
 
   return (
     <div className=' w-full h-full p-4 md:px-20'>
-        <WelcomeHeader name='Olanrewaju'/>
+        <WelcomeHeader name={authUser && authUser.first_name} />
         <div className=''>
             <h2 className=' font-medium text-base my-4'>Complete Account Setup</h2>
             <div className='text-loan-secondary flex justify-between items-center bg-loan-light p-4 px-8'>

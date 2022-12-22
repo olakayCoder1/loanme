@@ -14,15 +14,45 @@ import Load from '../../Load';
 
 function SignIn() {
 
-    const {setIsAuthenticated , login ,displayNotification , setLoading } = useContext(AuthContext)
+    const { BACKEND_DOMAIN, login ,displayNotification , setLoading , setAuthToken , setAuthUser } = useContext(AuthContext)
     // const [ loading ,setLoading] = useState(false)
+    const [ email ,setEmail] = useState(null)
+    const [ pin ,setPin] = useState(null)
     let navigate = useNavigate()
 
     
 
-    function handleSubmit(){
-        setLoading(true)
-        demo()
+    function handleSubmit(e){
+        // setLoading(true)
+        // demo()
+        e.preventDefault()
+        if(email && pin ){
+            const data = {
+                'email':'olakay@gmail.com',
+                'password': 'olakay'
+            }
+            fetch(`${BACKEND_DOMAIN}/api/v1/signin/`,  {
+                method : 'POST',
+                headers : {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)  
+            })  
+            .then(res => res.json())
+            .then(data =>{ 
+                localStorage.setItem('authToken',JSON.stringify(data.tokens)) 
+                localStorage.setItem('authUser',JSON.stringify(data.user)) 
+                setAuthToken(data.tokens)
+                setAuthUser(data.user)
+                login()
+                navigate('/')
+             })
+            .catch(err => console.log(err)) 
+        }
+        else{
+            displayNotification('error','Email and pin are required for signin')
+        }
+        
         
     }
 
@@ -57,7 +87,7 @@ function SignIn() {
                 </div>
                 
             </div>
-            <form className=' flex flex-col gap-4'>
+            <form className=' flex flex-col gap-4' onSubmit={handleSubmit}>
                 <div className='flex items-center justify-between my-2'>
                 {/* <div className=' p-4 bg-loan-primary flex items-center justify-between my-2'> */}
                     <h2 className=' heading-sub'>
@@ -66,15 +96,15 @@ function SignIn() {
                 </div>
                 <div>
                     {/* <p className=' text-description text-sm text-red-600'>Invalid credentials</p> */}
-                    <label for="helper-text" className="text-input-label ">Email</label>
-                    <input type="email" className=' input-primary'placeholder=""  />
+                    <label htmlFor="helper-text" className="text-input-label ">Email</label>
+                    <input type="email" onChange={(e)=> setEmail(e.target.value)} className=' input-primary'placeholder=""  />
                 </div>
                 <div>
-                <label for="helper-text" className="text-input-label ">Pin</label>
-                    <input type="number" className=' input-primary'  placeholder="******" />
+                <label htmlFor="helper-text" className="text-input-label ">Pin</label>
+                    <input type="number" onChange={(e)=> setPin(e.target.value)} className=' input-primary'  placeholder="******" />
                 </div>  
                 <div className=' w-full my-4 mt-8'>
-                    <button type="button" onClick={handleSubmit} className="btn-primary">SIGNIN</button>
+                    <button type="submit"  className="btn-primary">SIGN IN</button>
                 </div>
                 <div className=' w-full flex items-center place-content-center gap-4  py-4 '>
                     <p className='text-description text-sm text-loan-secondary'>Need an account? <Link to={'/signup'} className='text-loanBlue-primary'> SignUp</Link></p>

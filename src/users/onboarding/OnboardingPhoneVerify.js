@@ -46,8 +46,8 @@ function OnboardingPhoneVerify() {
             <input type="number" value={codeValue} onChange={(e)=> setCodeValue(e.target.value)}   className='input-primary'   placeholder="******" />
         </div>
         <div className=' w-full my-4 flex gap-2 mt-8'>
-            <button type="button" onClick={()=> navigate('/signup')}  className='btn-primary-white'>  PREVIOUS</button>
-            <button type="button" onClick={handleSubmit} className="btn-primary">CONTINUE</button>
+            {/* <button type="button" onClick={()=> navigate('/signup')}  className='btn-primary-white'>  PREVIOUS</button> */}
+            <button type="button" onClick={handleSubmit} className="btn-primary">VERIFY</button>
         </div>
     </form>
   )

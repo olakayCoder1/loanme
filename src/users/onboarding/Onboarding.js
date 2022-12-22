@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import logo from '../../assets/loanme.png'
 import {Route, Routes } from "react-router-dom";
 // import logo1 from '../../assets/laptop.jpeg'
@@ -22,25 +22,31 @@ import { AuthContext } from '../../contexts/ContextProvider';
 
 function Onboarding() {
 
-  const {} = useContext(AuthContext)
-  const [onboardingData , setOnboardingData] = useState({
-    phone : '' , country : 'Nigeria', first_name : '',
-    last_name : '', email : '', address_1:'', address_2 :'',
-    state: '',city:'', pin:''
-  })
+  const {authToken , setAuthToken } = useContext(AuthContext)
+  const [onboardingData , setOnboardingData] = useState(
+    ()=> JSON.parse(localStorage.getItem('userOnboardingData'))|| {
+      'phone': '',
+      'country': 'Nigeria',
+      'first_name':'',
+      'last_name':'',
+      'phone_number':'',
+      'email':'',
+      'gender':'',
+      'address1': '',
+      'address2' : '',
+      'state' : '',
+      'city': ' ',
+      'pin':'',
+})
+
 
 
   function handleValueChange( key , val ){
     setOnboardingData( prev => {
-      return {
-          ...prev ,
-          [key]: val
-      }
+      return { ...prev , [key]: val }
     })
+    localStorage.setItem('userOnboardingData',JSON.stringify(onboardingData))
   }
-
-
-  console.log(onboardingData)
 
   return (
     <div className='flex items-center justify-center h-screen mb-12 bg-fixed bg-center bg-cover custom-img' style={{ backgroundImage: `url(${logo2})`}}>
@@ -69,29 +75,5 @@ function Onboarding() {
 
 
 
-function Onboarding1() {
-  return (
-    <div className=' w-full h-screen flex '>
-      <div className='p-3 md:p-0 w-full md:w-3/6 flex items-center place-content-center bg-gray-50  '>
-        <div className=' w-full md:max-w-sm mx-auto py-6 p-4 border bg-white rounded-md shadow-md'>
-            <div className=' w-full flex items-center place-content-center gap-4  py-4 pb-12 r  '>
-                <h2 className=' logo-primary'>LoanIt</h2>
-            </div>
-            <Routes>
-                <Route path='' element={<OnboardingPhone />} />
-                <Route path='/phone-verify' element={<OnboardingPhoneVerify />} />
-                <Route path='/personaldetails' element={<OnboardingPersonalInfo />} />
-                <Route path='/address' element={<OnboardAddress />} />
-                <Route path='/pin' element={<OnboardingAccountPin />} />
-            </Routes>
-        </div>
-      </div>
-      <div className='hidden md:block md:w-3/6   h-full bg-cover bg-center bg-no-repeat' 
-            style={{backgroundImage: `url(${logo3})` }}>
-        {/* <div className=' w-full h-full bg-gray-400 opacity-60'></div> */}
-      </div>
-    </div>
-  )
-}
 
 export default Onboarding

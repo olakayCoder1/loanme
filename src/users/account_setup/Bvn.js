@@ -7,12 +7,13 @@ import { AuthContext } from '../../contexts/ContextProvider'
 
 function Bvn() {
 
-    const {displayNotification ,setLoading} = useContext(AuthContext)
+    const {displayNotification ,setLoading , authUser} = useContext(AuthContext)
 
     let navigate = useNavigate()
     const [whyBvn , setWhyBvn] = useState(false)
     const [howToBvn , setHowToBvn] = useState(false)
 
+    
 
     function handleSubmit(){
         setLoading(true)
@@ -32,10 +33,11 @@ function Bvn() {
         navigate('/setup/account/card')
     }
 
+    console.log(authUser)
 
   return (
     <div className=' w-full h-full p-4 md:px-20'>
-        <WelcomeHeader name='Olanrewaju'/>
+        <WelcomeHeader name={authUser && authUser.first_name} />
         <div className=''>
             <h2 className=' font-medium text-base my-4'>Complete Account Setup</h2>
             <div className='text-loan-secondary flex justify-between items-center bg-loan-light p-4 px-8'>
@@ -45,10 +47,10 @@ function Bvn() {
 
             <div className='flex items-center justify-between pt-12'>
                 <form className='w-full min-w-sm max-w-md flex flex-col gap-2'>
-                    <label for="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Identity Type</label>
-                    <input type="text"   className="input-primary mb-2"  placeholder="BVN"  value='BVN' disable />
+                    <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Identity Type</label>
+                    <input type="text"   className="input-primary mb-2"  placeholder="BVN"  value='BVN' disable="true" />
 
-                    <label for="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Bank Verification Number</label>
+                    <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Bank Verification Number</label>
                     <input type="number"  className="input-primary"   placeholder="*********" />
                     <button type="button"  onClick={handleSubmit}   className="my-4 btn-primary">VERIFY</button>
 

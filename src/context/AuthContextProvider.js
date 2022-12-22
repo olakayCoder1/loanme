@@ -1,7 +1,7 @@
 import React, {  useState } from "react";
 import { createContext  } from "react";
 import { authenticatedRoute } from "../component/Utils";
-
+import jwt_decode from "jwt-decode";
 
 
 export const AuthContext = createContext()
@@ -16,8 +16,10 @@ export default function AuthContextProvider({children}){
     const [ authUser , setAuthUser  ] = React.useState(()=> JSON.parse(localStorage.getItem('authUser'))|| null);
 
 
+    const m = jwt_decode("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcxNzQ3NDAzLCJpYXQiOjE2NzE2NjEwMDMsImp0aSI6IjNiYWU0NDUwY2JhOTQzM2I4NjkzNGFhY2RjNzBhODZmIiwidXNlcl9pZCI6Ik5vbmUifQ.LElxwlNS4E4Tw7yIGeZeqhawjzUEUwbXqt3jXix-ZkQ")
+    
 
-     const loginAccount = async (e) => {
+    const loginAccount = async (e) => {
          e.preventDefault();
          if(e.target.username.value !== null || e.target.password.value !== '' || e.target.username.value !== '' || e.target.password.value !== null  ){
             const response = await fetch(`${BACKEND_DOMAIN}/login`, {
@@ -57,7 +59,7 @@ export default function AuthContextProvider({children}){
 
 
 
-
+    console.log(authUser)
 
 
 
