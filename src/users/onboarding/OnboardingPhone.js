@@ -25,7 +25,6 @@ function OnboardingPhone({onboardingData ,handleValueChange}) {
     function handleSubmit(e){
         e.preventDefault() 
         const v = e.target.phonenumber.value
-        console.log(v.length )
         if( v != '' ){
             if( v.length  < 11 ){
                 displayNotification('error','Phone number is not valid 1') 
@@ -48,11 +47,11 @@ function OnboardingPhone({onboardingData ,handleValueChange}) {
     <form className='w-full flex flex-col gap-4 px-4' onSubmit={handleSubmit}>
         <OnboardHeader  name='Phone Number' c='1'/>
         <div>
-            <label for="helper-text" className="text-input-label ">Country</label>
-            <input type="text" className=' input-primary' placeholder="Nigeria"  value='Nigeria' disable />
+            <label htmlFor="helper-text" className="text-input-label ">Country</label>
+            <input type="text" className=' input-primary' placeholder="Nigeria"  value='Nigeria' readOnly disable='true' />
         </div>
         <div>
-        <label for="helper-text" className="text-input-label ">Number</label>
+        <label htmlFor="helper-text" className="text-input-label ">Number</label>
             <input type="number"  
                 value={onboardingData['phone']} 
                 onChange={handleChange} 

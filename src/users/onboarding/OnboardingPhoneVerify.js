@@ -37,12 +37,12 @@ function OnboardingPhoneVerify() {
       navigate('/signup/personaldetails')
     }
   }
-
+  
   return (
     <form className='w-full flex flex-col gap-4 px-4'>
         <OnboardHeader  name='Phone Verification' c='2'/>
         <div>
-        <label for="helper-text" className="text-input-label ">Verification Code</label>
+        <label htmlFor="helper-text" className="text-input-label ">Verification Code</label>
             <input type="number" value={codeValue} onChange={(e)=> setCodeValue(e.target.value)}   className='input-primary'   placeholder="******" />
         </div>
         <div className=' w-full my-4 flex gap-2 mt-8'>

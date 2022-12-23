@@ -21,15 +21,16 @@ import PageNotFound from "./PageNotFound";
 
 
 function App() {
-  const { isAuthenticated , Loading , setLoading  }= useContext(AuthContext)
+  const { isAuthenticated , Loading , setLoading , authUser  }= useContext(AuthContext)
   return (
     <div className=" w-full  text-loan-primary font-noto">
       {Loading  &&  <LoadingSpinner /> } 
+      {/* <LoadingSpinner />  */}
         <ToastContainer />
         <Router>
           <Routes>
             
-            {isAuthenticated  ? (
+            {authUser  ? (
               <>
                 <Route path="/admin/*"  element={<AdminWrapper />} />
                 <Route path='/*' element={<Container />}  />

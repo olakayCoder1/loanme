@@ -18,15 +18,47 @@ function AccountInfoCard({title, current_value , other}){
 
 function Account() {
     let navigate = useNavigate()
-    const {logout , authUser } = useContext(AuthContext)
+    const {logout , authUser, setAuthUser, displayNotification, BACKEND_DOMAIN , authToken } = useContext(AuthContext)
     const [deleteAccount , setDeleteAccount] = useState(false)
     const [logoutAccount , setLogoutAccount] = useState(false)
     const [ resetConfirm , setResetConfirm ] = useState(false)
+    const [ user , setUser ] = useState(false)
 
-    useEffect(()=> {
-        if(authUser === null || authUser === 'undefined' ){
-            navigate('/signin')
+
+
+    useEffect(()=>{ 
+        
+        async  function fetchUser(){
+            if(authUser === null || authUser === 'undefined' ){
+                navigate('/signin')
+            }
+            const url2 = `${BACKEND_DOMAIN}/api/v1/account` 
+            const response = await fetch(url2 , {method : 'GET', headers : {
+                'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${authToken?.access}`
+            }})
+
+            if(response.status === 200){
+                const data = await response.json()
+                setUser(data)
+                setAuthUser(data)
+                localStorage.setItem('authUser', JSON.stringify(data))
+            }
+            if(response.status === 400){
+                const data = await response.json()
+                displayNotification('error', data['detail'])
+            }
+            if(response.status === 404){
+                const data = await response.json()
+                displayNotification('error', data['detail'])
+            }
+            if(response.status == 401){
+                localStorage.clear()
+                navigate('/signin')
+            }
         }
+
+        fetchUser()
     },[])
 
   return (
@@ -44,25 +76,25 @@ function Account() {
                             {/* <p className=' cursor-pointer text-loanBlue-primary font-light'>Upload</p> */}
                         </div>
                     </div>
-                    <AccountInfoCard title='First Name' current_value={authUser && authUser.first_name} />
-                    <AccountInfoCard title='Lats Name' current_value={authUser && authUser.last_name} />
-                    <AccountInfoCard title='Email' current_value={authUser && authUser.email} />
-                    <AccountInfoCard title='Country' current_value={authUser && authUser.country} />
-                    <AccountInfoCard title='State' current_value={authUser && authUser.state} />
-                    <AccountInfoCard title='City' current_value={authUser && authUser.city} />
-                    <AccountInfoCard title='Date of Birth' current_value={authUser && authUser.date_of_birth} />
+                    <AccountInfoCard title='First Name' current_value={user && user.first_name} />
+                    <AccountInfoCard title='Lats Name' current_value={user && user.last_name} />
+                    <AccountInfoCard title='Email' current_value={user && user.email} />
+                    <AccountInfoCard title='Country' current_value={user && user.country} />
+                    <AccountInfoCard title='State' current_value={user && user.state} />
+                    <AccountInfoCard title='City' current_value={user && user.city} />
+                    <AccountInfoCard title='Date of Birth' current_value={user && user.date_of_birth} />
                 </div>
 
                 <div className=' text-xs font-medium border border-[#c2cfd9]  divide-y-2 bg-white rounded-md'>
                     <h2 className=' text-loan-secondary p-4 px-2 text-lg h-14'>Other</h2>
-                    <AccountInfoCard title='Employment status' current_value={authUser && authUser.employment} />
-                    <AccountInfoCard title='Educational Level' current_value={authUser && authUser.education} />
-                    <AccountInfoCard title='Marital Status' current_value={authUser && authUser.marital} />
-                    <AccountInfoCard title='Children' current_value={authUser && authUser.children} />
+                    <AccountInfoCard title='Employment status' current_value={user && user.employment} />
+                    <AccountInfoCard title='Educational Level' current_value={user && user.education} />
+                    <AccountInfoCard title='Marital Status' current_value={user && user.marital} />
+                    <AccountInfoCard title='Children' current_value={user && user.children} />
                     <div className=' flex items-center  gap-16 p-3 h-14 '>
                         <p className='w-[70px] uppercase font-normal'>Address</p>
                         <div className='grow flex justify-between items-center'>
-                            <h3 className=' text-loan-secondary text-xs'>{authUser && authUser.address}</h3>
+                            <h3 className=' text-loan-secondary text-xs'>{user && user.address}</h3>
                             {/* <p className=' cursor-pointer text-loanBlue-primary font-light'>Upload</p> */}
                         </div>
                     </div>

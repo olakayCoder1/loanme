@@ -47,7 +47,7 @@ export default function AuthContextProvider({children}){
         setHasCompletedKyc(JSON.parse(localStorage.getItem('hasCompletedKyc')))
         setHasValidLoan(JSON.parse(localStorage.getItem('hasValidLoan')))
         setValidLoanPrice(JSON.parse(localStorage.getItem('validLoanPrice')))
-    },[isAuthenticated, hasCompletedKyc, hasValidLoan , validLoanPrice])
+    },[isAuthenticated, hasCompletedKyc, hasValidLoan , validLoanPrice]) 
 
 
 

@@ -37,18 +37,18 @@ function OnboardAddress({onboardingData ,handleValueChange}) {
         </div>
 
         <div>
-            <label for="helper-text" className="text-input-label">Address Line 2</label>
+            <label htmlFor="helper-text" className="text-input-label">Address Line 2</label>
             <input type="text" value={onboardingData['address_2']} onChange={handleChange}  className='input-primary' name='address_2'  placeholder=""/>
         </div>
 
 
         <div>
-            <label for="helper-text" className="text-input-label">Resident State</label>
+            <label htmlFor="helper-text" className="text-input-label">Resident State</label>
             <input type="text" value={onboardingData['state']} onChange={handleChange}  className='input-primary' name='state'  placeholder=""/>
         </div>
 
         <div>
-            <label for="helper-text" className="text-input-label">Resident City</label>
+            <label htmlFor="helper-text" className="text-input-label">Resident City</label>
             <input type="text" value={onboardingData['city']} onChange={handleChange}  className='input-primary' name='city'  placeholder=""/>
         </div>
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from "react-router-dom";
 import ApplicationDashboard from '../../admin/pages/dashboard/ApplicationDashboard';
 
-function LoanApplyPersonal({loanApplicationData,handleValueChange}) {
+function LoanApplyPersonal({user , loanApplicationData,handleValueChange}) {
     let navigate = useNavigate()
   return (
     <div className=' py-4'>
@@ -20,18 +20,18 @@ function LoanApplyPersonal({loanApplicationData,handleValueChange}) {
             <input type="email"  className=" input-primary"   placeholder="AbdulKabeer" disabled value={loanApplicationData.email}/> 
 
             <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Date of birth</label>
-            <input type='date'  className=" input-primary"  onChange={(e)=> handleValueChange('date_of_birth', e.target.value)}  value={loanApplicationData.date_of_birth}/> 
+            <input type='date' disabled={user && user.date_of_birth}    className=" input-primary"  onChange={(e)=> handleValueChange('date_of_birth', e.target.value)}  value={loanApplicationData.date_of_birth}/> 
 
             <label htmlFor="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Gender</label>
-            <select id="bank"  onChange={(e)=> handleValueChange('gender', e.target.value)}  className=" input-primary"   >
-            <option selected disabled hidden>Gender</option>
+            <select id="bank"  onChange={(e)=> handleValueChange('gender', e.target.value)}  className=" input-primary"  disabled={user && user.gender}  >
+            <option selected disabled hidden></option>
             <option value="Male" selected={loanApplicationData.gender === 'Male'} >Male</option>
             <option value="Female" selected={loanApplicationData.gender === 'Female'}>Female</option>
             </select>
 
             <label htmlFor="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Marital Status</label>
             <select id="bank" onChange={(e)=> handleValueChange('marital_status', e.target.value)} className="input-primary"   >
-            <option selected disabled hidden>Marital Status</option>
+            <option selected disabled hidden></option>
             <option value="Single" selected={loanApplicationData.marital_status === 'Male'}>Single</option>
             <option value="Married" selected={loanApplicationData.marital_status === 'Male'}>Married</option>
             <option value="Divorce" selected={loanApplicationData.marital_status === 'Divorce'}>Divorce</option>
@@ -39,7 +39,7 @@ function LoanApplyPersonal({loanApplicationData,handleValueChange}) {
 
             <label htmlFor="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Number of children</label>
             <select id="bank" onChange={(e)=> handleValueChange('children', e.target.value)} className=" input-primary"   >
-            <option selected disabled hidden>Number of children</option>
+            <option selected disabled hidden>-</option>
             <option value="1 child" selected={loanApplicationData.marital_status === '1 child'}>1 child</option>
             <option value="2 children" selected={loanApplicationData.marital_status === '2 children'}>2 children</option>
             <option value="Above 2" selected={loanApplicationData.marital_status === 'Above 2'}>Above 2</option>

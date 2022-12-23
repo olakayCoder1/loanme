@@ -1,34 +1,90 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import LoanDetailHeader from '../../component/LoanDetailHeader'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import {BsCircle} from 'react-icons/bs'
 import {FcOk} from 'react-icons/fc'
 import { AuthContext } from '../../contexts/ContextProvider'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 function LoanRepayment() {
     let navigate = useNavigate()
-    const {setHasValidLoan, setValidLoanPrice , displayNotification } = useContext(AuthContext)
+    let { uuid} = useParams()
+    const {setHasValidLoan, setValidLoanPrice , displayNotification , BACKEND_DOMAIN , authToken} = useContext(AuthContext)
+    const [amountToPayType, setAmountToPayType] = useState(null)
     const [amountToPay, setAmountToPay] = useState(null)
+    const [loan, setLoan] = useState(null)
 
     function handleClickFull(){
-        setAmountToPay('full')
+        setAmountToPay(loan.owing_loan)
+        setAmountToPayType('full')
     }
     function handleClickNext(){
-        setAmountToPay('next')
-    }
-    function handleCustomFocus(event){
-        setAmountToPay(event.target.value)
+        setAmountToPay(loan.next_payment_amount)
+        setAmountToPayType('next')
     }
 
-    function handleSubmit(){
-        displayNotification('success','Repayment successfull')
+
+    useEffect(()=>{ 
+        
+        async  function fetchUser(){
+            const url2 = `${BACKEND_DOMAIN}/api/v1/loans/${uuid}` 
+            const response = await fetch(url2 , {method : 'GET', headers : {
+                'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${authToken?.access}`
+            }})
+
+            if(response.status === 200){
+                const data = await response.json()
+                setLoan(data)
+            }
+            if(response.status === 400){
+                const data = await response.json()
+                displayNotification('error', data['detail'])
+            }
+            if(response.status === 404){
+                const data = await response.json()
+                displayNotification('error', data['detail'])
+            }
+            if(response.status == 401){
+                localStorage.clear()
+                navigate('/signin')
+            }
+        }
+
+        fetchUser()
+    },[])
+
+    async function handleSubmit(){
+        displayNotification('success','Repayment successfully')
         setValidLoanPrice('0.00')
         setHasValidLoan(false)
-        localStorage.setItem('hasValidLoan', JSON.stringify(false))
-        localStorage.setItem('validLoanPrice', JSON.stringify('0.00'))
-        navigate('/')
+        if(amountToPay){
+            const data = { 'type': amountToPayType}
+            const url1 = `${BACKEND_DOMAIN}/api/v1/loans/${uuid}/repay` 
+            const response = await fetch(url1,{method : 'POST', headers : {
+                'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${authToken?.access}`
+                },
+                body : JSON.stringify(data)
+            },)
+            if(response.status === 200){
+                displayNotification('success','Payment successful')
+                // localStorage.setItem('hasValidLoan', JSON.stringify(false))
+                navigate('/')
+            }
+            if(response.status == 400){
+                const v = response.json()
+                displayNotification('error', v['detail'])
+            }
+            if(response.status == 401){
+                localStorage.clear()
+                navigate('/signin')
+            }
+        }
+        // localStorage.setItem('hasValidLoan', JSON.stringify(false))
+        // localStorage.setItem('validLoanPrice', JSON.stringify('0.00'))
+        // navigate('/')
     }
 
   return (
@@ -38,11 +94,11 @@ function LoanRepayment() {
                 <div className=' flex flex-col text-xl font-medium'>
                     <p className=' flex items-center '>
                         <TbCurrencyNaira />
-                        <span>135,000</span>
+                        <span>{loan && loan.owing_loan}</span>
                     </p>
                     <span className=' text-sm font-normal text-green-600'>Full payment</span>
                 </div>
-                {amountToPay === 'full' ? (
+                {amountToPayType === 'full' ? (
                     <FcOk className=' w-8 h-8'/>
                 ): (
                     <BsCircle className=' w-8 h-8'/>
@@ -52,31 +108,27 @@ function LoanRepayment() {
                 <div className=' flex flex-col text-xl font-medium'>
                     <p className=' flex items-center '>
                         <TbCurrencyNaira />
-                        <span>15,750</span>
+                        <span>{loan && loan.next_payment_amount}</span>
                     </p>
                     <span className=' text-sm font-normal text-green-600'>Next payment</span>
                 </div>
-                {amountToPay === 'next' ? (
+                {amountToPayType === 'next' ? (
                     <FcOk className=' w-8 h-8'/>
                 ): (
                     <BsCircle className=' w-8 h-8'/>
                 )}
             </div>
         </div>
-        
-        <ol className="flex items-center place-content-center relative my-8">                  
-            <li className="text-xl font-normal">
-                OR
-            </li>
-        </ol>
-
-        <input onFocus={handleCustomFocus} onChange={handleCustomFocus} type="number" id="helper-text" aria-describedby="helper-text-explanation" 
-                        className="bg-gray-50 mb-3 border border-gray-300  text-sm rounded-md focus:ring-loan-primary focus:border-loan-primary block w-full p-3 focus:outline-none" 
-                        placeholder="Enter Custom Amount" />
-        <div className=' w-full'>
-
-            <button  type="button" onClick={handleSubmit}
-             className="w-full py-3 px-5 mr-2 my-4 mb-12 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-300 ">MAKE PAYMENT</button>
+        <div className=' w-full my-6'>
+            {amountToPay ? (
+                <button  type="button" onClick={handleSubmit}  className=" btn-primary">
+                        PAY {amountToPay}</button>
+            ): (
+                <button onClick={()=> displayNotification('error','Select a payment type')}  type="button" className="btn-primary ">
+                    SELECT PAYMENT TYPE
+                </button>
+            )}
+            
         </div>
 
     </div>

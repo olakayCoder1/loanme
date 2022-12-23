@@ -11,24 +11,18 @@ function LoanApplyDetail({loanApplicationData,handleValueChange} ) {
 
 
 
-    const customLoad = () => {  
-        setLoading(!loading)  
-        if(loading === false){
-            navigate('/')
-        }
-    }
-    function handleSubmit(e){
+    
+
+    async function handleSubmit(e){
 
         e.preventDefault()
         const val = Object.values(loanApplicationData)
         if ( val.includes(null) || val.includes('')){
             displayNotification('error','All fields are required')
         }else{
-            displayNotification('success','Request submitted')
             setLoading(true)
-
-            // localStorage.removeItem(loanApplicationData)  
-            fetch(`${BACKEND_DOMAIN}/api/v1/loans/applications`, {
+            localStorage.removeItem('loanApplicationData')  
+            const response = await fetch(`${BACKEND_DOMAIN}/api/v1/loans/applications`, {
                 method : 'POST',
                 headers : {
                     'Content-Type': 'application/json',
@@ -36,32 +30,25 @@ function LoanApplyDetail({loanApplicationData,handleValueChange} ) {
                 },
                 body: JSON.stringify(loanApplicationData)
             })
-            .then(res => res.json())
-            .then(data =>{
+
+            if(response.status === 200){
+                const data = response.json()
                 setLoading(false)
-                navigate('/loan/request/offer')
-                console.log(data)}
-            )
-            .catch(err=> console.log(err))
+                navigate(`/loan/request/${data[0].application.uuid}/offer`)
+                console.log(data)
+            }
+            if(response.status === 400){
+                setLoading(false)
+                const data = response.json()
+                console.log('mymy')
+                displayNotification('info', 'You have an active loan. Kindly repay so have access to loan')
+                navigate(`/`)
+            }
         }
-        // setLoading(true)
-        // demo()
     }
 
 
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-    
-    async function demo() {
-        for (let i = 0; i < 5; i++) {
-            await sleep(i * 1000);
-        }
-        setLoading(false)
-        navigate('/loan/request/offer')
-        
-    }
-    
+   
     
 
   return (

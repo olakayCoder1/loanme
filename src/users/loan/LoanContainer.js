@@ -21,12 +21,12 @@ function LoanContainer({showNavBar, setShowNavBar}) {
   return (
     <div className='p-4 w-full h-full'>
       <div className=' w-full md:w-[70%] lg:w-[50%] mx-auto'>
-        <LoanDetailHeader  showNavBar={showNavBar} setShowNavBar={setShowNavBar} name='Olanrewaju' title='Loan Details' /> 
+        <LoanDetailHeader  showNavBar={showNavBar} setShowNavBar={setShowNavBar} name={authUser && authUser.first_name} title='Loan Details' /> 
         <Routes>
-            <Route path='' element={<Loan />} />
+            <Route path='/:uuid/details' element={<Loan />} />
             <Route path='/s' element={<OfferCalculating />} /> 
-            <Route path='/repayment' element={<LoanRepayment />} />
-            <Route path='/history' element={<LoanHistory />} />
+            <Route path='/:uuid/repayment' element={<LoanRepayment />} />
+            <Route path='' element={<LoanHistory />} />
             <Route path='/request/*' element={<LoanApply />} />
         </Routes>
        

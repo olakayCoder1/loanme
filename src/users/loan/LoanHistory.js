@@ -27,9 +27,10 @@ function RepaymentCard({amount, paidDate , status}){
 
 function LoanHistory() {
     let navigate = useNavigate()
-    const {validLoanPrice,setHasValidLoan , authUser ,authToken, BACKEND_DOMAIN} = useContext(AuthContext)
+    const {authUser ,authToken, BACKEND_DOMAIN} = useContext(AuthContext)
     const [ userDebt , setUserDebt] = useState(null)
-    const [loans , setLoans] = useState(null)
+    const [loans , setLoans] = useState(null) 
+    const [ hasValidLoan , setHasValidLoan  ] = useState(false)
 
     useEffect(()=> {
         if(authUser === null || authUser === 'undefined' ){
@@ -57,14 +58,11 @@ function LoanHistory() {
       // Log the data to the console
       // You would do something with both sets of data here
       setLoans(data[0]) 
-      setUserDebt(data[1]) 
-      if(data[1]['hasValidLoan']){
-        setHasValidLoan(true)
-        localStorage.getItem('hasValidLoan', JSON.stringify(true))
-      }else{
-        setHasValidLoan(false)
-        localStorage.getItem('hasValidLoan', JSON.stringify(false))
-      }
+      setUserDebt(data[1])  
+      console.log(data[1])
+      setHasValidLoan(data[1]['hasActiveLoan'])
+      localStorage.getItem('hasValidLoan', JSON.stringify(data[1]['hasActiveLoan']))
+
       // console.log(data[0]);
     }).catch(function (error) {
       // if there's an error, log it
@@ -75,7 +73,7 @@ function LoanHistory() {
 
     },[])
 
-
+    console.log(hasValidLoan)
   return (
     <div className='p-4 w-full h-full'>
         <div className='p-4 py-7 bg-loan-light min-w-sm w-full text-loan-secondary flex flex-col gap-4 rounded-md'>
@@ -85,8 +83,8 @@ function LoanHistory() {
                 <span>{userDebt && userDebt['debt']} </span> 
             </h1>
         </div>
-        <div className=' w-full'>
-        {userDebt && !userDebt.hasValidLoan ? (
+        <div className=' w-full'> 
+        {userDebt && !hasValidLoan ? (
               <>
                 <div class='w-full' >
                     <button onClick={()=> navigate('/loan/request')}  type="button" className="w-[50%] py-3 px-5 mr-2 my-4 mb-12 text-sm font-medium focus:outline-none text-loanBlue-primary bg-white rounded-md border border-gray-300 ">APPLY FOR A LOAN</button>
@@ -96,8 +94,8 @@ function LoanHistory() {
             ): (
               <>
                   <div className=' flex items-center gap-2'>
-                    <button onClick={()=> navigate('/loan')}  type="button" className="w-full py-3 px-5 mr-2 my-4 mb-12 text-sm font-medium focus:outline-none text-loanBlue-primary bg-white rounded-md border border-gray-300 ">VIEW LOAN DETAILS</button>
-                    <button onClick={()=> navigate('/loan/repayment')}  type="button" className="w-full py-3 px-5 mr-2 my-4 mb-12 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-300 ">MAKE PAYMENT</button>
+                    <button onClick={()=> navigate(`/loan/${userDebt['loan']['uuid']}/details`)}  type="button" className="w-full py-3 px-5 mr-2 my-4 mb-12 text-sm font-medium focus:outline-none text-loanBlue-primary bg-white rounded-md border border-gray-300 ">VIEW LOAN DETAILS</button>
+                    <button onClick={()=> navigate(`/loan/${userDebt['loan']['uuid']}/repayment`)}  type="button" className="w-full py-3 px-5 mr-2 my-4 mb-12 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-300 ">MAKE PAYMENT</button>
                   </div>
               </>
             )}
@@ -106,8 +104,8 @@ function LoanHistory() {
         {/* REPAYMENT BREAKDOWN */}
         <div>
             <h2 className=' text-loan-secondary'>Loan History</h2>
-            {loans ? loans.lenght > 0 ? loans.map((data)=> (
-                    <RepaymentCard key={data.uuid} paidDate='NOV 28 , 2020' status="ACTIVE"  amount="25,255"/>
+            {loans ? loans.length > 0 ? loans.map((data)=> (
+                    <RepaymentCard key={data.uuid} paidDate={data.due_date} status={data.status}  amount={data.amount}/>
             ))  : ( <>
                     You have no loan history 
                     </>

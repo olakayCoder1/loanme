@@ -7,11 +7,12 @@ import { AuthContext } from '../../contexts/ContextProvider'
 
 function Bvn() {
 
-    const {displayNotification ,setLoading , authUser} = useContext(AuthContext)
+    const {displayNotification ,setLoading , authUser, BACKEND_DOMAIN} = useContext(AuthContext)
 
     let navigate = useNavigate()
     const [whyBvn , setWhyBvn] = useState(false)
     const [howToBvn , setHowToBvn] = useState(false)
+    const [bvn , setBvn] = useState('')
 
 
     useEffect(()=> {
@@ -28,6 +29,36 @@ function Bvn() {
 
 
 
+
+    async function handleSubmit1(){
+        console.log('lick')
+        if(bvn  === '' ){ 
+            displayNotification('error','Bvn field is required')
+        }else if( bvn.length != 10 ){
+            displayNotification('error','Bvn number not correct q')
+        }else{
+            const url = `${BACKEND_DOMAIN}/api/v1/bvn/verify` 
+            const response = await fetch(url,{
+                    method : 'POST', 
+                    headers : {
+                    'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        'bvn': bvn
+                    })
+                })
+                
+            if(response.status === 200 ){
+                navigate('/signup/address')
+            }else{
+                displayNotification('error','Email already exist')
+            }
+            const m = 1
+            
+        }
+    }
+
+
     function handleSubmit(){
         setLoading(true)
         demo()  
@@ -38,12 +69,12 @@ function Bvn() {
     }
     
     async function demo() {
-        for (let i = 0; i < 2 ; i++) {
+        for (let i = 0; i < 3 ; i++) {
             await sleep(i * 1000);
         }
         setLoading(false)
         displayNotification('success','BVN successfully added')
-        navigate('/setup/account/card')
+        // navigate('/setup/account/card')
     }
 
     
@@ -59,13 +90,13 @@ function Bvn() {
             </div>
 
             <div className='flex items-center justify-between pt-12'>
-                <form className='w-full min-w-sm max-w-md flex flex-col gap-2'>
+                <form className='w-full min-w-sm max-w-md flex flex-col gap-2'  onSubmit={handleSubmit1}>  
                     <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Identity Type</label>
-                    <input type="text"   className="input-primary mb-2"  placeholder="BVN"  value='BVN' disable="true" />
+                    <input type="text"   className="input-primary mb-2"  placeholder="BVN"  value='BVN' readOnly disable="true" />
 
                     <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Bank Verification Number</label>
-                    <input type="number"  className="input-primary"   placeholder="*********" />
-                    <button type="button"  onClick={handleSubmit}   className="my-4 btn-primary">VERIFY</button>
+                    <input type="number" value={bvn} onChange={(e)=> setBvn(e.target.value)}  className="input-primary"   placeholder="*********" />
+                    <button type="button"    className="my-4 btn-primary">VERIFY</button>
 
                     <p onClick={()=> setHowToBvn(true)} className=' text-loanBlue-primary underline-offset-2 underline cursor-pointer w-fit'>How can I get it ?</p>
                     <p onClick={()=> setWhyBvn(true)}  className=' text-loanBlue-primary underline-offset-2 underline cursor-pointer w-fit'>Why ask for BVN?</p>

@@ -16,6 +16,21 @@ function sleep(ms) {
 
 
 
+ function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    
+    async function demo() {
+        for (let i = 0; i < 5; i++) {
+            await sleep(i * 1000);
+        }
+        setLoading(false)
+        navigate('/loan/request/offer')
+        
+    }
+    
+
+
 
 
     <div class="flex justify-center items-center space-x-2">

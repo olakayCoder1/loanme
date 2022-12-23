@@ -60,13 +60,14 @@ function Dashboard() {
   const [ userBanks , setUserBanks ] = useState(null)
   const [ userDebitCards , setUserDebitCards ] = useState(null)
   const [ userDebt , setUserDebt] = useState(null)
+  const [ hasValidLoan , setHasValidLoan  ] = useState(false)
 
   useEffect(()=> {
 
 
 
     if(authUser === null || authUser === 'undefined' ){
-      navigate('/signin')
+      window.location = '/signin'
     }
     const url = `${BACKEND_DOMAIN}/api/v1/users/bankaccount`
 
@@ -77,16 +78,16 @@ function Dashboard() {
     .then(res => res.json())
     .then( data => data )
 
-    if(authUser.is_staff){
+    if(authUser && authUser.is_staff){
       navigate('/admin') 
     }
-    else if(!authUser.is_bvn){
+    else if(authUser && !authUser.is_bvn){
       navigate('/setup/account/bvn')
     }
-    else if(!authUser.is_card){
+    else if(authUser && !authUser.is_card){
       navigate('/setup/account/card')
     }
-    else if(!authUser.is_bank){ 
+    else if(authUser && !authUser.is_bank){ 
       navigate('/setup/account/bankaccount')
     }
     else{
@@ -120,6 +121,7 @@ function Dashboard() {
           setUserBanks(data[0]) 
           setUserDebitCards(data[1])
           setUserDebt(data[2])
+          setHasValidLoan(data[2]['hasActiveLoan'])
           setValidLoanPrice(data[2]['debt'])  
           // console.log(data[0]);
         }).catch(function (error) {
@@ -129,74 +131,37 @@ function Dashboard() {
     }
   },[])
 
- 
-  
-  // useEffect(()=> {
-  //   const url1 = `${BACKEND_DOMAIN}/api/v1/users/bankaccount`
-  //   fetch(url1,{
-  //     method : 'GET',
-  //     headers : {
-  //         'Content-Type': 'application/json',
-  //         'Authorization' : `Bearer ${authToken.access}`
-  //     }},)
-  //   .then(res => res.json())
-  //   .then(val => {setUserBanks(val) })
-  //   .catch(err => console.log(err) )
-
-  // },[])
-
-  // useEffect(()=> {
-  //   const url2 = `${BACKEND_DOMAIN}/api/v1/users/debitcard`  
-  //   fetch(url2,{
-  //     method : 'GET',
-  //     headers : {
-  //         'Content-Type': 'application/json',
-  //         'Authorization' : `Bearer ${authToken.access}`
-  //     }},)
-  //   .then(res => res.json())
-  //   .then(val => {
-  //       setUserDebitCards(val)
-  //   })
-  //   .catch(err => console.log(err) )
-
-  // },[])
-
-
   return (
     <div className='p-4 w-full h-screen'>
       <div className=' w-full md:w-[70%] lg:w-[50%] mx-auto'>
         <DashboardWelcomeHeader name={authUser && authUser.first_name}/>
         <div>
           <h2 className=' font-normal text-base py-4'>Dashboard</h2>
-            {userDebt ? (
-              <>
-                <div className=' p-4 py-7 bg-loan-light min-w-sm w-full text-loan-secondary flex flex-col gap-4 rounded-md'>
-                  <h2 className=' text-base font-bold'>Your Loan</h2>
+            <div className='p-4 py-7 bg-loan-light min-w-sm w-full text-loan-secondary flex flex-col gap-4 rounded-md'>
+                  <h2 className=' text-base font-bold'>You Loan </h2>
                   <h1 className=' flex items-center text-5xl font-bold'>
                       <TbCurrencyNaira />
-                      <span>{userDebt && userDebt['debt']}</span>
+                      <span>{userDebt && userDebt['debt']} </span> 
                   </h1>
-                </div>
-                <div className='w-full'> 
-                <button onClick={()=> navigate('/loan/request')}  type="button" className=" btn-primary-white w-[50%] my-4">APPLY FOR A LOAN</button>
-                </div>
+              </div>
+              <div className=' w-full'> 
+              {userDebt && !hasValidLoan ? (
+                    <>
+                      <div class='w-full' >
+                          <button onClick={()=> navigate('/loan/request')}  type="button" className="w-[50%] py-3 px-5 mr-2 my-4 mb-12 text-sm font-medium focus:outline-none text-loanBlue-primary bg-white rounded-md border border-gray-300 ">APPLY FOR A LOAN</button>
+                      </div>
 
-              </>
-            ): (
-              <>
-                  <div className=' p-4 py-7 bg-loan-light min-w-sm w-full text-loan-secondary flex flex-col gap-4 rounded-md'>
-                    <h2 className=' text-base font-bold'>Your Loan</h2>
-                    <h1 className=' flex items-center text-5xl font-bold'>
-                        <TbCurrencyNaira />
-                        <span>{userDebt  && userDebt['debt']}</span>  
-                    </h1>
-                  </div>
-                  <div className=' flex items-center gap-2 my-4'>
-                    <button onClick={()=> navigate('/loan')}  type="button" className=" btn-primary-white">VIEW LOAN DETAILS</button>
-                    <button onClick={()=> navigate('/loan/repayment')}  type="button" className=" btn-primary">MAKE PAYMENT</button>
-                  </div>
-              </>
-            )}
+                    </>
+                  ): (
+                    <>
+                        <div className=' flex items-center gap-2'>
+                          <button onClick={()=> navigate(`/loan/${userDebt['loan']['uuid']}/details`)}  type="button" className="w-[50%] py-3 px-5 mr-2 my-4 mb-12 text-sm font-medium focus:outline-none text-loanBlue-primary bg-white rounded-md border border-gray-300 ">VIEW LOAN DETAILS</button>
+                          <button onClick={()=> navigate(`/loan/${userDebt['loan']['uuid']}/repayment`)}  type="button" className="w-[50%] py-3 px-5 mr-2 my-4 mb-12 text-sm font-medium focus:outline-none bg-loanBlue-primary text-white rounded-md border border-gray-300 ">MAKE PAYMENT</button>
+                        </div>
+                    </>
+                  )}
+
+              </div>
 
 
             {userBanks &&  userBanks.map((val)=> <AccountBank key={val.uuid} number={`${val.account_number}`} />)}
