@@ -5,15 +5,13 @@ import { AuthContext } from '../../../contexts/ContextProvider'
 
 
 
-
+ 
 
 
 function CustomersLoanHistoryCard({customer}){
     const data = JSON.parse(customer.data)
     const amount = data.amount
-    console.log(customer)  
-    // APP-20121012-987
-    // programmerolakay@gmail
+    // console.log(customer)  
     return (
         <tr class="bg-white border-b hover:bg-gray-200  text-xs font-medium  ">
             <th scope="row" class="py-3 px-6   whitespace-nowrap flex items-center gap-4 ">
@@ -40,11 +38,11 @@ function CustomersLoanHistoryCard({customer}){
                     <TbCurrencyNaira className=' w-5 h-5'/><span>{amount}</span>
                 </p>
             </th>
-            <th class="py-3 px-6  w-fit truncate">
+            {/* <th class="py-3 px-6  w-fit truncate">
                 <p className=' flex items-center'>
                     <TbCurrencyNaira className=' w-5 h-5'/><span>N/A</span>
                 </p>
-            </th>
+            </th> */}
             <td class="py-3 px-6 w-fit truncate">
                 {customer.created_at}
             </td>
@@ -59,6 +57,8 @@ function ApplicationDashboard() {
     let navigate = useNavigate()
     const {displayNotification, authToken,  BACKEND_DOMAIN } = useContext(AuthContext)
     const [customerApplicationList, setCustomerApplicationList] = useState([])
+    const [customerApplicationsFilterList, setCustomerFilterApplicationsList] = useState([])
+    const [customerStatusFilter, setCustomerStatusFilter] = useState('all') 
 
     useEffect(()=>{
         async function fetchApplications(){
@@ -68,8 +68,9 @@ function ApplicationDashboard() {
             }})
             if(response.status === 200){
                 const data = await response.json()
-                console.log(data)
+                // console.log(data)
                 setCustomerApplicationList(data)
+                setCustomerFilterApplicationsList(data)
             }
             if(response.status === 401){
                 localStorage.clear()
@@ -80,26 +81,84 @@ function ApplicationDashboard() {
         fetchApplications()
 
     },[])
+
+
+    console.log(customerApplicationsFilterList)
+    console.log(customerStatusFilter)
+
+
+
+    function filterByStatus(e){
+        setCustomerStatusFilter(e.target.value)
+        console.log(e.target.value)
+        if(e.target.value === 'all'){
+            setCustomerFilterApplicationsList(customerApplicationList)
+        }else if(e.target.value === 'accepted'){
+            const currentFilterSearch = customerApplicationList
+            const filterList = currentFilterSearch.filter((val)=> {
+            if(val.status === "accepted" ){
+                return val
+            }
+            })
+            setCustomerFilterApplicationsList(filterList)
+        }else if(e.target.value === 'pending'){
+            const currentFilterSearch = customerApplicationList
+            const filterList = currentFilterSearch.filter((val)=> {
+            if(val.status === "pending" ){
+                return val
+            }
+            })
+            setCustomerFilterApplicationsList(filterList)
+        }else{
+            const currentFilterSearch = customerApplicationList
+            const filterList = currentFilterSearch.filter((val)=> {
+            if(val.status === "rejected" ){
+                return val
+            }
+            })
+            setCustomerFilterApplicationsList(filterList)
+        }
+
+    }
+
+
+    function searchAppInputChange(e){
+        const searchValue = e.target.value
+        if(searchValue && searchValue.length > 1){
+            const currentList = customerApplicationsFilterList
+            const filterList = currentList.filter((val)=> {
+                if(val.user.first_name &&  val.user.first_name.toLowerCase().includes(searchValue.toLowerCase())
+                    || val.user.last_name && val.user.last_name.toLowerCase().includes(searchValue.toLowerCase())
+                    || val.user.email.toLowerCase().includes(searchValue.toLowerCase())
+                ){
+                    return val
+                }
+            })
+            setCustomerFilterApplicationsList(filterList)
+        }else{
+            setCustomerFilterApplicationsList(customerApplicationList)
+        }
+    }
+
   return (
         <>
             <div className='flex flex-col lg:flex-row justify-between gap-4 lg:items-center my-4 px-6'>
                 <div className=' flex  gap-4 items-center'>
                     <form>
-                        <input className='border-[1px] px-4 py-2 focus:ring-0 focus:outline-none focus:border-loan-outline rounded placeholder:text-xs'
-                        type='search' placeholder='Search user' />
+                        <input onChange={searchAppInputChange}
+                            className='border-[1px] px-4 py-2 focus:ring-0 focus:outline-none focus:border-loan-outline rounded placeholder:text-xs'
+                            type='search' placeholder='Search user' />
                     </form>
-                    <form>
-                        <input className='border-[1px] px-4 py-2 focus:ring-0 focus:outline-none focus:border-loan-outline rounded placeholder:text-xs'
-                        type='search' placeholder='Search application id...' />
-                    </form>
-                    <select id="bank" 
+                    <label>Filter</label>
+                    <select onChange={filterByStatus} 
                             className="border-[1px] w-fit  rounded focus:ring-0 hover:border-gray-300 focus:border-loan-outline block  p-2 focus:outline-none text-xs" 
                             >
-                        <option selected disabled hidden>Status</option>
-                        <option value="fisrt_bank">Pending</option>
-                        <option value="uba">Approved</option>
+                        <option value='all' selected={customerStatusFilter && customerStatusFilter === 'all'} >All</option>
+                        <option value="pending" selected={customerStatusFilter && customerStatusFilter === 'pending'} >Pending</option>
+                        <option value="accepted" selected={customerStatusFilter && customerStatusFilter === 'accepted'} >Accepted</option>
+                        <option value="rejected" selected={customerStatusFilter && customerStatusFilter === 'rejected'} >Rejected</option>
                         </select>
-                </div>
+                </div> 
 
                 <p className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary text-loanBlue-primary bg-white cursor-pointer rounded text-xs' >Export csv</p>
 
@@ -124,18 +183,18 @@ function ApplicationDashboard() {
                             <th scope="col" class="py-3 px-6  w-fit truncate">
                                 Requested Amount
                             </th>
-                            <th scope="col" class="py-3 px-6  w-fit truncate">
+                            {/* <th scope="col" class="py-3 px-6  w-fit truncate">
                                 Repayment Amount
                             </th>
-                            
+                             */}
                             <th scope="col" class="py-3 px-6 w-fit truncate">
                                 Requested Date
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {customerApplicationList.length > 0 ? (
-                            customerApplicationList.map((val)=>{
+                        {customerApplicationsFilterList.length > 0 ? (
+                            customerApplicationsFilterList.map((val)=>{
                                 return (
                                     <CustomersLoanHistoryCard 
                                         key={val.uuid}
@@ -145,7 +204,7 @@ function ApplicationDashboard() {
                             })
                         ): (
                             <>
-                                <h1>FETCHING...................</h1>
+                                <h1>Loading...................</h1>
                             </>
                         )}
                         

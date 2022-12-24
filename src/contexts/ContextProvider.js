@@ -40,6 +40,8 @@ export default function AuthContextProvider({children}){
             setHasCompletedKyc(true)
             localStorage.setItem('hasCompletedKyc', JSON.stringify(true)) 
         }
+
+        
     },[])
 
     useEffect(() => {

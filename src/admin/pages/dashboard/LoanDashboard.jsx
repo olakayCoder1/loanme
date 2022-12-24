@@ -8,10 +8,12 @@ import{ NoContentToShow }from '../user_application/ApplicationDetailScore'
 
 
 function CustomersLoanHistoryCard({id ,email,first_name, last_name , total_amount, loanDate , status , amount , user_uuid}){
+    console.log(status)
+
     return (
         <tr class="bg-white border-b hover:bg-gray-200  text-xs font-medium  cursor-pointer ">
             <th scope="row" class="py-3 px-6   whitespace-nowrap flex items-center gap-4 box-border ">
-                {status ? <span className=' text-yellow-500 '>PEN</span>  : <span className=' text-green-500'>APP</span> }
+                {status === 'active' ? <span className=' text-yellow-500 '>Active</span>  : <span className=' text-green-500'>Completed</span> }
             </th>     
             <td class="py-3 px-6 w-fit truncate">
                 <Link to={`/admin/loans/${id}`} ><span className=' cursor-pointer hover:text-loanBlue-primary'>{id}</span></Link>
@@ -52,6 +54,8 @@ function LoanDashboard() {
     let navigate = useNavigate()
     const {displayNotification, authToken,  BACKEND_DOMAIN } = useContext(AuthContext)
     const [customerLoanList, setCustomerLoanList] = useState([])
+    const [customerLoanFilterList, setCustomerFilterLoanList] = useState([])
+    const [customerStatusFilter, setCustomerStatusFilter] = useState('all')
 
     useEffect(()=>{
         async function fetchLoans(){
@@ -63,6 +67,7 @@ function LoanDashboard() {
                 const data = await response.json()
                 console.log(data)
                 setCustomerLoanList(data)
+                setCustomerFilterLoanList(data)
             }
             if(response.status === 401){
                 localStorage.clear()
@@ -73,24 +78,64 @@ function LoanDashboard() {
 
         fetchLoans()
     },[])
+
+
+    function filterByStatus(e){
+        setCustomerStatusFilter(e.target.value)
+        if(e.target.value === 'all'){
+            setCustomerFilterLoanList(customerLoanList)
+        }else{
+            const currentFilterSearch = customerLoanList
+            const filterList = currentFilterSearch.filter((val)=> {
+            if(val.status === e.target.value ){
+                return val
+            }
+        })
+        setCustomerFilterLoanList(filterList)
+        }
+        
+
+    }
+
+    function searchInputChange(e){
+        const searchValue = e.target.value
+        if(searchValue && searchValue.length > 1){
+            const currentList = customerLoanFilterList
+            const filterList = currentList.filter((val)=> {
+                if(val.user.first_name &&  val.user.first_name.toLowerCase().includes(searchValue.toLowerCase())
+                    || val.user.last_name && val.user.last_name.toLowerCase().includes(searchValue.toLowerCase())
+                    || val.user.email.toLowerCase().includes(searchValue.toLowerCase())
+                ){
+                    return val
+                }
+            })
+            setCustomerFilterLoanList(filterList)
+        }else{
+            setCustomerFilterLoanList(customerLoanList)
+        }
+    }
+
   return (
     <>
     <div className='flex flex-col lg:flex-row justify-between gap-4 lg:items-center my-4 px-6'>
     <div className=' flex  gap-4 items-center'>
         <form>
-            <input className='border-[1px] px-4 py-2 focus:ring-0 focus:outline-none focus:border-loan-outline rounded placeholder:text-xs'
-            type='search' placeholder='Search user' />
+            <input onChange={searchInputChange}
+                className='border-[1px] px-4 py-2 focus:ring-0 focus:outline-none focus:border-loan-outline rounded placeholder:text-xs'
+                type='search' placeholder='Search user'
+             />
         </form>
-        <form>
+        {/* <form>
             <input className='border-[1px] px-4 py-2 focus:ring-0 focus:outline-none focus:border-loan-outline rounded placeholder:text-xs'
             type='search' placeholder='Search loan id...' />
-        </form>
-        <select id="bank" 
+        </form> */}
+        <label>Filter</label>
+        <select onChange={filterByStatus} 
                 className="border-[1px] w-fit  rounded focus:ring-0 hover:border-gray-300 focus:border-loan-outline block  p-2 focus:outline-none text-xs" 
                 >
-            <option selected disabled hidden>Status</option>
-            <option value="fisrt_bank">Pending</option>
-            <option value="uba">Approved</option>
+            <option  value='all' selected={customerStatusFilter && customerStatusFilter === 'all'}>All</option>
+            <option value="active" selected={customerStatusFilter && customerStatusFilter === 'active'}>Active</option>
+            <option value="completed" selected={customerStatusFilter && customerStatusFilter === 'completed'}>Completed</option>
             </select>
     </div>
 
@@ -126,8 +171,8 @@ function LoanDashboard() {
                 </tr>
                 </thead>
                 <tbody>
-                    {customerLoanList.length > 0 ? (
-                        customerLoanList.map((val)=> {
+                    {customerLoanFilterList.length > 0 ? (
+                        customerLoanFilterList.map((val)=> {
                             return (
                                 <CustomersLoanHistoryCard 
                                     key={val.uuid}
@@ -139,7 +184,7 @@ function LoanDashboard() {
                                     loanDate={val.due_date}   
                                     amount={val.offer.offer_amount} 
                                     total_amount={val.offer.total_repayment}
-                                    status={false}
+                                    status={val.status}
                                 />
                             )
                         })

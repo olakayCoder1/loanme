@@ -7,7 +7,7 @@ import { AuthContext } from '../../contexts/ContextProvider'
 
 function Bvn() {
 
-    const {displayNotification ,setLoading , authUser , setAuthUser, authToken , BACKEND_DOMAIN} = useContext(AuthContext)
+    const {displayNotification ,setLoading , authUser, setAuthUser, authToken , BACKEND_DOMAIN} = useContext(AuthContext)
 
     let navigate = useNavigate()
     const [whyBvn , setWhyBvn] = useState(false)
@@ -36,8 +36,9 @@ function Bvn() {
         if(bvn  === '' ){ 
             displayNotification('error','Bvn field is required')
         }else if( bvn.length != 10 ){
-            displayNotification('error','Bvn number not correct q')
+            displayNotification('error','Bvn number not correct')
         }else{
+            setLoading(true)
             const url = `${BACKEND_DOMAIN}/api/v1/bvn/verify` 
             const response = await fetch(url,{
                     method : 'POST', 
@@ -51,12 +52,18 @@ function Bvn() {
                 })
                 
             if(response.status === 200 ){
+                setLoading(false)
+                const current = {...authUser , 'is_bvn': true} 
+
                 setAuthUser((prev)=>{
                     return { ...prev,'is_bvn':true }
                 })
                 localStorage.setItem('authUser', JSON.stringify(authUser))
+                console.log(authUser)
+                console.log(current) 
+                setLoading(false)
                 displayNotification('success','Bvn linked')
-                navigate('/setup/account/card')
+                // navigate('/setup/account/card') 
             }else{
                 displayNotification('error','Bvn verification failed')
             }

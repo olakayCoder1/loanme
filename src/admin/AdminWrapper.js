@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import {Routes , Route} from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
+import {Routes , Route, useNavigate} from 'react-router-dom'
 import Header from '../component/Header'
 import AdminNavBar from '../component/AdminNavBar' 
 import Sidebar from '../component/Sidebar'
@@ -15,9 +15,20 @@ import UserAccount from './pages/user_account/UserAccount'
 import ApplicationWrapper from './pages/user_application/ApplicationWrapper'
 import UserLoanWrapper from './pages/user_loan/UserLoanWrapper'
 import Account from './pages/account/Account'
+import { AuthContext } from '../contexts/ContextProvider'
 
 function AdminWrapper() {
     const [showNav, setShowNav] = useState(false)
+    let navigate = useNavigate()
+    const {  Loading ,  authUser  }= useContext(AuthContext)
+
+    useEffect(()=>{
+        if(window.location.pathname.includes('/admin')){
+            if(authUser && authUser.is_staff === false){
+                navigate('/')
+            }
+          }
+    })
 
   return (
     <div className=' w-full h-screen bg-[#edf1f5] '>

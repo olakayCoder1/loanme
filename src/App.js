@@ -1,4 +1,4 @@
-import {BrowserRouter as Router , Route, Routes } from "react-router-dom";
+import {BrowserRouter as Router , Route, Routes , useNavigate } from "react-router-dom";
 import { AuthContext } from "./contexts/ContextProvider";
 import Welcome from "./welcome/Welcome";
 import AdminWrapper from "./admin/AdminWrapper";
@@ -21,7 +21,12 @@ import PageNotFound from "./PageNotFound";
 
 
 function App() {
-  const { isAuthenticated , Loading , setLoading , authUser  }= useContext(AuthContext)
+  
+  const {  Loading ,  authUser  }= useContext(AuthContext)
+
+
+  
+
   return (
     <div className=" w-full  text-loan-primary font-noto">
       {Loading  &&  <LoadingSpinner /> } 

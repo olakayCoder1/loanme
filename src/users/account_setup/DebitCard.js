@@ -72,22 +72,34 @@ function DebitCard() {
         // .catch(err => console.log(err)) 
       };
 
-    function handleAddDebit(){
-        fetch(`${BACKEND_DOMAIN}/api/v1/account/debit/add`, {
+
+    async function handleAddDebit(){
+        console.log('clicvkim')
+        const response = await fetch(`${BACKEND_DOMAIN}/api/v1/account/debit/add`, {
             method : 'GET',
             headers : {
                 'Content-Type': 'application/json',
                 'Authorization' : `Bearer ${authToken.access}`
-            },})  
-        .then(res => res.json())
-
-        .then(data =>{
-             const config = { reference: data.reference, email: data.email, amount: 5000,  publicKey: data.paystack_public  };
+            },}) 
+        
+        if(response.status === 200 ){
+            const data = await response.json()
+            const config = { reference: data.reference, email: data.email, amount: 5000,  publicKey: data.paystack_public  };
             setPaymentData(config)
             document.getElementById('pay-with-paystack').click()
-            
-        })
-        .catch(err => console.log(err)) 
+
+        }else if(response.status === 400){
+            setAuthUser((prev)=>{
+                return { ...prev,'is_card':true }
+            })
+            localStorage.setItem('authUser', JSON.stringify(authUser))
+            displayNotification('success', 'Debit card successfully added')
+            displayNotification('error','You already have a card linked')
+        }
+        else{
+            displayNotification('error','An error occurred')
+        }
+
     }
 
     const initializePayment = usePaystackPayment(paymentData);
