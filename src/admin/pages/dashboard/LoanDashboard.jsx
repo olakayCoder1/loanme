@@ -1,26 +1,27 @@
 import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate, Link} from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { AuthContext } from '../../../contexts/ContextProvider'
+import{ NoContentToShow }from '../user_application/ApplicationDetailScore'
 
 
 
 
-
-function CustomersLoanHistoryCard({id ,email,first_name, last_name , total_amount, loanDate , status , amount}){
+function CustomersLoanHistoryCard({id ,email,first_name, last_name , total_amount, loanDate , status , amount , user_uuid}){
     return (
         <tr class="bg-white border-b hover:bg-gray-200  text-xs font-medium  cursor-pointer ">
             <th scope="row" class="py-3 px-6   whitespace-nowrap flex items-center gap-4 box-border ">
                 {status ? <span className=' text-yellow-500 '>PEN</span>  : <span className=' text-green-500'>APP</span> }
-            </th>
+            </th>     
             <td class="py-3 px-6 w-fit truncate">
-                <Link to='/admin/loans/detail' ><span className=' cursor-pointer hover:text-loanBlue-primary'>{id}</span></Link>
+                <Link to={`/admin/loans/${id}`} ><span className=' cursor-pointer hover:text-loanBlue-primary'>{id}</span></Link>
                 
             </td>
             <td class="py-3 px-6 w-fit truncate">
-                <Link to='/admin/users/olakay'><span className=' cursor-pointer hover:text-loanBlue-primary'>{email}</span></Link>
+                <Link to={`/admin/users/${user_uuid}`}><span className=' cursor-pointer hover:text-loanBlue-primary'>{email}</span></Link>
             </td>
             <td class="py-3 px-6 w-fit truncate">
-                <Link to='/admin/users/olakay'>
+                <Link to={`/admin/users/${user_uuid}`}>
                     <span className=' cursor-pointer hover:text-loanBlue-primary'>
                         {first_name && <>{first_name}</>}  {last_name && <>{last_name}</>}
                     </span>
@@ -48,12 +49,29 @@ function CustomersLoanHistoryCard({id ,email,first_name, last_name , total_amoun
 
 function LoanDashboard() {
 
+    let navigate = useNavigate()
+    const {displayNotification, authToken,  BACKEND_DOMAIN } = useContext(AuthContext)
     const [customerLoanList, setCustomerLoanList] = useState([])
+
     useEffect(()=>{
-        fetch('http://127.0.0.1:8000/api/v1/admin/loans')
-        .then(res => res.json())
-        .then(data => setCustomerLoanList(data)) 
-        .catch(err => console.log(err)) 
+        async function fetchLoans(){
+            const response = await fetch(`${BACKEND_DOMAIN}/api/v1/admin/loans`,{method : 'GET', headers : {
+                'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${authToken?.access}`
+            }})
+            if(response.status === 200){
+                const data = await response.json()
+                console.log(data)
+                setCustomerLoanList(data)
+            }
+            if(response.status === 401){
+                localStorage.clear()
+                displayNotification('error', 'Please sign in again')
+                navigate('/signin')
+            }
+        }
+
+        fetchLoans()
     },[])
   return (
     <>
@@ -114,22 +132,18 @@ function LoanDashboard() {
                                 <CustomersLoanHistoryCard 
                                     key={val.uuid}
                                     id={val.uuid}
+                                    user_uuid={val.user.uuid}
                                     email={val.user.email}
                                     first_name={val.user.first_name}
                                     last_name={val.user.last_name}
-                                    loanDate={val.due_date} 
-                                    progress='95%'  
+                                    loanDate={val.due_date}   
                                     amount={val.offer.offer_amount} 
                                     total_amount={val.offer.total_repayment}
                                     status={false}
                                 />
                             )
                         })
-                    ): (
-                        <>
-                        <CustomersLoanHistoryCard id={'LN-20121012-987 '} email='programmerolakay@gmail' first_name='Sirajudeen' last_name='Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={true}/>
-                        </>
-                    )}
+                    ): <div className=' w-full'><NoContentToShow /></div>}
                     
                     
                 </tbody>

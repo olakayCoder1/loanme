@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate, Link} from 'react-router-dom'
+import { AuthContext } from '../../../contexts/ContextProvider'
 
 
 
@@ -10,7 +11,7 @@ import { useNavigate, Link} from 'react-router-dom'
 function CustomersLoanHistoryCard({customer}){
     const data = JSON.parse(customer.data)
     const amount = data.amount
-    console.log(customer.status)  
+    console.log(customer)  
     // APP-20121012-987
     // programmerolakay@gmail
     return (
@@ -21,14 +22,14 @@ function CustomersLoanHistoryCard({customer}){
                 {customer.status =='rejected' && <span className=' text-red-500 '>Rejected</span> }    
             </th>
             <td class="py-3 px-6 w-fit truncate">
-                <Link to='/admin/applications/detail'><span className=' cursor-pointer hover:text-loanBlue-primary'>{customer.uuid}</span></Link>
+                <Link to={`/admin/applications/${customer && customer.uuid}`}><span className=' cursor-pointer hover:text-loanBlue-primary'>{customer.uuid}</span></Link>
                 
             </td>
             <td class="py-3 px-6 w-fit truncate">
-                <Link to='/admin/users/olakay'><span className=' cursor-pointer hover:text-loanBlue-primary'>{customer.user.email}</span></Link>
+                <Link to={`/admin/users/${customer && customer.user.uuid}`}><span className=' cursor-pointer hover:text-loanBlue-primary'>{customer.user.email}</span></Link>
             </td>
             <td class="py-3 px-6 w-fit truncate">
-                <Link to='/admin/users/olakay'>
+                <Link to={`/admin/users/${customer && customer.user.uuid}`}>
                     <span className=' cursor-pointer hover:text-loanBlue-primary'>
                         {customer.user.first_name && <>{customer.user.first_name}</>}  {customer.user.last_name && <>{customer.user.last_name}</>}
                     </span>
@@ -55,13 +56,29 @@ function CustomersLoanHistoryCard({customer}){
 
 
 function ApplicationDashboard() {
-
+    let navigate = useNavigate()
+    const {displayNotification, authToken,  BACKEND_DOMAIN } = useContext(AuthContext)
     const [customerApplicationList, setCustomerApplicationList] = useState([])
+
     useEffect(()=>{
-        fetch('http://127.0.0.1:8000/api/v1/admin/applications')
-        .then(res => res.json())
-        .then(data => setCustomerApplicationList(data))
-        .catch(err => console.log(err)) 
+        async function fetchApplications(){
+            const response = await fetch(`${BACKEND_DOMAIN}/api/v1/admin/applications`,{method : 'GET', headers : {
+                'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${authToken?.access}`
+            }})
+            if(response.status === 200){
+                const data = await response.json()
+                console.log(data)
+                setCustomerApplicationList(data)
+            }
+            if(response.status === 401){
+                localStorage.clear()
+                displayNotification('error', 'Please sign in again')
+                navigate('/signin')
+            }
+        }
+        fetchApplications()
+
     },[])
   return (
         <>

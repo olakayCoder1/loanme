@@ -1,29 +1,32 @@
-import React, { useState , useEffect  } from 'react'
+import React, { useState , useEffect, useContext  } from 'react'
 import Applications from './Applications'
 import Loans from './Loans'
 import Information from './Information'
 import { useNavigate,useParams} from 'react-router-dom'
+import { AuthContext } from '../../../contexts/ContextProvider'
 
 
-function SmallUserDetail(){
+function SmallUserDetail({user}){
     return (
         <div className='w-full lg:w-[30%]  border-gray-300 h-full'>
             <div>
                 <div className=' flex items-center place-content-center py-8'>
                     <div className=' bottom-[-50%] left-[50%] right-[50%] flex items-center place-content-center flex-col gap-6'>
                         <h2 className=' font-medium text-2xl border-3 border-gray-300 bg-white text-gray-800 p-6 rounded-full'>OL</h2>
-                        <h2 className=' text-xl font-medium truncate  text-gray-800'>Ahmed Olanrewaju</h2>
+                        <h2 className=' text-xl font-medium truncate  text-gray-800'>
+                            {user && user.first_name &&  user.first_name}  {user && user.last_name &&  user.last_name}
+                        </h2>
                     </div>
                 </div>
                 <div className=' p-4 flex flex-col gap-1'>
                     <h2 className=' text-gray-800'>Personal Information</h2>
                     <div className='py-4 text-xs font-normal flex justify-between border-b'>
                         <p className='font-light'>Customer ID</p>
-                        <p className=' text-gray-800'>ACC-202211290540-4686</p>
+                        <p className=' text-gray-800'>{user && user.uuid}</p>
                     </div>
                     <div className='py-4 text-xs font-normal flex justify-between border-b'>
                         <p className='font-light'>Contact Email</p>
-                        <p className=' text-gray-800'>programmerolakay@gmail.com</p>
+                        <p className=' text-gray-800'>{user && user.email}</p>
                     </div>
                 </div>
             </div>
@@ -36,23 +39,54 @@ function SmallUserDetail(){
 function UserAccount() {
 
     const {id} = useParams();
-
+    const {displayNotification, authToken,  BACKEND_DOMAIN } = useContext(AuthContext)
     const [activeTab, setActiveTab] = useState('Customer Information')
+    const [userLoansList, setUserLoansList] = useState(null)
+    const [userApplicationsList, setApplicationsList ] = useState(null)
 
     const [ user , setUser] = useState(null)
 
     useEffect(()=>{
-        fetch(`http://127.0.0.1:8000/api/v1/admin/customers/${id}`)
-        .then(res => res.json())
-        .then(data => {
-            setUser(data)
-        }) 
-        .catch(err => console.log(err)) 
+        
+      const url1 = `${BACKEND_DOMAIN}/api/v1/admin/customers/${id}` 
+      const url2 = `${BACKEND_DOMAIN}/api/v1/admin/customers/${id}/loans` 
+      const url3 = `${BACKEND_DOMAIN}/api/v1/admin/customers/${id}/applications` 
+      Promise.all([
+      fetch(url1,{method : 'GET', headers : {
+            'Content-Type': 'application/json',
+            'Authorization' : `Bearer ${authToken?.access}`
+        }},),
+      fetch(url2,{ method : 'GET', headers : {
+              'Content-Type': 'application/json',
+              'Authorization' : `Bearer ${authToken?.access}`
+          }},),
+      fetch(url3,{ method : 'GET', headers : {
+            'Content-Type': 'application/json',
+            'Authorization' : `Bearer ${authToken?.access}`
+        }},)
+
+        ]).then(function (responses) {
+          // Get a JSON object from each of the responses
+          return Promise.all(responses.map(function (response) {
+            return response.json();
+          }));
+        }).then(function (data) {
+          // Log the data to the console
+          // You would do something with both sets of data here
+          setUser(data[0]) 
+          setUserLoansList(data[1])
+          setApplicationsList(data[2])
+          // console.log(data[0]);
+        }).catch(function (error) {
+          // if there's an error, log it
+            // console.log(error);
+        });
+
     },[])
 
   return (
     <div className=' w-full flex flex-col lg:flex-row'>
-        <SmallUserDetail />
+        <SmallUserDetail user={user}/>
         <div className=' w-full lg:w-[70%] lg:m-4'>
             <div className='flex justify-between gap-4 items-center my-4 px-4'>
                 <div className=' text-sm font-medium flex  gap-4 items-center text-gray-800'>
@@ -81,9 +115,9 @@ function UserAccount() {
                 </ul>
             </div>
 
-            {activeTab === 'Applications' && <Applications user_id={user && user.uuid}/>}
-            {activeTab === 'Loans' && <Loans user_id={user && user.uuid}/>}
-            {activeTab === 'Customer Information' && <Information user_id={user && user}/>}
+            {activeTab === 'Applications' && <Applications user_id={user && user.uuid} userApplicationsList={userApplicationsList} />}
+            {activeTab === 'Loans' && <Loans user_id={user && user.uuid} userLoansList={userLoansList}/>}
+            {activeTab === 'Customer Information' && <Information user={user && user}/>}
             
 
       </div>

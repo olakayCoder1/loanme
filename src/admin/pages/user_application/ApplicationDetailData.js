@@ -19,12 +19,7 @@ function ApplicationDetailData({info}) {
     }
   return (
     <div className=' bg-white text-sm font-normal'>
-        <div className='flex justify-between gap-4 items-center py-4 px-4 md:px-12'>
-            <div className=' flex  gap-4 items-center text-gray-800'>
-                
-            </div>
-            <p className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary bg-loanBlue-primary text-white cursor-pointer rounded text-xs' >Export Excel</p> 
-        </div>
+       
         <div className=' w-full  px-6 md:px-8 py-6 '>
 
             <Card label='name' value='Olanrewaju AbdulKabeer'/>

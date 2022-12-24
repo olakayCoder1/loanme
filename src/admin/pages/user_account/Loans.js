@@ -1,35 +1,36 @@
 import React, { useState } from 'react'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import {ImFilesEmpty} from 'react-icons/im'
+import { useNavigate, Link} from 'react-router-dom'
 
 
 
-function CustomersLoanHistoryCard({name, loanDate , status , amount}){
+function CustomersLoanHistoryCard({loan}){
     return (
         <tr class="bg-white border-b hover:bg-gray-200  text-xs font-medium  ">
             <th scope="row" class="py-3 px-6   whitespace-nowrap flex items-center gap-4 ">
-                {status ? <span className=' text-yellow-500 '>Pending</span>  : <span className=' text-green-500'>Approved</span> }   
+                {loan?.status === 'active' ? <span className=' text-yellow-500 '>Active</span>  : <span className=' text-green-500'>Completed</span> }   
             </th>
             <td class="py-3 px-6 w-fit truncate">
-                APP-20121012-987
+                <Link to={`/admin/loans/${loan?.uuid}`}  ><span>{loan?.uuid}</span></Link>
             </td>
             <td class="py-3 px-6 w-fit truncate">
                 <p className=' flex items-center'>
-                    <TbCurrencyNaira className=' w-5 h-5'/><span>{amount}</span>
+                    <TbCurrencyNaira className=' w-5 h-5'/><span>{loan?.offer?.offer_amount}</span>
                 </p>
             </td>
             <td class="py-3 px-6 w-fit truncate">
                 <p className=' flex items-center'>
-                    <TbCurrencyNaira className=' w-5 h-5'/><span>{amount}</span>
+                    <TbCurrencyNaira className=' w-5 h-5'/><span>{loan?.offer?.interest}</span>
                 </p>
             </td>
             <th class="py-3 px-6  w-fit truncate">
                 <p className=' flex items-center'>
-                    <TbCurrencyNaira className=' w-5 h-5'/><span>{amount}</span>
+                    <TbCurrencyNaira className=' w-5 h-5'/><span>{loan?.amount}</span>
                 </p>
             </th>
             <td class="py-3 px-6 w-fit truncate">
-                {loanDate}
+                {loan?.created_at}
             </td>
             
         </tr>
@@ -38,12 +39,13 @@ function CustomersLoanHistoryCard({name, loanDate , status , amount}){
 
 
 
-function Loans() {
+function Loans({userLoansList}) {
 
     const [ hasLoanRecord , setHasLoanRecord ] = useState(true)
+    console.log(userLoansList)
   return (
     <div className=' p-6 bg-gray-50 '>
-        {!hasLoanRecord ? (
+        {userLoansList ? (
             <div class="overflow-x-auto relative ">  
                 <table class="w-full text-sm text-left text-gray-500 ">
                     <thead class="text-xs font-normal text-gray-700 uppercase ">
@@ -69,8 +71,9 @@ function Loans() {
                         </tr>
                     </thead>
                     <tbody>
-                        <CustomersLoanHistoryCard name='Sirajudeen Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={false}/>
-                        <CustomersLoanHistoryCard name='Sirajudeen Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={true}/>
+                        {userLoansList && userLoansList.map((val)=>{
+                            return (<CustomersLoanHistoryCard  key={val.uuid} loan={val}/>)
+                        })}
                     </tbody>
                 </table>
             </div>

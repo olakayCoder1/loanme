@@ -17,23 +17,14 @@ function CustomersLoanHistoryCard({customer}){
                 {customer.status =='rejected' && <span className=' text-red-500 '>Rejected</span> }  
             </th>
             <td class="py-3 px-6 w-fit truncate">
-                {customer.uuid}
+                <Link to={`/admin/applications/${customer.uuid}`}  ><span>{customer.uuid}</span></Link>
+                
             </td>
             <td class="py-3 px-6 w-fit truncate">
                 <p className=' flex items-center'>
                     <TbCurrencyNaira className=' w-5 h-5'/><span>{amount}</span>
                 </p>
             </td> 
-            <td class="py-3 px-6 w-fit truncate">
-                <p className=' flex items-center'>
-                    <TbCurrencyNaira className=' w-5 h-5'/><span>{amount}</span>
-                </p>
-            </td>
-            <th class="py-3 px-6  w-fit truncate">
-                <p className=' flex items-center'>
-                    <TbCurrencyNaira className=' w-5 h-5'/><span>{amount}</span>
-                </p>
-            </th>
             <td class="py-3 px-6 w-fit truncate">
                 {customer.created_at}
             </td>
@@ -44,23 +35,23 @@ function CustomersLoanHistoryCard({customer}){
 
 
 
-function Applications({user_id}) {
+function Applications({user_id , userApplicationsList}) {
  
     const [ hasLoanRecord , setHasLoanRecord ] = useState(true)
 
     const [userApplication , setUserApplication] = useState([])
 
-    useEffect(()=>{
-        fetch(`http://127.0.0.1:8000/api/v1/admin/customers/${user_id}/applications`)  
-        .then(res => res.json())
-        .then(data => setUserApplication(data))
-        .catch(err => console.log(err)) 
-    },[])
+    // useEffect(()=>{
+    //     fetch(`http://127.0.0.1:8000/api/v1/admin/customers/${user_id}/applications`)  
+    //     .then(res => res.json())
+    //     .then(data => setUserApplication(data))
+    //     .catch(err => console.log(err)) 
+    // },[])
 
-    console.log(userApplication)
+    console.log(userApplicationsList)
   return (
     <div className=' p-6 bg-gray-50 '>
-        {hasLoanRecord ? (
+        {userApplicationsList ? (
             <div class="overflow-x-auto relative ">  
             <table class="w-full text-sm text-left text-gray-500 ">
                 <thead class="text-xs font-normal text-gray-700 uppercase ">
@@ -74,21 +65,15 @@ function Applications({user_id}) {
                         <th scope="col" class="py-3 px-6 w-fit">
                             Amount
                         </th>
-                        <th scope="col" class="py-3 px-6 w-fit">
-                            Interest
-                        </th>
-                        <th scope="col" class="py-3 px-6  w-fit truncate">
-                            Total
-                        </th>
                         <th scope="col" class="py-3 px-6 w-fit truncate">
                             Requested Date
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    {userApplication && userApplication.length > 0  ? (
-                        userApplication.map((val)=>{
-                            <CustomersLoanHistoryCard
+                    {userApplicationsList && userApplicationsList.length > 0  ? (
+                        userApplicationsList.map((val)=>{
+                            return <CustomersLoanHistoryCard
                                 key={val.uuid}
                                 customer={val}
                             name='Sirajudeen Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={false}

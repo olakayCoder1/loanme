@@ -8,7 +8,7 @@ function UserLoanWrapper() {
     <div>
         <Routes>
             <Route path='' element={<Loans />} /> 
-            <Route path='/detail' element={<UserLoanDetail />} />
+            <Route path='/:id' element={<UserLoanDetail />} />
         </Routes>
     </div>
   )

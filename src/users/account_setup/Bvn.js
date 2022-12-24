@@ -7,7 +7,7 @@ import { AuthContext } from '../../contexts/ContextProvider'
 
 function Bvn() {
 
-    const {displayNotification ,setLoading , authUser, BACKEND_DOMAIN} = useContext(AuthContext)
+    const {displayNotification ,setLoading , authUser , setAuthUser, authToken , BACKEND_DOMAIN} = useContext(AuthContext)
 
     let navigate = useNavigate()
     const [whyBvn , setWhyBvn] = useState(false)
@@ -30,7 +30,8 @@ function Bvn() {
 
 
 
-    async function handleSubmit1(){
+    async function handleSubmit1(e){
+        e.preventDefault() 
         console.log('lick')
         if(bvn  === '' ){ 
             displayNotification('error','Bvn field is required')
@@ -42,6 +43,7 @@ function Bvn() {
                     method : 'POST', 
                     headers : {
                     'Content-Type': 'application/json',
+                    'Authorization' : `Bearer ${authToken?.access}`
                     },
                     body: JSON.stringify({
                         'bvn': bvn
@@ -49,9 +51,14 @@ function Bvn() {
                 })
                 
             if(response.status === 200 ){
-                navigate('/signup/address')
+                setAuthUser((prev)=>{
+                    return { ...prev,'is_bvn':true }
+                })
+                localStorage.setItem('authUser', JSON.stringify(authUser))
+                displayNotification('success','Bvn linked')
+                navigate('/setup/account/card')
             }else{
-                displayNotification('error','Email already exist')
+                displayNotification('error','Bvn verification failed')
             }
             const m = 1
             
@@ -90,13 +97,13 @@ function Bvn() {
             </div>
 
             <div className='flex items-center justify-between pt-12'>
-                <form className='w-full min-w-sm max-w-md flex flex-col gap-2'  onSubmit={handleSubmit1}>  
+                <form className='w-full min-w-sm max-w-md flex flex-col gap-2'  onSubmit={handleSubmit1} >  
                     <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Identity Type</label>
                     <input type="text"   className="input-primary mb-2"  placeholder="BVN"  value='BVN' readOnly disable="true" />
 
                     <label htmlFor="helper-text" className="block mb-1 text-sm font-medium text-loan-secondary  ">Bank Verification Number</label>
                     <input type="number" value={bvn} onChange={(e)=> setBvn(e.target.value)}  className="input-primary"   placeholder="*********" />
-                    <button type="button"    className="my-4 btn-primary">VERIFY</button>
+                    <button type="submit"    className="my-4 btn-primary">VERIFY</button>
 
                     <p onClick={()=> setHowToBvn(true)} className=' text-loanBlue-primary underline-offset-2 underline cursor-pointer w-fit'>How can I get it ?</p>
                     <p onClick={()=> setWhyBvn(true)}  className=' text-loanBlue-primary underline-offset-2 underline cursor-pointer w-fit'>Why ask for BVN?</p>

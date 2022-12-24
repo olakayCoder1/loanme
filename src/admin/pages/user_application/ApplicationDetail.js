@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import ApplicationDetailInformation from './ApplicationDetailInformation'
 import ApplicationDetailData from './ApplicationDetailData'
 import ApplicationDetailScore from './ApplicationDetailScore'
 import { useNavigate,useParams} from 'react-router-dom'
+import { AuthContext } from '../../../contexts/ContextProvider'
 
 
-function SmallUserDetail({id, email, first_name , last_name}){
+export function SmallUserDetail({id, email, first_name , last_name}){
     let navigate = useNavigate()
     return (
         <div className='w-full lg:w-[30%]  border-gray-300 h-full'>
@@ -19,8 +20,8 @@ function SmallUserDetail({id, email, first_name , last_name}){
                     </div>
                 </div>
                 <div className='flex items-center place-content-center text-center w-full '>
-                    <p onClick={()=> navigate('/admin/users/olakay')}  className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary text-loanBlue-primary bg-white cursor-pointer rounded text-xs' >View Customer Details</p>
-                </div>
+                    <p onClick={()=> navigate(`/admin/users/${id}`)}  className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary text-loanBlue-primary bg-white cursor-pointer rounded text-xs' >View Customer Details</p>
+                </div> 
                 
                 <div className=' p-4 flex flex-col gap-1'>
                     <h2 className=' text-gray-800'>Personal Information</h2>
@@ -44,22 +45,34 @@ function ApplicationDetail() {
 
 
     const {id} = useParams();
-    // console.log(id)
+    let navigate = useNavigate()
     const [activeTab, setActiveTab] = useState('Information')
+    const {displayNotification, authToken,  BACKEND_DOMAIN } = useContext(AuthContext)
     const [customerApplicationDetail , setCustomerApplicationDetail ] = useState(null)
     const [ applicationInformation , setApplicationInformation] = useState(null)
 
     useEffect(()=>{
-        fetch(`http://127.0.0.1:8000/api/v1/admin/applications/${id}`)
-        .then(res => res.json())
-        .then(data => {
-            setCustomerApplicationDetail(data)
-            const appInfo = JSON.parse(data.data)
-            setApplicationInformation(appInfo) 
-        }) 
-        .catch(err => console.log(err)) 
+        async function fetchApplicationDetail(){
+            const response = await fetch(`${BACKEND_DOMAIN}/api/v1/admin/applications/${id}`,{method : 'GET', headers : {
+                'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${authToken?.access}`
+            }})
+            if(response.status === 200){
+                const data = await response.json()
+                setCustomerApplicationDetail(data)
+                const appInfo = JSON.parse(data.data)
+                setApplicationInformation(appInfo) 
+            }
+            if(response.status === 401){
+                displayNotification('error', 'Please sign in again')
+                navigate('/signin')
+            }
+        }
+
+        fetchApplicationDetail()
+
     },[])
-    console.log(customerApplicationDetail) //APP-20221219225430-2022
+     //APP-20221219225430-2022
     
   return ( 
     <div className=' w-full flex flex-col lg:flex-row'>

@@ -12,7 +12,7 @@ function Card({label , value}){
 }
 
 
-function LoanDetailInformation() {
+function LoanDetailInformation({customerLoanDetail}) {
     let navigate = useNavigate()
   return (
     <div className=' bg-white text-sm font-normal'>
@@ -20,15 +20,15 @@ function LoanDetailInformation() {
             <div className=' flex  gap-4 items-center text-gray-800'>
                 
             </div>
-            <p onClick={()=> navigate('/admin/applications/detail')} className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary bg-loanBlue-primary text-white cursor-pointer rounded text-xs' >View link application</p> 
+            <p onClick={()=> navigate(`/admin/applications/${customerLoanDetail && customerLoanDetail.offer.application.uuid}`)} className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary bg-loanBlue-primary text-white cursor-pointer rounded text-xs' >View link application</p> 
         </div>
         <div className=' w-full  px-6 md:px-8 py-6 '>
-            <Card label='application ID' value='APP-29993883-1002'/>
-            <Card label='Requested amount' value='150,000.00'/>
-            <Card label='Interest' value='150,000.00'/>
-            <Card label='Processinf fee' value='N/A'/>
-            <Card label='status' value='Approved'/>
-            <Card label='Created at' value='April 4, 5050'/>
+            <Card label='Loan ID' value={customerLoanDetail && customerLoanDetail.uuid}/>
+            <Card label='Offer amount' value={customerLoanDetail && customerLoanDetail.offer.offer_amount}/>
+            <Card label='Interest' value={customerLoanDetail && customerLoanDetail.offer.interest}/>
+            <Card label='Total' value={customerLoanDetail && customerLoanDetail.amount}/>
+            <Card label='status' value={customerLoanDetail && customerLoanDetail.status}/>
+            <Card label='Created at' value={customerLoanDetail && customerLoanDetail.created_at} />
         </div>
     </div>
   )
