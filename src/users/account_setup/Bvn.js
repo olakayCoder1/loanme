@@ -47,7 +47,7 @@ function Bvn() {
                     },
                     body: JSON.stringify({
                         'bvn': bvn
-                    })
+                    }) 
                 })
                 
             if(response.status === 200 ){

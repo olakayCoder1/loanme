@@ -10,7 +10,7 @@ function DebitCard() {
 
     let navigate = useNavigate()
     const [whyBvn , setWhyBvn] = useState(false)
-    const {BACKEND_DOMAIN ,displayNotification ,setLoading ,authToken, authUser} = useContext(AuthContext)
+    const {BACKEND_DOMAIN ,displayNotification ,setLoading ,authToken, authUser , setAuthUser} = useContext(AuthContext)
     const [ paymentData , setPaymentData ] = useState({})
     
 
@@ -31,12 +31,11 @@ function DebitCard() {
     // 2136873152 
 
     const onSuccess = (ref) => {
-        console.log(ref)
         const data = {
             'reference': ref.reference,
             'type':'success'
         }
-
+        setLoading(true)
         fetch(`${BACKEND_DOMAIN}/api/v1/payment/verify`, {
             method : 'POST',
             headers : {
@@ -47,6 +46,11 @@ function DebitCard() {
         })  
         .then(res => res.json())
         .then(data =>{
+            setLoading(false)
+            setAuthUser((prev)=>{
+                return { ...prev,'is_card':true }
+            })
+            localStorage.setItem('authUser', JSON.stringify(authUser))
             displayNotification('success', 'Debit card successfully added')
             navigate('/setup/account/bankaccount'); 
         })
