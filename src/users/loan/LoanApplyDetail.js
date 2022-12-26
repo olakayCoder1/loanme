@@ -30,17 +30,15 @@ function LoanApplyDetail({loanApplicationData,handleValueChange} ) {
                 },
                 body: JSON.stringify(loanApplicationData)
             })
-
+            console.log(response.status)    
             if(response.status === 200){
-                const data = response.json()
+                const data = await response.json()
                 setLoading(false)
-                navigate(`/loan/request/${data[0].application.uuid}/offer`)
-                console.log(data)
+                navigate(`/loan/request/${data[0].application.uuid}/offer`)  
             }
             if(response.status === 400){
                 setLoading(false)
                 const data = response.json()
-                console.log('mymy')
                 displayNotification('info', 'You have an active loan. Kindly repay so have access to loan')
                 navigate(`/`)
             }

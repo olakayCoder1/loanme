@@ -14,7 +14,8 @@ import LoadingSpinner from "./LoadingSpinner";
 import Offer from "./users/loan/Offer";
 import OfferError from "./users/loan/OfferError";
 import PageNotFound from "./PageNotFound";
-
+import ResetPassword from './users/onboarding/ResetPassword'
+import ForgetPassword from './users/onboarding/ForgetPassword'
 
 
 
@@ -50,8 +51,10 @@ function App() {
                 <Route path='/signin' element={<SignIn />}  />
                 <Route path="/offer" element={<Offer />} />
                 <Route path="/error" element={<OfferError />} />
+                <Route path="/password/reset" element={<ResetPassword />} />
+                <Route path="/password/reset/:token/:uuid/confirm" element={<ForgetPassword />} /> 
               </>
-              
+                              
             )}
             <Route path="*" element={<PageNotFound />} />
           </Routes>

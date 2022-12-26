@@ -32,7 +32,7 @@ function WelcomeFlow() {
             <div className=' grid grid-cols-1 md:grid-cols-3 gap-10 py-8'>
                 <FlowCard Icon={BsBullseye} name='Sign Up' description='Sign up with your phone number and email and verify code of them. first step is done.' />
                 <FlowCard Icon={BiDetail} name='Personal Information' description='After registration you need to upload your personal information & business detail.' />
-                <FlowCard Icon={FaRegPaperPlane} name='Send Invoice' description='We will verify your credentails after that you ca send it your loan request.' />
+                <FlowCard Icon={FaRegPaperPlane} name='Loan' description='We will verify your credentials after that you can send in your loan request.' />
             </div>
         </div>
     </div>

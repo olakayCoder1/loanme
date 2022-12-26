@@ -78,7 +78,6 @@ function AdminNavBar({showNavBar, setShowNavBar}) {
         <motion.div initial={{ x:-100}}
                 whileInView={{x:0}}
                 transition={{duration:0.5}}
-                onExit={{x:-100}}
             className={`${showNavBar ? 'fixed  w-[25%] max-w-[270px] min-w-[250px] h-full   border-r  shadow-md bg-white' : 'hidden' } md:hidden z-50`}>
         <div className=' w-full flex items-center gap-4  py-4 md:py-8 p-4 md:px-6'>
             <p onClick={setShowNavBar} className=' cursor-pointer md:hidden'><RxCross1 className=' w-6 h-6'/></p>

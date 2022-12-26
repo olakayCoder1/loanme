@@ -14,24 +14,52 @@ import { AuthContext } from '../../contexts/ContextProvider';
 function OnboardingPhone({onboardingData ,handleValueChange}) {
     let navigate = useNavigate()
     const notify = () => toast("Invalid phone number!");
-    const {displayNotification} = useContext(AuthContext)
+    const {displayNotification , setLoading , BACKEND_DOMAIN} = useContext(AuthContext)
     const [ changeNumberValue , setChangeNumberValue  ] = useState('')
 
 
     function handleChange(e){
-        handleValueChange('phone', e.target.value )
+        setChangeNumberValue(e.target.value)
     }
 
     function handleSubmit(e){
         e.preventDefault() 
         const v = e.target.phonenumber.value
-        if( v != '' ){
-            if( v.length  < 11 ){
-                displayNotification('error','Phone number is not valid 1') 
+        if( changeNumberValue != '' ){
+            if( changeNumberValue.length  < 11 ){
+                displayNotification('error','Phone number is not valid') 
                 
             }else if( v.length == 11 ){
-                displayNotification('info','Verification code sent to your number')
-                navigate('phone-verify')
+                if(changeNumberValue === onboardingData['phone']){
+                    navigate('personaldetails')
+                }else{
+                    setLoading(true)
+                    const phone = changeNumberValue
+                    async function fetchPhone(){
+                        const response = await fetch(`${BACKEND_DOMAIN}/api/v1/phone/verify`,{
+                            method : 'POST', 
+                            headers : {
+                            'Content-Type': 'application/json',
+                            }, body : JSON.stringify({ 'phone':phone})
+                        })
+                        console.log(response.status)
+                        if(response.status === 200){
+                            // const data = await response.json()
+                            setLoading(false)
+                            displayNotification('info','Verification code sent to your number')
+                            navigate('phone-verify')
+                        }
+                        if(response.status === 400){
+                            const data = await response.json()
+                            setLoading(false)
+                            displayNotification('error', data['detail'])
+                        }
+                    }
+            
+                    fetchPhone()
+                    
+                }
+                
             }
             else{
                 // handleValueChange('phone', changeNumberValue )
@@ -53,7 +81,7 @@ function OnboardingPhone({onboardingData ,handleValueChange}) {
         <div>
         <label htmlFor="helper-text" className="text-input-label ">Number</label>
             <input type="number"  
-                value={onboardingData['phone']} 
+                // value={onboardingData['phone']} 
                 onChange={handleChange} 
                 className=' input-primary'  
                 name='phonenumber'  
@@ -72,20 +100,3 @@ function OnboardingPhone({onboardingData ,handleValueChange}) {
 }
 
 export default OnboardingPhone
-
-
-
-
-
-{/* <label>
-            <input type="file" class="text-sm text-grey-500
-            file:mr-5 file:py-2 file:px-6
-            file:rounded-full file:border-0
-            file:text-sm file:font-medium
-            file:bg-blue-50 file:text-blue-700
-            hover:file:cursor-pointer hover:file:bg-amber-50
-            hover:file:text-amber-700
-          " />
-        </label> */}
-
-        // <input type='date' className=' input-primary' />

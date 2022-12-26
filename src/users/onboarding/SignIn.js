@@ -1,8 +1,7 @@
 import React, { useContext, useState } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useNavigate , Link } from "react-router-dom";
 import logo2 from '../../assets/l2.jpeg'
 import logo1 from '../../assets/loanme.png'
-import {Link } from "react-router-dom";
 import { AuthContext } from '../../contexts/ContextProvider';
 import Load from '../../Load';
 
@@ -138,18 +137,28 @@ function SignIn() {
                     <div>
                         {/* <p className=' text-description text-sm text-red-600'>Invalid credentials</p> */}
                         <label htmlFor="helper-text" className="text-input-label ">Email</label>
-                        <input type="email" onChange={(e)=> setEmail(e.target.value)} className=' input-primary'placeholder=""  />
+                        <input type="email" value={email}
+                            onChange={(e)=> setEmail(e.target.value)} className=' input-primary'placeholder=""  />
                     </div>
                     <div>
                     <label htmlFor="helper-text" className="text-input-label ">Pin</label>
-                        <input type="number" onChange={(e)=> setPin(e.target.value)} className=' input-primary'  placeholder="******" />
+                        <input type="number" value={pin} 
+                            onChange={(e)=> setPin(e.target.value)} className=' input-primary'  placeholder="******" />
                     </div>  
                     <div className=' w-full my-4 mt-8'>
                         <button type="submit"  className="btn-primary">SIGN IN</button>
                     </div>
-                    <div className=' w-full flex flex-col items-center place-content-center gap-4  py-4 '>
+                    <div className=' w-full flex items-center justify-between gap-4  py-4 '>
+                        <p className='text-description text-sm text-loan-secondary'>Admin? <span onClick={()=> setAdminSignIn(true)} className='text-loanBlue-primary cursor-pointer'>Sign in as admin</span></p>
+                        <p className='text-description text-sm text-loan-secondary'>
+                            Forget password? 
+                            <Link to='/password/reset' className='text-loanBlue-primary cursor-pointer'>
+                                Reset
+                            </Link>
+                        </p> 
+                    </div>
+                    <div className=' w-full flex flex-col items-center place-content-center gap-4  py-4 pt-1 '>
                         <p className='text-description text-sm text-loan-secondary'>Need an account? <Link to={'/signup'} className='text-loanBlue-primary'> SignUp</Link></p>
-                        <p className='text-description text-sm text-loan-secondary'><span onClick={()=> setAdminSignIn(true)} className='text-loanBlue-primary cursor-pointer'> Sign in as admin</span></p>
                     </div>
                 </form>
             </div>
@@ -171,18 +180,25 @@ function SignIn() {
                 <div>
                     {/* <p className=' text-description text-sm text-red-600'>Invalid credentials</p> */}
                     <label htmlFor="helper-text" className="text-input-label ">Email</label>
-                    <input type="email"  onChange={(e)=> setAdminEmail(e.target.value)} className=' input-primary'placeholder=""  />
+                    <input type="email" value={adminEmail}  
+                        onChange={(e)=> setAdminEmail(e.target.value)} className=' input-primary'placeholder=""  />
                 </div>
                 <div>
                 <label htmlFor="helper-text" className="text-input-label ">Password</label>
-                    <input type="password"  onChange={(e)=> setAdminPassword(e.target.value)} className=' input-primary'  placeholder="******" />
+                    <input type="password"  value={adminPassword}
+                        onChange={(e)=> setAdminPassword(e.target.value)} className=' input-primary'  placeholder="******" />
                 </div>  
                 <div className=' w-full my-4 mt-8'>
                     <button type="submit"  className="btn-primary">SIGN IN</button>
                 </div>
-                <div className=' w-full flex items-center place-content-center gap-4  py-4 '>
+                <div className=' w-full flex items-center justify-between gap-4  py-4 '>
                         <p className='text-description text-sm text-loan-secondary'>Not an admin? <span onClick={()=> setAdminSignIn(false)} className='text-loanBlue-primary cursor-pointer'>Customer Sign In</span></p>
-                    {/* <p className='text-description text-sm text-loan-secondary'>Need an account? <Link to={'/signup'} className='text-loanBlue-primary'> SignUp</Link></p> */}
+                        <p className='text-description text-sm text-loan-secondary'>
+                            Forget password? 
+                            <Link to='/password/reset' className='text-loanBlue-primary cursor-pointer'>
+                                Reset
+                            </Link>
+                        </p> 
                 </div>
             </form>
         </div>

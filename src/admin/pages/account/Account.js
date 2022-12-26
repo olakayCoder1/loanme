@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Security from './Security'
 import cal from '../user_account/calculating.json'
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from '../../../contexts/ContextProvider';
 
 function SmallUserDetail(){
     return (
@@ -33,6 +35,44 @@ function SmallUserDetail(){
 function Account() {
 
     const [activeTab, setActiveTab] = useState('security')
+    let navigate = useNavigate()
+    const {logout , authUser, setAuthUser, displayNotification, BACKEND_DOMAIN , authToken } = useContext(AuthContext)
+    const [ user , setUser ] = useState(false)
+
+    useEffect(()=>{ 
+        
+        async  function fetchUser(){
+            if(authUser === null || authUser === 'undefined' ){
+                navigate('/signin')
+            }
+            const url2 = `${BACKEND_DOMAIN}/api/v1/account` 
+            const response = await fetch(url2 , {method : 'GET', headers : {
+                'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${authToken?.access}`
+            }})
+
+            if(response.status === 200){
+                const data = await response.json()
+                setUser(data)
+                setAuthUser(data)
+                localStorage.setItem('authUser', JSON.stringify(data))
+            }
+            if(response.status === 400){
+                const data = await response.json()
+                displayNotification('error', data['detail'])
+            }
+            if(response.status === 404){
+                const data = await response.json()
+                displayNotification('error', data['detail'])
+            }
+            if(response.status == 401){
+                localStorage.clear()
+                navigate('/signin')
+            }
+        }
+
+        fetchUser()
+    },[])
 
   return (
     <div className=' w-full flex flex-col lg:flex-row'>

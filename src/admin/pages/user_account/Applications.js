@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import {TbCurrencyNaira} from 'react-icons/tb'
-import { useNavigate, Link} from 'react-router-dom'
+import { Link} from 'react-router-dom'
 import {ImFilesEmpty} from 'react-icons/im'
 import { NoContentToShow } from '../user_application/ApplicationDetailScore'
 
@@ -36,19 +36,6 @@ function CustomersLoanHistoryCard({customer}){
 
 
 function Applications({user_id , userApplicationsList}) {
- 
-    const [ hasLoanRecord , setHasLoanRecord ] = useState(true)
-
-    const [userApplication , setUserApplication] = useState([])
-
-    // useEffect(()=>{
-    //     fetch(`http://127.0.0.1:8000/api/v1/admin/customers/${user_id}/applications`)  
-    //     .then(res => res.json())
-    //     .then(data => setUserApplication(data))
-    //     .catch(err => console.log(err)) 
-    // },[])
-
-    console.log(userApplicationsList)
   return (
     <div className=' p-6 bg-gray-50 '>
         {userApplicationsList ? (
@@ -83,10 +70,7 @@ function Applications({user_id , userApplicationsList}) {
                     ): (
                         <NoContentToShow description='No application history' />
                     )}
-                    {/* <CustomersLoanHistoryCard
-                        name='Sirajudeen Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={false}
-                    />
-                    <CustomersLoanHistoryCard name='Sirajudeen Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={true}/> */}
+                   
                 </tbody>
             </table>
             </div>

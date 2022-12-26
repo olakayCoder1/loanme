@@ -2,13 +2,14 @@ import React, { useContext, useEffect, useState } from 'react'
 import userDefault from '../../assets/user-default.jpeg'
 import { AuthContext } from '../../contexts/ContextProvider';
 import { useNavigate } from "react-router-dom";
+import Security from '../../admin/pages/account/Security';
 
 function AccountInfoCard({title, current_value , other}){
     return (
         <div className=' flex items-center gap-16 p-3 h-14 '>
             <p className='w-[70px] uppercase font-normal'>{title}</p>
             <div className='grow flex justify-between items-center'>
-                <h3 className=' text-loan-secondary  text-sm'>{current_value}</h3>
+                <h3 className=' text-loan-secondary  text-sm capitalize'>{current_value}</h3>
                 {/* <p className=' cursor-pointer text-loanBlue-primary font-light'>Upload</p> */}
             </div>
         </div>
@@ -87,9 +88,9 @@ function Account() {
 
                 <div className=' text-xs font-medium border border-[#c2cfd9]  divide-y-2 bg-white rounded-md'>
                     <h2 className=' text-loan-secondary p-4 px-2 text-lg h-14'>Other</h2>
-                    <AccountInfoCard title='Employment status' current_value={user && user.employment} />
-                    <AccountInfoCard title='Educational Level' current_value={user && user.education} />
-                    <AccountInfoCard title='Marital Status' current_value={user && user.marital} />
+                    <AccountInfoCard title='Employment status' current_value={user && user.employment_status} />
+                    <AccountInfoCard title='Educational Level' current_value={user && user.educational_status} />
+                    <AccountInfoCard title='Marital Status' current_value={user && user.marital_status} />
                     <AccountInfoCard title='Children' current_value={user && user.children} />
                     <div className=' flex items-center  gap-16 p-3 h-14 '>
                         <p className='w-[70px] uppercase font-normal'>Address</p>
@@ -102,22 +103,17 @@ function Account() {
 
                 <div className=' text-xs font-medium border border-[#c2cfd9]  divide-y-2 mb-8 bg-white rounded-md'>
                     <h2 className=' text-loan-secondary p-4 px-2 text-lg h-14'>Security</h2>
-                    <div className=' flex items-center  gap-16 p-3 h-14'>
-                        <h3 className='w-[70px] uppercase font-normal'>Password</h3>
-                        <div className='grow flex justify-between items-center'>
-                            <p onClick={()=>{ setResetConfirm(true)}} className=' p-2 px-3 w-fit bg-[#33b5a8] cursor-pointer text-white font-light'>Reset Password</p>
-                        </div>
-                    </div>
+                    <Security />
                     <div className=' flex items-center  gap-16 p-3 h-14'>
                         <h3 className='w-[70px] uppercase font-normal'>Logout</h3>
                         <div className='grow flex justify-between items-center'>
-                            <p onClick={() => setLogoutAccount(true)}  className=' p-2 px-3 w-fit bg-[#33b5a8] cursor-pointer text-white font-light'>Logout</p>
+                            <p onClick={() => setLogoutAccount(true)}  className=' p-2 px-3 w-fit bg-[#33b5a8] cursor-pointer text-white font-light'>LOGOUT</p>
                         </div>
                     </div>
                     <div className=' flex items-center  gap-16 p-3 h-14'>
                         <h3 className='w-[70px] uppercase font-normal'>Delete</h3>
                         <div className='grow flex justify-between items-center'>
-                            <p onClick={() => setDeleteAccount(true)} className=' p-2 px-3 w-fit bg-red-600 cursor-pointer text-white font-light'>Delete Account</p>
+                            <p onClick={() => setDeleteAccount(true)} className=' p-2 px-3 w-fit bg-red-600 cursor-pointer text-white font-light'>DELETE ACCOUNT</p>
                         </div>
                     </div>
                 </div>

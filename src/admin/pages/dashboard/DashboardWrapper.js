@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate, Link} from 'react-router-dom'
 import {RiMoneyDollarCircleLine} from 'react-icons/ri'
@@ -8,6 +8,7 @@ import {BsWallet2} from 'react-icons/bs'
 import {motion} from 'framer-motion'
 import ApplicationDashboard from './ApplicationDashboard'
 import LoanDashboard from './LoanDashboard'
+import { AuthContext } from '../../../contexts/ContextProvider'
 
 
 
@@ -42,6 +43,17 @@ function Card({title, val , col ,Icon}){
 
 function DashboardWrapper() {
 
+    const { BACKEND_DOMAIN , authUser } = useContext(AuthContext)
+
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+    const currentDate = new Date();
+    const date = currentDate.getDate() 
+    const day = currentDate.getDay()
+    const month = currentDate.getMonth()
+    const year = currentDate.getFullYear()
+ 
+    const dateString = `${days[day-1]} ${date} ${months[month]}, ${year}`
 
     const [loanSummary, setLoanSummary ] = useState( { 
         'total':  null,
@@ -52,10 +64,15 @@ function DashboardWrapper() {
         'total_repayment':  null ,  
     } )
     useEffect(()=>{
-        fetch('http://127.0.0.1:8000/api/v1/admin/summary/loans')
-        .then(res => res.json())
-        .then(data => setLoanSummary(data))
-        .catch(err => console.log(err)) 
+        async function fetchLoanSummary(){
+            const response = await fetch(`${BACKEND_DOMAIN}/api/v1/admin/summary/loans`)
+            if(response.status === 200){
+                const data = await response.json()
+                setLoanSummary(data)
+                console.log(data)  
+            }
+        }
+        fetchLoanSummary()
     },[])
     
     const [activeTab, setActiveTab] = useState('loan')
@@ -63,11 +80,11 @@ function DashboardWrapper() {
     <div className='  w-full  p-4'>
         <div className=' flex md:items-center gap-4 justify-between flex-col md:flex-row'>
             <div>
-                <h2 className=' font-bold text-base text-loan-secondary'>Good day Olanrewaju</h2>
+                <h2 className=' font-bold text-base text-loan-secondary'>Good day {authUser && authUser.first_name}</h2>
                 <p className=' text-sm  font-normal text-gray-400'>Here's what's happening with your business.</p>
             </div>
             <p className=' p-2 bg-white rounded text-sm font-normal border shadow-md'>
-                01 Jan , 2020 to  31 Jan 2020
+                {dateString}
             </p>
         </div>
 

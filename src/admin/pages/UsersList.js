@@ -1,31 +1,33 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate , Link } from 'react-router-dom'
 import {motion} from 'framer-motion'
 import {BsAward} from 'react-icons/bs'
 import { NoContentToShow } from './user_application/ApplicationDetailScore'
+import { AuthContext } from '../../contexts/ContextProvider'
+import { InAppLoading } from './dashboard/LoanDashboard'
 
 
 function UserListTableRow({first_name , last_name , phone, email , isActive , joinDate , id }){
     const navigate = useNavigate()
     return (
         <tr class="bg-white border-b hover:bg-gray-200 text-xs ">
-            <th scope="row" class="py-4 px-6 font-medium  whitespace-nowrap ">
+            <th scope="row" class="py-4 px-6 font-medium  whitespace-nowrap truncate ">
                 { id }
             </th>
             <th scope="row" class="py-4 px-6 font-medium  whitespace-nowrap ">
             {first_name && <>{first_name}</>}  {last_name && <>{last_name}</>}
             </th>
-            <td class="py-4 px-6">
+            <td class="py-4 px-6 truncate">
                 {phone}
             </td>
-            <td class="py-4 px-6">
+            <td class="py-4 px-6 truncate">
                 {email}
             </td>
-            <td class="py-4 px-6">
+            <td class="py-4 px-6 truncate">
                 {joinDate}
             </td>
-            {isActive ?  <td class="py-4 px-6 text-green-600"> Active</td> : <td class="py-4 px-6"> InActive</td>}
+            {isActive ?  <td class="py-4 px-6 truncate text-green-600"> Active</td> : <td class="py-4 px-6 truncate"> InActive</td>}
             
             <td class="py-4 px-6 text-right">
                 <Link to={`${id}`} class="font-medium text-blue-600  hover:underline cursor-pointer">View</Link>
@@ -60,32 +62,129 @@ function Card({title, val , col ,Icon}){
 )
 }
 
-function UsersList() {
+
+
+function UsersList() { 
     const navigate = useNavigate()
-    const users = Array.from(Array(10).keys()).slice(1);
-
+    // const users = Array.from(Array(10).keys()).slice(1);
+    const {BACKEND_DOMAIN ,  authToken ,  authUser , displayNotification } = useContext(AuthContext)
     const [customers , setCustomers] = useState(null)
-    const [customerSummary , setCustomerSummary] = useState({
-        active : null,
-        all : null,
-        disabled : null
-    })
+    const [customersFilter , setCustomersFilter] = useState(null)
+    const [customerSummary , setCustomerSummary] = useState({ active : null, all : null,  disabled : null })
+    const [customerStatusFilter, setCustomerStatusFilter] = useState('all')
+    const [ inLoading , setInLoading] = useState(false)
 
-    useEffect(()=>{
-        fetch('http://127.0.0.1:8000/api/v1/admin/summary/customers')
-        .then(res => res.json())
-        .then(data => setCustomerSummary(data))
-        .catch(err => console.log(err)) 
-    },[]) 
+    useEffect(()=> {
+        // console.log(authToken) 
+          const url1 = `${BACKEND_DOMAIN}/api/v1/admin/summary/customers` 
+          const url2 = `${BACKEND_DOMAIN}/api/v1/admin/customers` 
+          setInLoading(true)
+          Promise.all([
+          fetch(url1,{method : 'GET', headers : {
+                'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${authToken?.access}`
+            }},),
+          fetch(url2,{ method : 'GET', headers : {
+                  'Content-Type': 'application/json',
+                  'Authorization' : `Bearer ${authToken?.access}`
+              }},),
+            ]).then(function (responses) {
+              // Get a JSON object from each of the responses
+              return Promise.all(responses.map(function (response) {
+                return response.json();
+              }));
+            }).then(function (data) {
+              // Log the data to the console
+              // You would do something with both sets of data here
+              setInLoading(false )
+              setCustomerSummary(data[0]) 
+              setCustomers(data[1])
+              setCustomersFilter(data[1])
+              // console.log(data[0]);
+            }).catch(function (error) {
+              // if there's an error, log it
+                // console.log(error);
+            });
+      },[])
 
 
-    useEffect(()=>{
-        fetch('http://127.0.0.1:8000/api/v1/admin/customers')
-        .then(res => res.json())
-        .then(data => setCustomers(data))
-        .catch(err => console.log(err)) 
-    },[]) 
-    console.log(customers) 
+    
+      async function downloadCsv(){
+
+        
+        const response = await fetch(`${BACKEND_DOMAIN}/api/v1/export/applications/csv`,{method : 'GET', headers : {
+            // 'Content-Type': 'application/json',
+            'Authorization' : `Bearer ${authToken?.access}`
+        }})
+        if(response.status === 200){
+            const blob = await response.blob()
+            const url = window.URL.createObjectURL( new Blob([blob]))
+
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute(
+                'download',
+                'customers.csv'
+            )
+            document.body.appendChild(link)
+            link.click()
+            link.parentNode.removeChild(link);
+            // setCustomerLoanList(data)
+            // setCustomerFilterLoanList(data)
+        }
+        if(response.status === 401){
+            // setAuthUser(null) 
+            // localStorage.clear()
+            displayNotification('error', 'Please sign in again')
+            // navigate('/signin')
+        }
+    }
+    
+    function filterByStatus(e){
+        setCustomerStatusFilter(e.target.value)
+        if(e.target.value === 'all'){
+            setCustomersFilter(customers)
+        }
+        else if(e.target.value === 'active'){
+            const currentFilterSearch = customers
+            const filterList = currentFilterSearch.filter((val)=> {
+            if(val.is_active === true ){ 
+                return val
+            }
+        })
+        setCustomersFilter(filterList)
+        }
+        else{
+            const currentFilterSearch = customers
+            const filterList = currentFilterSearch.filter((val)=> {
+            if(val.is_active === false ){
+                return val
+            }
+        })
+        setCustomersFilter(filterList)
+        }
+        
+
+    }
+
+    function searchInputChange(e){
+        const searchValue = e.target.value
+        if(searchValue && searchValue.length > 1){
+            const currentList = customersFilter
+            const filterList = currentList.filter((val)=> {
+                if(val.first_name &&  val.first_name.toLowerCase().includes(searchValue.toLowerCase())
+                    || val.last_name && val.last_name.toLowerCase().includes(searchValue.toLowerCase())
+                    || val.email.toLowerCase().includes(searchValue.toLowerCase())
+                ){
+                    return val
+                }
+            })
+            setCustomersFilter(filterList)
+        }else{
+            setCustomersFilter(customers)
+        }
+    }
+
 
   return (
     <div>
@@ -97,57 +196,61 @@ function UsersList() {
         </div>
         <div className='p-4 bg-white m-4 rounded-md'>
             <h2 className='text-base font-bold text-gray-800 py-4'>Customers</h2>
-            <div className='flex flex-col lg:flex-row justify-between gap-4 lg:items-center my-4'>
+            {inLoading ? (
+                <InAppLoading />
+            ): (
+                <>
+                <div className='flex flex-col lg:flex-row justify-between gap-4 lg:items-center my-4'>
                 <div className=' flex  gap-4 items-center'>
                     <form>
-                        <input className='border-[1px] px-4 py-2 focus:ring-0 focus:outline-none focus:border-loan-outline rounded placeholder:text-xs'
-                        type='search' placeholder='Search user' />
+                        <input onChange={searchInputChange} 
+                            className='border-[1px] px-4 py-2 focus:ring-0 focus:outline-none focus:border-loan-outline rounded placeholder:text-xs'
+                            type='search' placeholder='Search user' />
                     </form>
-                    <form>
-                        <input className='border-[1px] px-4 py-2 focus:ring-0 focus:outline-none focus:border-loan-outline rounded placeholder:text-xs'
-                        type='search' placeholder='Search loan id...' />
-                    </form>
-                    <select id="bank" 
+                    <label>Filter</label>
+                    <select onChange={filterByStatus}  
                             className="border-[1px] w-fit  rounded focus:ring-0 hover:border-gray-300 focus:border-loan-outline block  p-2 focus:outline-none text-xs" 
                             >
-                        <option selected disabled hidden>Status</option>
-                        <option value="fisrt_bank">Pending</option>
-                        <option value="uba">Approved</option>
+                        <option value='all' selected={customerStatusFilter && customerStatusFilter === 'all'}>All</option>
+                        <option value="active" selected={customerStatusFilter && customerStatusFilter === 'active'}>Active</option>
+                        <option value="disable" selected={customerStatusFilter && customerStatusFilter === 'disable'}>Disable</option>
                         </select>
                 </div>
-                <p className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary text-loanBlue-primary bg-white cursor-pointer rounded text-xs' >Export csv</p>
+                <p onClick={downloadCsv}
+                    className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary text-loanBlue-primary bg-white cursor-pointer rounded text-xs' >Export csv</p>
 
             </div>
             
-            <div class="overflow-x-auto relative shadow-md sm:rounded-lg">  
-                <table class="w-full text-sm text-left text-gray-500 ">
+            <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+                {customersFilter && customersFilter.length > 0 ? (
+                    <table class="w-full text-sm text-left text-gray-500 ">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                     <tr>
-                        <th scope="col" class="py-3 px-6">
+                        <th scope="col" class="py-3 px-6  truncate">
                             Customer id
                         </th>
                         <th scope="col" class="py-3 px-6">
                             Full name
                         </th>
-                        <th scope="col" class="py-3 px-6">
+                        <th scope="col" class="py-3 px-6 truncate">
                             Phone Number
                         </th>
-                        <th scope="col" class="py-3 px-6">
+                        <th scope="col" class="py-3 px-6 truncate">
                             Email
                         </th>
-                        <th scope="col" class="py-3 px-6">
+                        <th scope="col" class="py-3 px-6 truncate">
                             Created at
                         </th>
-                        <th scope="col" class="py-3 px-6">
+                        <th scope="col" class="py-3 px-6 truncate">
                             status
                         </th>
-                        <th scope="col" class="py-3 px-6">
+                        <th scope="col" class="py-3 px-6 truncate">
                             <span class="sr-only">Edit</span>
                         </th>
                     </tr>
                     </thead>
                     <tbody>
-                        {customers ?  customers?.map((val)=> {
+                        {customersFilter ?  customersFilter?.map((val)=> {
                             return (
                                 <UserListTableRow 
                                     key={val.uuid}
@@ -166,9 +269,16 @@ function UsersList() {
                         )}
                     </tbody>
                 </table>
+                ): (
+                    <div className=' w-full bg-green-600' >
+                        <NoContentToShow description='No customer to display' />
+                    </div>
+                )}
+                
             </div>
+            </>
+            )}
         </div>
-
     </div>
   )
 }

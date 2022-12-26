@@ -35,7 +35,7 @@ function Bvn() {
         console.log('lick')
         if(bvn  === '' ){ 
             displayNotification('error','Bvn field is required')
-        }else if( bvn.length != 10 ){
+        }else if( bvn.length != 11 ){
             displayNotification('error','Bvn number not correct')
         }else{
             setLoading(true)
@@ -55,15 +55,13 @@ function Bvn() {
                 setLoading(false)
                 const current = {...authUser , 'is_bvn': true} 
 
-                setAuthUser((prev)=>{
-                    return { ...prev,'is_bvn':true }
-                })
+                setAuthUser(current) 
                 localStorage.setItem('authUser', JSON.stringify(authUser))
                 console.log(authUser)
                 console.log(current) 
                 setLoading(false)
                 displayNotification('success','Bvn linked')
-                // navigate('/setup/account/card') 
+                navigate('/setup/account/card') 
             }else{
                 displayNotification('error','Bvn verification failed')
             }

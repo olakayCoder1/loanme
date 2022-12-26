@@ -12,7 +12,10 @@ function SmallUserDetail({user}){
             <div>
                 <div className=' flex items-center place-content-center py-8'>
                     <div className=' bottom-[-50%] left-[50%] right-[50%] flex items-center place-content-center flex-col gap-6'>
-                        <h2 className=' font-medium text-2xl border-3 border-gray-300 bg-white text-gray-800 p-6 rounded-full'>OL</h2>
+                        <h2 className=' font-medium text-2xl border-3 border-gray-300 bg-white text-gray-800 p-6 rounded-full'>
+                            {user && user.first_name && <>{user.first_name[0]}</>}
+                            {user && user.last_name && <>{user.last_name[0]}</>} 
+                        </h2>
                         <h2 className=' text-xl font-medium truncate  text-gray-800'>
                             {user && user.first_name &&  user.first_name}  {user && user.last_name &&  user.last_name}
                         </h2>
@@ -84,6 +87,41 @@ function UserAccount() {
 
     },[])
 
+
+    async function disableCustomer(){
+
+        const url = `${BACKEND_DOMAIN}/api/v1/admin/customers/${id}/disable` 
+        const response =  await fetch(url,{method : 'GET', headers : {
+            'Content-Type': 'application/json',
+            'Authorization' : `Bearer ${authToken?.access}`
+        }},)
+
+        if(response.status === 200 ){
+            const data = await response.json()
+            if(data['type'] === '0'){
+                setUser(prev => {
+                    return (
+                        {
+                            ...prev, 'is_active': false
+                        }
+                    )
+                 })
+            }else{
+                setUser(prev => {
+                    return (
+                        {
+                            ...prev, 'is_active': true
+                        }
+                    )
+                 })
+            }
+            
+            displayNotification('success', data['detail'])
+        }else{
+            displayNotification('error','an error occurred')
+        }
+    }
+
   return (
     <div className=' w-full flex flex-col lg:flex-row'>
         <SmallUserDetail user={user}/>
@@ -92,7 +130,15 @@ function UserAccount() {
                 <div className=' text-sm font-medium flex  gap-4 items-center text-gray-800'>
                     {user && user.first_name}'s Account
                 </div>
-                <p className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary text-loanBlue-primary bg-white cursor-pointer rounded text-xs' >Disabled</p>
+                {user && user.is_active ? (
+                 <p onClick={disableCustomer}  className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary text-white bg-loanBlue-primary cursor-pointer rounded text-xs' >
+                    Disable customer
+                </p>
+                ): (
+                <p onClick={disableCustomer}  className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary text-loanBlue-primary bg-white cursor-pointer rounded text-xs' >
+                    Enable customer
+                </p>
+                )}
             </div>
 
             <div class="text-sm font-medium text-center text-gray-500 bg-white border-b border-gray-200  bg-white0">

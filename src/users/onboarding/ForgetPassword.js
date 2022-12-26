@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import logo2 from '../../assets/l2.jpeg'
 import logo1 from '../../assets/loanme.png'
 import {Link } from "react-router-dom";
@@ -13,70 +13,48 @@ import Load from '../../Load';
 
 
 function ForgetPassword() {
-
-    const { BACKEND_DOMAIN, login ,displayNotification , setLoading , setAuthToken , setAuthUser } = useContext(AuthContext)
-    // const [ loading ,setLoading] = useState(false)
-    const [ email ,setEmail] = useState(null)
-    const [ pin ,setPin] = useState(null)
+    const { token , uuid } = useParams()
+    const { BACKEND_DOMAIN, displayNotification , setLoading  } = useContext(AuthContext)
+    const [ newPassword , setNewPassword ] = useState(null) 
+    const [ confirmPassword , setConfirmPassword ] = useState(null)
     let navigate = useNavigate()
 
     
 
-    function handleSubmit(e){
-       
-        // demo()
-        e.preventDefault()
-        if(email && pin ){
-            const data = {
-                'email':email,
-                'password': pin
-            }
-            setLoading(true)
-            fetch(`${BACKEND_DOMAIN}/api/v1/signin/`,  {
-                method : 'POST',
-                headers : {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)  
-            })  
-            .then(res => res.json())
-            .then(data =>{ 
-                localStorage.setItem('authToken',JSON.stringify(data.tokens)) 
-                localStorage.setItem('authUser',JSON.stringify(data.user)) 
-                setAuthToken(data.tokens)
-                setAuthUser(data.user)
-                
-                login()
-                navigate('/') 
-             })
-            .catch(err => {
-                setLoading(false);
-                console.log(err)
-            }) 
-            
-        }
-        else{
-            displayNotification('error','Email and pin are required for signin')
-        }
-        
-        
-    }
-
-
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
     
-    async function demo() {
-        for (let i = 0; i < 3 ; i++) {
-            await sleep(i * 1000);
+  async function resetPassword(e){
+    e.preventDefault()
+
+    if(newPassword && confirmPassword ){
+      if(newPassword === confirmPassword  && confirmPassword.length > 6 ){
+        setLoading(true)
+        const url = `${BACKEND_DOMAIN}/api/v1/account/password/${token}/${uuid}/confirm` 
+        const response =  await fetch(url,{method : 'POST', headers : {
+            'Content-Type': 'application/json',
+          }, body : JSON.stringify({
+            'password1': newPassword,
+            'password2': confirmPassword ,
+          })
+        })
+        if(response.status === 200 ){
+            setLoading(false)
+            const data = await response.json() 
+            displayNotification('success', 'Password updated successfully. Sign in again')
+            navigate('/signin')
+        }else{
+            setLoading(false)
+            displayNotification('error','an error occurred')
         }
-        setLoading(false)
-        displayNotification('success','Login successfull')
-        login()
-        navigate('/')
-        
-    }
+      }else{
+        displayNotification('error','Password must match and should be greater than 6 characters')
+      }
+    }else{
+      displayNotification('error','All fields are required')
+    }    
+  }
+
+
+    
 
  
   return (
@@ -92,28 +70,26 @@ function ForgetPassword() {
                 </div>
                 
             </div>
-            <form className=' flex flex-col gap-4' onSubmit={handleSubmit}>
+            <form className=' flex flex-col gap-4' onSubmit={resetPassword}>
                 <div className='flex items-center justify-between my-2'>
-                {/* <div className=' p-4 bg-loan-primary flex items-center justify-between my-2'> */}
                     <h2 className=' heading-sub'>
-                        SignIn
+                        Create new password
                     </h2>
                 </div>
+                
                 <div>
-                    {/* <p className=' text-description text-sm text-red-600'>Invalid credentials</p> */}
-                    <label htmlFor="helper-text" className="text-input-label ">Email</label>
-                    <input type="email" onChange={(e)=> setEmail(e.target.value)} className=' input-primary'placeholder=""  />
-                </div>
-                <div>
-                <label htmlFor="helper-text" className="text-input-label ">Pin</label>
-                    <input type="number" onChange={(e)=> setPin(e.target.value)} className=' input-primary'  placeholder="******" />
+                    <label htmlFor="helper-text" className="text-input-label ">Password</label>
+                    <input type="password" onChange={(e)=> setNewPassword(e.target.value)} className=' input-primary'  placeholder="******" />
                 </div>  
+                <div>
+                    <label htmlFor="helper-text" className="text-input-label ">Confirm password</label>
+                    <input type="password" onChange={(e)=> setConfirmPassword(e.target.value)} className=' input-primary'  placeholder="******" />
+                </div>  
+                
                 <div className=' w-full my-4 mt-8'>
-                    <button type="submit"  className="btn-primary">SIGN IN</button>
+                    <button type="submit"  className="btn-primary">CHANGE PASSWORD</button>
                 </div>
-                <div className=' w-full flex items-center place-content-center gap-4  py-4 '>
-                    <p className='text-description text-sm text-loan-secondary'>Need an account? <Link to={'/signup'} className='text-loanBlue-primary'> SignUp</Link></p>
-                </div>
+               
             </form>
         </div>
       </div>

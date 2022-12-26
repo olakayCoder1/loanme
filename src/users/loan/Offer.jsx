@@ -115,19 +115,16 @@ function Offer() {
           }},)
         if(response.status === 200){
             const data = await response.json()
-            console.log(data)
             setOfferAmount(data[0].offer_amount)
             setAppLoanOffer(data)
 
         }
         else if (response.status === 400){
             const data = await response.json()
-            console.log(data)
             displayNotification('error', `${data['detail']}`)
             navigate('/')
         } else if(response === 404){
             const data = await response.json()
-            console.log(data)
             displayNotification('error', `${data['detail']}`)
             navigate('/')
         }

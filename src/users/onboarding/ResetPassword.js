@@ -22,61 +22,41 @@ function ResetPassword() {
 
     
 
-    function handleSubmit(e){
+    async function handleSubmit(e){
        
         // demo()
         e.preventDefault()
-        if(email && pin ){
+        if(email ){
             const data = {
                 'email':email,
-                'password': pin
             }
             setLoading(true)
-            fetch(`${BACKEND_DOMAIN}/api/v1/signin/`,  {
+            const response = await fetch(`${BACKEND_DOMAIN}/api/v1/account/password/reset`,  {
                 method : 'POST',
                 headers : {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)  
-            })  
-            .then(res => res.json())
-            .then(data =>{ 
-                localStorage.setItem('authToken',JSON.stringify(data.tokens)) 
-                localStorage.setItem('authUser',JSON.stringify(data.user)) 
-                setAuthToken(data.tokens)
-                setAuthUser(data.user)
-                
-                login()
-                navigate('/') 
-             })
-            .catch(err => {
-                setLoading(false);
-                console.log(err)
             }) 
-            
+            if(response.status === 200){
+                const data = await response.json()
+                setLoading(false)
+                setEmail(' ')
+                displayNotification('success', data['detail'])
+            }else if(response.status === 400){
+                setLoading(false) 
+                displayNotification('error','Invalid email format')
+            }else{
+                setLoading(false)
+                displayNotification('error', 'An error occurred')
+            } 
         }
         else{
-            displayNotification('error','Email and pin are required for signin')
-        }
-        
-        
+            displayNotification('error','Email field is required')
+        }    
     }
 
 
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-    
-    async function demo() {
-        for (let i = 0; i < 3 ; i++) {
-            await sleep(i * 1000);
-        }
-        setLoading(false)
-        displayNotification('success','Login successfull')
-        login()
-        navigate('/')
-        
-    }
 
  
   return (
@@ -94,25 +74,19 @@ function ResetPassword() {
             </div>
             <form className=' flex flex-col gap-4' onSubmit={handleSubmit}>
                 <div className='flex items-center justify-between my-2'>
-                {/* <div className=' p-4 bg-loan-primary flex items-center justify-between my-2'> */}
                     <h2 className=' heading-sub'>
-                        SignIn
+                        Reset Password
                     </h2>
                 </div>
                 <div>
-                    {/* <p className=' text-description text-sm text-red-600'>Invalid credentials</p> */}
+                    <p className=' text-description text-sm '>Enter the email linked with your account to get password reset instrunction.</p>
                     <label htmlFor="helper-text" className="text-input-label ">Email</label>
-                    <input type="email" onChange={(e)=> setEmail(e.target.value)} className=' input-primary'placeholder=""  />
-                </div>
-                <div>
-                <label htmlFor="helper-text" className="text-input-label ">Pin</label>
-                    <input type="number" onChange={(e)=> setPin(e.target.value)} className=' input-primary'  placeholder="******" />
-                </div>  
+                    <input type="email" value={email} onChange={(e)=> setEmail(e.target.value)} className=' input-primary'placeholder=""  />
+                </div> 
                 <div className=' w-full my-4 mt-8'>
-                    <button type="submit"  className="btn-primary">SIGN IN</button>
+                    <button type="submit"  className="btn-primary">SEND INSTRUCTION</button>
                 </div>
                 <div className=' w-full flex items-center place-content-center gap-4  py-4 '>
-                    <p className='text-description text-sm text-loan-secondary'>Need an account? <Link to={'/signup'} className='text-loanBlue-primary'> SignUp</Link></p>
                 </div>
             </form>
         </div>

@@ -19,6 +19,7 @@ function OnboardingAccountPin({onboardingData ,handleValueChange}) {
       e.preventDefault() 
       if(pin != ''){
         if(pin.length > 5){
+          setLoading(true)
           onboardingData['pin'] = pin
           fetch(`${BACKEND_DOMAIN}/api/v1/signup/`, {
             method : 'POST',
@@ -29,6 +30,7 @@ function OnboardingAccountPin({onboardingData ,handleValueChange}) {
         })
         .then(res => res.json())
         .then(data => {
+          setLoading(false)
           localStorage.setItem('authToken',JSON.stringify(data.tokens)) 
           localStorage.setItem('authUser',JSON.stringify(data.user)) 
           setAuthToken(data.tokens)

@@ -45,7 +45,7 @@ function Loans({userLoansList}) {
     console.log(userLoansList)
   return (
     <div className=' p-6 bg-gray-50 '>
-        {userLoansList ? (
+        {userLoansList && userLoansList.length > 0 ? (
             <div class="overflow-x-auto relative ">  
                 <table class="w-full text-sm text-left text-gray-500 ">
                     <thead class="text-xs font-normal text-gray-700 uppercase ">

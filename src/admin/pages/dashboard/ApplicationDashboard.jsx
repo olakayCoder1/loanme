@@ -2,6 +2,8 @@ import { useContext, useEffect, useState } from 'react'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate, Link} from 'react-router-dom'
 import { AuthContext } from '../../../contexts/ContextProvider'
+import { NoContentToShow } from '../user_application/ApplicationDetailScore'
+import { InAppLoading } from './LoanDashboard'
 
 
 
@@ -55,24 +57,29 @@ function CustomersLoanHistoryCard({customer}){
 
 function ApplicationDashboard() {
     let navigate = useNavigate()
-    const {displayNotification, authToken,  BACKEND_DOMAIN } = useContext(AuthContext)
+    const {displayNotification, authToken,  BACKEND_DOMAIN , authUser , setAuthUser } = useContext(AuthContext)
     const [customerApplicationList, setCustomerApplicationList] = useState([])
     const [customerApplicationsFilterList, setCustomerFilterApplicationsList] = useState([])
     const [customerStatusFilter, setCustomerStatusFilter] = useState('all') 
+    const [ inLoading , setInLoading] = useState(false)
+
 
     useEffect(()=>{
         async function fetchApplications(){
+            setInLoading(true)
             const response = await fetch(`${BACKEND_DOMAIN}/api/v1/admin/applications`,{method : 'GET', headers : {
                 'Content-Type': 'application/json',
                 'Authorization' : `Bearer ${authToken?.access}`
             }})
             if(response.status === 200){
                 const data = await response.json()
-                // console.log(data)
+                setInLoading(false)
                 setCustomerApplicationList(data)
                 setCustomerFilterApplicationsList(data)
             }
             if(response.status === 401){
+                setAuthUser(null)
+                setInLoading(false)
                 localStorage.clear()
                 displayNotification('error', 'Please sign in again')
                 navigate('/signin')
@@ -83,10 +90,36 @@ function ApplicationDashboard() {
     },[])
 
 
-    console.log(customerApplicationsFilterList)
-    console.log(customerStatusFilter)
+    async function downloadCsv(){
 
+        
+        const response = await fetch(`${BACKEND_DOMAIN}/api/v1/export/applications/csv`,{method : 'GET', headers : {
+            // 'Content-Type': 'application/json',
+            'Authorization' : `Bearer ${authToken?.access}`
+        }})
+        if(response.status === 200){
+            const blob = await response.blob()
+            const url = window.URL.createObjectURL( new Blob([blob]))
 
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute(
+                'download',
+                'customers-applications.csv'
+            )
+            document.body.appendChild(link)
+            link.click()
+            link.parentNode.removeChild(link);
+            // setCustomerLoanList(data)
+            // setCustomerFilterLoanList(data)
+        }
+        if(response.status === 401){
+            // setAuthUser(null) 
+            // localStorage.clear()
+            displayNotification('error', 'Please sign in again')
+            // navigate('/signin')
+        }
+    }
 
     function filterByStatus(e){
         setCustomerStatusFilter(e.target.value)
@@ -142,6 +175,10 @@ function ApplicationDashboard() {
 
   return (
         <>
+        {inLoading ? (
+            <InAppLoading />
+        ): (
+            <>
             <div className='flex flex-col lg:flex-row justify-between gap-4 lg:items-center my-4 px-6'>
                 <div className=' flex  gap-4 items-center'>
                     <form>
@@ -160,57 +197,63 @@ function ApplicationDashboard() {
                         </select>
                 </div> 
 
-                <p className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary text-loanBlue-primary bg-white cursor-pointer rounded text-xs' >Export csv</p>
+                <p onClick={downloadCsv}
+                 className='w-fit border-[1px] px-4 py-2 border-loanBlue-primary text-loanBlue-primary bg-white cursor-pointer rounded text-xs' >Export csv</p>
 
             </div>
             
-            <div class="overflow-x-auto relative shadow-md ">  
-                <table class="w-full text-sm text-left text-gray-500 ">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
-                        <tr>
-                            <th scope="col" class="py-3 px-6 w-fit">
-                                status
-                            </th>
-                            <th scope="col" class="py-3 px-6 w-fit">
-                                Application ID
-                            </th>
-                            <th scope="col" class="py-3 px-6 w-fit">
-                                Applicants Email
-                            </th>
-                            <th scope="col" class="py-3 px-6 w-fit">
-                                Full Name
-                            </th>
-                            <th scope="col" class="py-3 px-6  w-fit truncate">
-                                Requested Amount
-                            </th>
-                            {/* <th scope="col" class="py-3 px-6  w-fit truncate">
-                                Repayment Amount
-                            </th>
-                             */}
-                            <th scope="col" class="py-3 px-6 w-fit truncate">
-                                Requested Date
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {customerApplicationsFilterList.length > 0 ? (
-                            customerApplicationsFilterList.map((val)=>{
-                                return (
-                                    <CustomersLoanHistoryCard 
-                                        key={val.uuid}
-                                        customer={val}
-                                    />
-                                )
-                            })
-                        ): (
-                            <>
-                                <h1>Loading...................</h1>
-                            </>
-                        )}
-                        
-                    </tbody>
-                </table>
+            <div class="overflow-x-auto relative shadow-md "> 
+            {customerApplicationsFilterList.length > 0 ? (
+                 <table class="w-full text-sm text-left text-gray-500 ">
+                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+                     <tr>
+                         <th scope="col" class="py-3 px-6 w-fit">
+                             status
+                         </th>
+                         <th scope="col" class="py-3 px-6 w-fit">
+                             Application ID
+                         </th>
+                         <th scope="col" class="py-3 px-6 w-fit">
+                             Applicants Email
+                         </th>
+                         <th scope="col" class="py-3 px-6 w-fit">
+                             Full Name
+                         </th>
+                         <th scope="col" class="py-3 px-6  w-fit truncate">
+                             Requested Amount
+                         </th>
+                         {/* <th scope="col" class="py-3 px-6  w-fit truncate">
+                             Repayment Amount
+                         </th>
+                          */}
+                         <th scope="col" class="py-3 px-6 w-fit truncate">
+                             Requested Date
+                         </th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     {customerApplicationsFilterList.map((val)=>{
+                             return (
+                                 <CustomersLoanHistoryCard 
+                                     key={val.uuid}
+                                     customer={val}
+                                 />
+                             )
+                         })
+                    }
+                     
+                 </tbody>
+             </table>
+            ): (
+                <div className=' w-full bg-green-600' >
+                    <NoContentToShow description='No content to show' />
+                </div>
+            )} 
+               
             </div>
+            </>
+        )}
+            
         </>
         
   )

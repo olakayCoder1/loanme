@@ -55,17 +55,16 @@ function AccountDebitCard({start , last , val }){
 function Dashboard() {
   let navigate = useNavigate()
 
-  const {BACKEND_DOMAIN ,  setValidLoanPrice,  authToken , setAuthUser , authUser } = useContext(AuthContext)
+  const {BACKEND_DOMAIN ,  setValidLoanPrice,  authToken ,  authUser } = useContext(AuthContext)
 
   const [ userBanks , setUserBanks ] = useState(null)
   const [ userDebitCards , setUserDebitCards ] = useState(null)
   const [ userDebt , setUserDebt] = useState(null)
   const [ hasValidLoan , setHasValidLoan  ] = useState(false)
 
+
+
   useEffect(()=> {
-
-
-
     if(authUser === null || authUser === 'undefined' ){
       window.location = '/signin'
     }
