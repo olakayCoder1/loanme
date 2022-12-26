@@ -61,7 +61,6 @@ function Offer() {
     const {BACKEND_DOMAIN ,  setValidLoanPrice,  authToken ,setLoading, setAuthUser , authUser ,displayNotification } = useContext(AuthContext)
 
 
-    console.log(chosenOffer) 
 
 
     function handleChoose(uuid){
@@ -86,7 +85,6 @@ function Offer() {
               if(response.status == 200){
                     const data = await response.json()
                     setLoading(false)
-                    console.log(data)
                     displayNotification('success','Your money is on the way')
                     navigate('/')
               }

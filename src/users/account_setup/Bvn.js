@@ -32,7 +32,6 @@ function Bvn() {
 
     async function handleSubmit1(e){
         e.preventDefault() 
-        console.log('lick')
         if(bvn  === '' ){ 
             displayNotification('error','Bvn field is required')
         }else if( bvn.length != 11 ){
@@ -57,8 +56,6 @@ function Bvn() {
 
                 setAuthUser(current) 
                 localStorage.setItem('authUser', JSON.stringify(authUser))
-                console.log(authUser)
-                console.log(current) 
                 setLoading(false)
                 displayNotification('success','Bvn linked')
                 navigate('/setup/account/card') 

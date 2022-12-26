@@ -13,7 +13,6 @@ import { InAppLoading } from './LoanDashboard'
 function CustomersLoanHistoryCard({customer}){
     const data = JSON.parse(customer.data)
     const amount = data.amount
-    // console.log(customer)  
     return (
         <tr class="bg-white border-b hover:bg-gray-200  text-xs font-medium  ">
             <th scope="row" class="py-3 px-6   whitespace-nowrap flex items-center gap-4 ">
@@ -123,7 +122,6 @@ function ApplicationDashboard() {
 
     function filterByStatus(e){
         setCustomerStatusFilter(e.target.value)
-        console.log(e.target.value)
         if(e.target.value === 'all'){
             setCustomerFilterApplicationsList(customerApplicationList)
         }else if(e.target.value === 'accepted'){

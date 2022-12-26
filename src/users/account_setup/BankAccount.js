@@ -47,7 +47,6 @@ function BankAccount() {
                     if(val.status){
                         setAccountName(val.data.account_name) 
                         setIfAccountName(true)
-                        // console.log(val.data.account_name) 
                     }else{
                         displayNotification('error','Invalid account number for chosen bank') 
                     }
@@ -106,7 +105,6 @@ function BankAccount() {
         setBankName(search.name)
     }
 
-    // console.log(bankName) 
 
 
   return (

@@ -59,21 +59,17 @@ function LoanHistory() {
       // You would do something with both sets of data here
       setLoans(data[0]) 
       setUserDebt(data[1])  
-      console.log(data[1])
       setHasValidLoan(data[1]['hasActiveLoan'])
       localStorage.getItem('hasValidLoan', JSON.stringify(data[1]['hasActiveLoan']))
 
-      // console.log(data[0]);
     }).catch(function (error) {
       // if there's an error, log it
-        // console.log(error);
     });
 
 
 
     },[])
 
-    console.log(hasValidLoan)
   return (
     <div className='p-4 w-full h-full'>
         <div className='p-4 py-7 bg-loan-light min-w-sm w-full text-loan-secondary flex flex-col gap-4 rounded-md'>

@@ -30,7 +30,6 @@ function LoanApplyDetail({loanApplicationData,handleValueChange} ) {
                 },
                 body: JSON.stringify(loanApplicationData)
             })
-            console.log(response.status)    
             if(response.status === 200){
                 const data = await response.json()
                 setLoading(false)

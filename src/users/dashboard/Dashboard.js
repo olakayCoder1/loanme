@@ -27,8 +27,6 @@ function AccountBank({number}){
 }
 
 function AccountDebitCard({start , last , val }){
-  // console.log(start , last  )
-  // console.log(val  )
   return (
     <div className=' flex justify-between items-center bg-loan-light p-4 rounded-md mb-4'>
         <div className=' grow flex items-center gap-8'>
@@ -90,8 +88,6 @@ function Dashboard() {
       navigate('/setup/account/bankaccount')
     }
     else{
-      // console.log(authUser)  
-    // console.log(authToken) 
       const url1 = `${BACKEND_DOMAIN}/api/v1/users/bankaccount` 
       const url2 = `${BACKEND_DOMAIN}/api/v1/users/debitcard` 
       const url3 = `${BACKEND_DOMAIN}/api/v1/users/loandebt` 
@@ -122,10 +118,8 @@ function Dashboard() {
           setUserDebt(data[2])
           setHasValidLoan(data[2]['hasActiveLoan'])
           setValidLoanPrice(data[2]['debt'])  
-          // console.log(data[0]);
         }).catch(function (error) {
           // if there's an error, log it
-            // console.log(error);
         });
     }
   },[])

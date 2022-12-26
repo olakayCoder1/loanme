@@ -63,14 +63,11 @@ function Loan() {
       // You would do something with both sets of data here
       setLoan(data[1]) 
       setUserDebt(data[0])  
-    //   console.log(data[1])
     //   setHasValidLoan(data[1]['hasActiveLoan'])
     //   localStorage.getItem('hasValidLoan', JSON.stringify(data[1]['hasActiveLoan']))
 
-      // console.log(data[0]);
     }).catch(function (error) {
       // if there's an error, log it
-        // console.log(error);
     });
 
 

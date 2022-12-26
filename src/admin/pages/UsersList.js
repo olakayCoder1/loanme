@@ -75,7 +75,6 @@ function UsersList() {
     const [ inLoading , setInLoading] = useState(false)
 
     useEffect(()=> {
-        // console.log(authToken) 
           const url1 = `${BACKEND_DOMAIN}/api/v1/admin/summary/customers` 
           const url2 = `${BACKEND_DOMAIN}/api/v1/admin/customers` 
           setInLoading(true)
@@ -100,10 +99,8 @@ function UsersList() {
               setCustomerSummary(data[0]) 
               setCustomers(data[1])
               setCustomersFilter(data[1])
-              // console.log(data[0]);
             }).catch(function (error) {
               // if there's an error, log it
-                // console.log(error);
             });
       },[])
 

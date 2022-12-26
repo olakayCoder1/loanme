@@ -38,7 +38,6 @@ function UserLoanDetail() {
 
     },[])
 
-    console.log(customerLoanDetail) 
 
   return (
     <div className=' w-full flex flex-col lg:flex-row'>

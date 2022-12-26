@@ -42,7 +42,6 @@ function OnboardingPhone({onboardingData ,handleValueChange}) {
                             'Content-Type': 'application/json',
                             }, body : JSON.stringify({ 'phone':phone})
                         })
-                        console.log(response.status)
                         if(response.status === 200){
                             // const data = await response.json()
                             setLoading(false)

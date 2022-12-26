@@ -69,7 +69,6 @@ function DashboardWrapper() {
             if(response.status === 200){
                 const data = await response.json()
                 setLoanSummary(data)
-                console.log(data)  
             }
         }
         fetchLoanSummary()

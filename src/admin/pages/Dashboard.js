@@ -43,7 +43,6 @@ function CustomersLoanHistoryCard({name, loanDate , progress , amount}){
 
 
 function Card({title, val , col ,Icon}){
-    console.log(title)
     
     return (
         <motion.div initial={{y:0}} whileHover={{y:-6}} animate={{transition:{duration:3} }}

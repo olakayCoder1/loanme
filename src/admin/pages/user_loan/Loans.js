@@ -9,7 +9,6 @@ import LoanDashboard from '../dashboard/LoanDashboard'
 
 
 function Card({title, val , col ,Icon}){
-    console.log(title)
     
     return (
         <motion.div initial={{y:0}} whileHover={{y:-6}} animate={{transition:{duration:3} , translate:{duration:2} }}

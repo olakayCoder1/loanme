@@ -70,7 +70,6 @@ function LoanApply() {
             if(data.date_of_birth){
               handleValueChange('date_of_birth', data.date_of_birth)
             }
-            console.log(data)
         }
         if(response.status === 400){
             const data = await response.json()
@@ -95,7 +94,6 @@ function LoanApply() {
     // handleValueChange('phone',authUser.phone) 
   },[])
 
-   console.log(loanApplicationData) 
 
   return ( 
     <div className=' w-full h-full'>

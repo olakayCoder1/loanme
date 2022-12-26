@@ -42,7 +42,6 @@ function CustomersLoanHistoryCard({loan}){
 function Loans({userLoansList}) {
 
     const [ hasLoanRecord , setHasLoanRecord ] = useState(true)
-    console.log(userLoansList)
   return (
     <div className=' p-6 bg-gray-50 '>
         {userLoansList && userLoansList.length > 0 ? (

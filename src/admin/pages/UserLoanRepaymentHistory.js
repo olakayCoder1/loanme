@@ -29,7 +29,6 @@ function UserLoanHistoryCard({loadDate, approveDate , amount , status }){
 }
 
 function Card({title, val , col }){
-    console.log(title)
     
     return (
         <motion.div initial={{y:0}} whileHover={{y:-6}} animate={{transition:{duration:3} , translate:{duration:2} }}

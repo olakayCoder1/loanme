@@ -79,10 +79,8 @@ function UserAccount() {
           setUser(data[0]) 
           setUserLoansList(data[1])
           setApplicationsList(data[2])
-          // console.log(data[0]);
         }).catch(function (error) {
           // if there's an error, log it
-            // console.log(error);
         });
 
     },[])

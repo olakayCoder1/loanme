@@ -37,7 +37,7 @@ export default function AuthContextProvider({children}){
             }
             // LOGOUT USER IF REFRESH TOKEN EXPIRED
            if(response.statusText === 'Unauthorized'){
-               console.log('Error')
+
            }
          }else{
 
@@ -59,33 +59,8 @@ export default function AuthContextProvider({children}){
 
 
 
-    console.log(authUser)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
  
  
  const value  = {    authUser ,

@@ -74,7 +74,6 @@ function DebitCard() {
 
 
     async function handleAddDebit(){
-        console.log('clicvkim')
         const response = await fetch(`${BACKEND_DOMAIN}/api/v1/account/debit/add`, {
             method : 'GET',
             headers : {
