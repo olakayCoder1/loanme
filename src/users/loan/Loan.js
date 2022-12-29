@@ -29,9 +29,8 @@ function RepaymentCard({amount, paidDate , status}){
 function Loan() {
     let navigate = useNavigate()
     let { uuid} = useParams()
-    const {validLoanPrice, hasValidLoan, authUser ,authToken, BACKEND_DOMAIN} = useContext(AuthContext)
+    const {authUser ,authToken, BACKEND_DOMAIN} = useContext(AuthContext)
 
-    const [loanSchedule , setLoanSchedule] = useState(null)
     const [ userDebt , setUserDebt] = useState(null)
     const [loan , setLoan ] = useState(null) 
 
@@ -54,13 +53,10 @@ function Loan() {
           }},),
 
     ]).then(function (responses) {
-      // Get a JSON object from each of the responses
       return Promise.all(responses.map(function (response) {
         return response.json();
       }));
     }).then(function (data) {
-      // Log the data to the console
-      // You would do something with both sets of data here
       setLoan(data[1]) 
       setUserDebt(data[0])  
     //   setHasValidLoan(data[1]['hasActiveLoan'])

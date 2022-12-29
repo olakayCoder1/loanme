@@ -50,13 +50,10 @@ function LoanHistory() {
           }},),
 
     ]).then(function (responses) {
-      // Get a JSON object from each of the responses
       return Promise.all(responses.map(function (response) {
         return response.json();
       }));
     }).then(function (data) {
-      // Log the data to the console
-      // You would do something with both sets of data here
       setLoans(data[0]) 
       setUserDebt(data[1])  
       setHasValidLoan(data[1]['hasActiveLoan'])

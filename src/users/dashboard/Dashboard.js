@@ -53,7 +53,7 @@ function AccountDebitCard({start , last , val }){
 function Dashboard() {
   let navigate = useNavigate()
 
-  const {BACKEND_DOMAIN ,  setValidLoanPrice,  authToken ,  authUser } = useContext(AuthContext)
+  const {BACKEND_DOMAIN ,  setValidLoanPrice,  authToken , setAuthUser ,  authUser , displayNotification } = useContext(AuthContext)
 
   const [ userBanks , setUserBanks ] = useState(null)
   const [ userDebitCards , setUserDebitCards ] = useState(null)
@@ -66,15 +66,6 @@ function Dashboard() {
     if(authUser === null || authUser === 'undefined' ){
       window.location = '/signin'
     }
-    const url = `${BACKEND_DOMAIN}/api/v1/users/bankaccount`
-
-    fetch(url,{method : 'GET', headers : {
-      'Content-Type': 'application/json',
-      'Authorization' : `Bearer ${authToken?.access}`
-    }},)
-    .then(res => res.json())
-    .then( data => data )
-
     if(authUser && authUser.is_staff){
       navigate('/admin') 
     }
@@ -88,10 +79,15 @@ function Dashboard() {
       navigate('/setup/account/bankaccount')
     }
     else{
+      const url = `${BACKEND_DOMAIN}/api/v1/account` 
       const url1 = `${BACKEND_DOMAIN}/api/v1/users/bankaccount` 
       const url2 = `${BACKEND_DOMAIN}/api/v1/users/debitcard` 
       const url3 = `${BACKEND_DOMAIN}/api/v1/users/loandebt` 
       Promise.all([
+      fetch(url , {method : 'GET', headers : {
+          'Content-Type': 'application/json',
+          'Authorization' : `Bearer ${authToken?.access}`
+      }}),
       fetch(url1,{method : 'GET', headers : {
             'Content-Type': 'application/json',
             'Authorization' : `Bearer ${authToken?.access}`
@@ -112,12 +108,13 @@ function Dashboard() {
           }));
         }).then(function (data) {
           // Log the data to the console
-          // You would do something with both sets of data here
-          setUserBanks(data[0]) 
-          setUserDebitCards(data[1])
-          setUserDebt(data[2])
-          setHasValidLoan(data[2]['hasActiveLoan'])
-          setValidLoanPrice(data[2]['debt'])  
+          // You would do something with both sets of data here 
+          setAuthUser(data[0])
+          setUserBanks(data[1]) 
+          setUserDebitCards(data[2])
+          setUserDebt(data[3])
+          setHasValidLoan(data[3]['hasActiveLoan'])
+          setValidLoanPrice(data[3]['debt'])  
         }).catch(function (error) {
           // if there's an error, log it
         });
@@ -157,8 +154,8 @@ function Dashboard() {
               </div>
 
 
-            {userBanks &&  userBanks.map((val)=> <AccountBank key={val.uuid} number={`${val.account_number}`} />)}
-            {userDebitCards &&  userDebitCards.map((val)=> <AccountDebitCard key={val.uuid} last={val.last}  start={val.start} val={val} />)}
+            {userBanks &&  userBanks?.map((val)=> <AccountBank key={val.uuid} number={`${val.account_number}`} />)}
+            {userDebitCards &&  userDebitCards?.map((val)=> <AccountDebitCard key={val.uuid} last={val.last}  start={val.start} val={val} />)}
         </div>
       </div>
       

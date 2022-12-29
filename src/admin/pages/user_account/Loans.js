@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React  from 'react'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import {ImFilesEmpty} from 'react-icons/im'
-import { useNavigate, Link} from 'react-router-dom'
+import { Link} from 'react-router-dom'
 
 
 
@@ -40,8 +40,6 @@ function CustomersLoanHistoryCard({loan}){
 
 
 function Loans({userLoansList}) {
-
-    const [ hasLoanRecord , setHasLoanRecord ] = useState(true)
   return (
     <div className=' p-6 bg-gray-50 '>
         {userLoansList && userLoansList.length > 0 ? (

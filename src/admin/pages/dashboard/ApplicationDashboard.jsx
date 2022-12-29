@@ -56,7 +56,7 @@ function CustomersLoanHistoryCard({customer}){
 
 function ApplicationDashboard() {
     let navigate = useNavigate()
-    const {displayNotification, authToken,  BACKEND_DOMAIN , authUser , setAuthUser } = useContext(AuthContext)
+    const {displayNotification, authToken,  BACKEND_DOMAIN ,  setAuthUser } = useContext(AuthContext)
     const [customerApplicationList, setCustomerApplicationList] = useState([])
     const [customerApplicationsFilterList, setCustomerFilterApplicationsList] = useState([])
     const [customerStatusFilter, setCustomerStatusFilter] = useState('all') 

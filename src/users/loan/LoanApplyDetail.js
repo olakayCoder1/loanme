@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../../contexts/ContextProvider';
 import OfferCalculating from '../../component/OfferCalculating';
@@ -9,7 +9,7 @@ function LoanApplyDetail({loanApplicationData,handleValueChange} ) {
     let navigate = useNavigate()
     const [loading , setLoading] = useState(false)
 
-
+    // console.log(loanApplicationData ) 
 
     
 
@@ -37,8 +37,8 @@ function LoanApplyDetail({loanApplicationData,handleValueChange} ) {
             }
             if(response.status === 400){
                 setLoading(false)
-                const data = response.json()
-                displayNotification('info', 'You have an active loan. Kindly repay so have access to loan')
+                const data =  await response.json()
+                displayNotification('info', data['detail'])
                 navigate(`/`)
             }
         }

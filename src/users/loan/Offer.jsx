@@ -2,10 +2,9 @@ import React, { useContext, useEffect, useState } from 'react'
 import  Lottie from 'lottie-react'
 import cal from '../../admin/pages/user_account/done_ok.json'
 import {TbCurrencyNaira} from 'react-icons/tb'
-
-import {MdOutlineLocalOffer, MdLocalOffer} from 'react-icons/md'
+import {MdOutlineLocalOffer} from 'react-icons/md'
 import {AiOutlinePlus} from 'react-icons/ai'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { AuthContext } from '../../contexts/ContextProvider'
 
 
@@ -58,7 +57,7 @@ function Offer() {
     const [appLoanOffer, setAppLoanOffer ] = useState(null)
     const [chosenOffer, setChosenOffer ] = useState(null)
     const [offerAmount, setOfferAmount] = useState(null)
-    const {BACKEND_DOMAIN ,  setValidLoanPrice,  authToken ,setLoading, setAuthUser , authUser ,displayNotification } = useContext(AuthContext)
+    const {BACKEND_DOMAIN ,   authToken ,setLoading  ,displayNotification } = useContext(AuthContext)
 
 
 
@@ -82,13 +81,13 @@ function Offer() {
                 },
               )
             
-              if(response.status == 200){
+              if(response.status === 200){
                     const data = await response.json()
                     setLoading(false)
                     displayNotification('success','Your money is on the way')
                     navigate('/')
               }
-              else if(response.status == 400){
+              else if(response.status === 400){
                 const data = await response.json()
                 displayNotification('error', `${data['detail']}`)
               }

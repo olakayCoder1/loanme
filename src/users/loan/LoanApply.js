@@ -1,24 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react'
-import {Route, Routes, useNavigate } from "react-router-dom";
+import {Route, Routes } from "react-router-dom";
 import { AuthContext } from '../../contexts/ContextProvider';
 import LoanApplyAddress from './LoanApplyAddress';
 import LoanApplyDetail from './LoanApplyDetail';
 import LoanApplyEmployment from './LoanApplyEmployment';
 import LoanApplyPersonal from './LoanApplyPersonal';
-import LoanOffer from './LoanOffer';
 import Offer from './Offer';
 
 
 function LoanApply() {
 
-  const {authToken , setAuthToken , authUser , displayNotification , BACKEND_DOMAIN  } = useContext(AuthContext)
+  const {authToken ,authUser , displayNotification , BACKEND_DOMAIN  } = useContext(AuthContext)
   let navigate = useState(null)  
 
   const [user, setUser] = useState(null)
   const [ loanApplicationData , setLoanApplicationData ] = useState( ()=> JSON.parse(localStorage.getItem('loanApplicationData'))||{
     'first_name':'',
-    'last_name':'',
-    'phone':'',
+    'last_name':'',    
     'email':'',
     'gender':'',
     'date_of_birth': '',
@@ -38,8 +36,9 @@ function LoanApply() {
 
 
   function handleValueChange( key , val ){
+    
     setLoanApplicationData( prev => {
-      return { ...prev , [key]: val }
+      return { ...prev , [key]: val } 
     })
     localStorage.setItem('loanApplicationData',JSON.stringify(loanApplicationData))
   }
@@ -63,7 +62,7 @@ function LoanApply() {
             handleValueChange('first_name',data.first_name)
             handleValueChange('last_name',data.last_name)
             handleValueChange('email',data.email)
-            handleValueChange('phone',data.phone) 
+            // handleValueChange('phone',data.phone)    
             if(data.gender){
               handleValueChange('gender', 'Male')
             }
@@ -79,7 +78,7 @@ function LoanApply() {
             const data = await response.json()
             displayNotification('error', data['detail'])
         }
-        if(response.status == 401){
+        if(response.status === 401){
             localStorage.clear()
             navigate('/signin')
         }
@@ -87,13 +86,6 @@ function LoanApply() {
 
     fetchUser()
 },[])
-  useEffect(()=>{
-    // handleValueChange('first_name',authUser.first_name)
-    // handleValueChange('last_name',authUser.last_name)
-    // handleValueChange('email',authUser.email)
-    // handleValueChange('phone',authUser.phone) 
-  },[])
-
 
   return ( 
     <div className=' w-full h-full'>

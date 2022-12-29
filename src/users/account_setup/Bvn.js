@@ -7,7 +7,7 @@ import { AuthContext } from '../../contexts/ContextProvider'
 
 function Bvn() {
 
-    const {displayNotification ,setLoading , authUser, setAuthUser, authToken , BACKEND_DOMAIN} = useContext(AuthContext)
+    const {displayNotification ,setLoading , authUser, setAuthUser, authToken , fetchUser ,  BACKEND_DOMAIN} = useContext(AuthContext)
 
     let navigate = useNavigate()
     const [whyBvn , setWhyBvn] = useState(false)
@@ -16,15 +16,24 @@ function Bvn() {
 
 
     useEffect(()=> {
+
+        fetchUser()
         if(authUser === null || authUser === 'undefined' ){
             navigate('/signin')
         }
         if(authUser.is_staff){
             navigate('/admin') 
         }
-        if(authUser.is_bvn){
+        if(authUser && authUser.is_bvn && authUser.is_card && authUser.is_bank){
+            navigate('/') 
+        }
+        else if(authUser && authUser.is_bvn && !authUser.is_card ){
             navigate('/setup/account/card')
-          }
+        }
+        else if(authUser && authUser.is_bvn && authUser.is_card && !authUser.is_bank ){
+            navigate('/setup/account/bannkaccount')
+        }
+
     },[])
 
 
@@ -34,7 +43,7 @@ function Bvn() {
         e.preventDefault() 
         if(bvn  === '' ){ 
             displayNotification('error','Bvn field is required')
-        }else if( bvn.length != 11 ){
+        }else if( bvn.length !== 11 ){
             displayNotification('error','Bvn number not correct')
         }else{
             setLoading(true)
@@ -60,6 +69,7 @@ function Bvn() {
                 displayNotification('success','Bvn linked')
                 navigate('/setup/account/card') 
             }else{
+                setLoading(false)
                 displayNotification('error','Bvn verification failed')
             }
             const m = 1
@@ -68,24 +78,7 @@ function Bvn() {
     }
 
 
-    function handleSubmit(){
-        setLoading(true)
-        demo()  
-    }
-
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-    
-    async function demo() {
-        for (let i = 0; i < 3 ; i++) {
-            await sleep(i * 1000);
-        }
-        setLoading(false)
-        displayNotification('success','BVN successfully added')
-        // navigate('/setup/account/card')
-    }
-
+  
     
 
   return (

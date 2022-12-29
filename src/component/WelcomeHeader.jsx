@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import {RxHamburgerMenu} from 'react-icons/rx'
 import { AuthContext } from '../contexts/ContextProvider'
+import user_image from '../assets/user-default.jpeg'
 
 function WelcomeHeader({name}) {
 
@@ -12,7 +13,7 @@ function WelcomeHeader({name}) {
             {!showNavigationBar && <p onClick={() => setShowNavigationBar(!showNavigationBar)} className=' md:hidden cursor-pointer'><RxHamburgerMenu className='w-6 h-6'/></p>}
             <h1 className=' font-bold text-xl text-loan-secondary'>Hello {name},</h1>   
         </div>
-        <img src='https://avatars.githubusercontent.com/u/95700260?v=4'  alt='user' className='w-10 h-10 rounded-md'/>
+        <img src={user_image}  alt='user' className='w-10 h-10 rounded-md'/>
     </div>
   )
 }

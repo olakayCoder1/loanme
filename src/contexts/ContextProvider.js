@@ -65,6 +65,35 @@ export default function AuthContextProvider({children}){
     }
 
 
+    async  function fetchUser(){
+        if(authUser === null || authUser === 'undefined' ){
+            window.location.pathname = '/signin'
+        }
+        const url2 = `${BACKEND_DOMAIN}/api/v1/account` 
+        const response = await fetch(url2 , {method : 'GET', headers : {
+            'Content-Type': 'application/json',
+            'Authorization' : `Bearer ${authToken?.access}`
+        }})
+
+        if(response.status === 200){
+            const data = await response.json()
+            setAuthUser(data)
+            localStorage.setItem('authUser', JSON.stringify(data))
+        }
+        if(response.status === 400){
+            const data = await response.json()
+            displayNotification('error', data['detail'])
+        }
+        if(response.status === 404){
+            const data = await response.json()
+            displayNotification('error', data['detail'])
+        }
+        if(response.status == 401){
+            localStorage.clear()
+            window.location.pathname = '/signin'
+        }
+    }
+
 
     function displayNotification(type, text ){
         if(type==='info'){
@@ -123,7 +152,7 @@ export default function AuthContextProvider({children}){
     hasCompletedKyc , setHasCompletedKyc, displayNotification, authUser , setAuthUser,
     hasCompletedSignUp , setHasCompletedSignUp,showNavigationBar , setShowNavigationBar,
     isAuthenticated , setIsAuthenticated ,Loading , setLoading , authToken , setAuthToken ,
-    BACKEND_DOMAIN ,FRONTEND_DOMAIN
+    BACKEND_DOMAIN ,FRONTEND_DOMAIN , fetchUser
  }
      
 

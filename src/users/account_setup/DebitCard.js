@@ -10,21 +10,21 @@ function DebitCard() {
 
     let navigate = useNavigate()
     const [whyBvn , setWhyBvn] = useState(false)
-    const {BACKEND_DOMAIN ,displayNotification ,setLoading ,authToken, authUser , setAuthUser} = useContext(AuthContext)
+    const {BACKEND_DOMAIN ,displayNotification ,setLoading ,authToken, authUser, fetchUser  , setAuthUser} = useContext(AuthContext)
     const [ paymentData , setPaymentData ] = useState({})
     
 
     useEffect(()=> {
+        fetchUser()
         if(authUser === null || authUser === 'undefined' ){
             navigate('/signin')
         }
-        if(authUser.is_staff){
+        else if(authUser.is_staff){
             navigate('/admin') 
         }
-        if(!authUser.is_bvn){
+        else if(!authUser.is_bvn){
             navigate('/setup/account/bvn')
-        }
-        if(authUser.is_card){
+        }else if(authUser.is_card){
             navigate('/setup/account/bankaccount')
         }
     })
@@ -131,7 +131,7 @@ function DebitCard() {
             <div className="relative w-full max-w-md h-auto">
                 <div className="relative bg-white rounded-md shadow ">
                     <button onClick={()=> setWhyBvn(false)}  type="button" className="absolute top-3 right-2.5  text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " data-modal-toggle="popup-modal">
-                        <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                         <span className="sr-only">Close modal</span>
                     </button>
                     <div className="p-6 text-center flex justify-center place-content-center items-center flex-col gap-2">

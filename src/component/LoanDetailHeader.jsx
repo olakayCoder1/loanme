@@ -3,7 +3,7 @@ import {RxHamburgerMenu} from 'react-icons/rx'
 import {BsChevronDoubleLeft} from 'react-icons/bs'
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../contexts/ContextProvider';
-
+import user_image from '../assets/user-default.jpeg'
 
 function LoanDetailHeader({name , title}) {
     let navigate = useNavigate()
@@ -18,7 +18,7 @@ function LoanDetailHeader({name , title}) {
             </div>
             <div className=' flex items-center gap-2'>
                 <h1 className=' font-bold text-xl text-loan-secondary'>{name}</h1>   
-                <img onClick={()=> navigate('/account')} src='https://avatars.githubusercontent.com/u/95700260?v=4'  alt='user' className='w-10 h-10 rounded-md cursor-pointer'/>
+                <img onClick={()=> navigate('/account')} src={user_image}  alt='user' className='w-10 h-10 rounded-md cursor-pointer'/>
             </div>
         </div>
         <div className='pb-4 pt-2 flex gap-3 items-center'>

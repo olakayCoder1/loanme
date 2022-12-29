@@ -8,7 +8,7 @@ import { bank_list } from './bank_list';
 
 function BankAccount() {
 
-    const {BACKEND_DOMAIN , setHasCompletedKyc, displayNotification ,setLoading , authUser , authToken , setAuthUser  } = useContext(AuthContext)
+    const {BACKEND_DOMAIN , setHasCompletedKyc, displayNotification ,setLoading , authUser , fetchUser , authToken , setAuthUser  } = useContext(AuthContext)
     let navigate = useNavigate()
     const [whyBvn , setWhyBvn] = useState(false)
     const [ banks , setBanks ] = useState(bank_list) 
@@ -19,6 +19,9 @@ function BankAccount() {
     const [ accountName , setAccountName ] = useState('') //2136873152
 
     useEffect(()=> {
+
+        fetchUser()
+        
         if(authUser === null || authUser === 'undefined' ){
             navigate('/signin')
         }
@@ -28,10 +31,10 @@ function BankAccount() {
         if(!authUser.is_bvn){
             navigate('/setup/account/bvn')
         }
-        if(!authUser.is_card){
+        if(authUser.is_bvn && !authUser.is_card){
             navigate('/setup/account/card')
         }
-        if(authUser.is_bank){
+        if(authUser.is_bvn && authUser.is_card && authUser.is_bank){
             navigate('/')
         }
     })

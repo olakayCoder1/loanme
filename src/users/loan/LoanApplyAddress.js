@@ -12,7 +12,7 @@ function LoanApplyAddress({loanApplicationData,handleValueChange}) {
         </div>
 
         <form className='w-full  flex flex-col gap-2 my-8'>
-            <label for="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Type of residence</label>
+            <label htmlFor="bank" className="block mb-1 text-sm font-medium text-loan-secondary  ">Type of residence</label>
             <select id="bank" onChange={(e)=> handleValueChange('residence', e.target.value)}    className=" input-primary"   >
             <option selected disabled hidden></option>
             <option value="Owned" selected={loanApplicationData.residence === 'Owned'} >Owned</option>

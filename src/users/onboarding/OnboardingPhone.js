@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import OnboardHeader from './OnboardHeader';
 import {Link } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from '../../contexts/ContextProvider';
 // import 'react-phone-number-input/style.css'
@@ -13,7 +12,6 @@ import { AuthContext } from '../../contexts/ContextProvider';
 
 function OnboardingPhone({onboardingData ,handleValueChange}) {
     let navigate = useNavigate()
-    const notify = () => toast("Invalid phone number!");
     const {displayNotification , setLoading , BACKEND_DOMAIN} = useContext(AuthContext)
     const [ changeNumberValue , setChangeNumberValue  ] = useState('')
 
@@ -25,11 +23,11 @@ function OnboardingPhone({onboardingData ,handleValueChange}) {
     function handleSubmit(e){
         e.preventDefault() 
         const v = e.target.phonenumber.value
-        if( changeNumberValue != '' ){
+        if( changeNumberValue !== '' ){
             if( changeNumberValue.length  < 11 ){
                 displayNotification('error','Phone number is not valid') 
                 
-            }else if( v.length == 11 ){
+            }else if( v.length === 11 ){
                 if(changeNumberValue === onboardingData['phone']){
                     navigate('personaldetails')
                 }else{
