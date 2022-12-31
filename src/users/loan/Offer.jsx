@@ -6,6 +6,7 @@ import {MdOutlineLocalOffer} from 'react-icons/md'
 import {AiOutlinePlus} from 'react-icons/ai'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AuthContext } from '../../contexts/ContextProvider'
+import { InAppLoading } from '../../admin/pages/dashboard/LoanDashboard'
 
 
 
@@ -58,7 +59,7 @@ function Offer() {
     const [chosenOffer, setChosenOffer ] = useState(null)
     const [offerAmount, setOfferAmount] = useState(null)
     const {BACKEND_DOMAIN ,   authToken ,setLoading  ,displayNotification } = useContext(AuthContext)
-
+    const [ inLoad , setInLoad ] = useState(false)
 
 
 
@@ -105,6 +106,7 @@ function Offer() {
     useEffect(()=>{
 
         async function  fetchLoanOffers(){
+            setInLoad(true)
             const url = `${BACKEND_DOMAIN}/api/v1/users/applications/${app}/offers`
             const response = await fetch(url,{method : 'GET', headers : {
             'Content-Type': 'application/json',
@@ -112,15 +114,18 @@ function Offer() {
           }},)
         if(response.status === 200){
             const data = await response.json()
+            setInLoad(false)
             setOfferAmount(data[0].offer_amount)
             setAppLoanOffer(data)
 
         }
         else if (response.status === 400){
+            setInLoad(false)
             const data = await response.json()
             displayNotification('error', `${data['detail']}`)
             navigate('/')
         } else if(response === 404){
+            setInLoad(false)
             const data = await response.json()
             displayNotification('error', `${data['detail']}`)
             navigate('/')
@@ -147,21 +152,22 @@ function Offer() {
         </div>
 
         <h2 className=' text-center text-loanBlue-primary'>Choose a repayment period to proceed</h2>
-        <div className=' p-4 flex gap-4 overflow-x-auto'>
-            {appLoanOffer ? appLoanOffer.map((index , val )=>{
-                return ( <OfferCard key={val} 
+        {inLoad ? (
+            <InAppLoading />
+        ): (
+            <div className=' p-4 flex gap-4 overflow-x-auto'>
+                {appLoanOffer && appLoanOffer.map((index , val )=>{
+                    return ( <OfferCard key={val} 
                     chosenOffer={chosenOffer}
                     handleChoose={handleChoose}  
                     period={index.period}   
                     uuid={index.uuid}
                     total={index.total_repayment}
                     interest={index.interest}/> )
-            }
-            ): (
-                <>Loading.....</>
-            )}
-            
+            })}
         </div>
+        )}
+        
         <div className='pt-2 pb-4 flex flex-col gap-3'>
             {chosenOffer && <button onClick={sendConfirmChosen} className=' btn-primary my-12'>PROCEED</button>}
         </div>

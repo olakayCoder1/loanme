@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate, useParams } from "react-router-dom";
+import { InAppLoading } from '../../admin/pages/dashboard/LoanDashboard';
 import { AuthContext } from '../../contexts/ContextProvider';
 
 function RepaymentCard({amount, paidDate , status}){
@@ -87,7 +88,7 @@ function Loan() {
             {loan ? loan['schedule'].map((val)=> {
                 return <RepaymentCard key={val.uuid} paidDate={val.date} status={val.status}  amount={val.amount}/>
             }): (
-                <>Loading.....</>
+                <InAppLoading />
             )}
 
         </div>

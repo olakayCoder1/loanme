@@ -3,6 +3,7 @@ import userDefault from '../../assets/user-default.jpeg'
 import { AuthContext } from '../../contexts/ContextProvider';
 import { useNavigate } from "react-router-dom";
 import Security from '../../admin/pages/account/Security';
+import { InAppLoading } from '../../admin/pages/dashboard/LoanDashboard';
 
 function AccountInfoCard({title, current_value , other}){
     return (
@@ -24,7 +25,7 @@ function Account() {
     const [logoutAccount , setLogoutAccount] = useState(false)
     const [ resetConfirm , setResetConfirm ] = useState(false)
     const [ user , setUser ] = useState(false)
-
+    const [ inLoad , setInLoad ] = useState(false)
 
 
     useEffect(()=>{ 
@@ -33,6 +34,7 @@ function Account() {
             if(authUser === null || authUser === 'undefined' ){
                 navigate('/signin')
             }
+            setInLoad(true)
             const url2 = `${BACKEND_DOMAIN}/api/v1/account` 
             const response = await fetch(url2 , {method : 'GET', headers : {
                 'Content-Type': 'application/json',
@@ -41,19 +43,23 @@ function Account() {
 
             if(response.status === 200){
                 const data = await response.json()
+                setInLoad(false)
                 setUser(data)
                 setAuthUser(data)
                 localStorage.setItem('authUser', JSON.stringify(data))
             }
             if(response.status === 400){
+                setInLoad(false)
                 const data = await response.json()
                 displayNotification('error', data['detail'])
             }
             if(response.status === 404){
+                setInLoad(false)
                 const data = await response.json()
                 displayNotification('error', data['detail'])
             }
             if(response.status == 401){
+                setInLoad(false)
                 localStorage.clear()
                 navigate('/signin')
             }
@@ -65,7 +71,10 @@ function Account() {
   return (
     <div className=' w-full h-full p-4 md:p-0'>
         <div className=' w-full h-full max-w-2xl mx-auto'>
-            <div className=' flex flex-col gap-8 my-8'>
+            {inLoad ? (
+                <InAppLoading />
+            ): (
+                <div className=' flex flex-col gap-8 my-8'>
                 {/* PERSONAL INFORMATION */}
                 {/* PERSONAL INFORMATION */}
                 <div className=' text-xs font-medium border border-[#c2cfd9] divide-y-2 bg-white rounded-md'>
@@ -118,6 +127,8 @@ function Account() {
                     </div>
                 </div>
             </div>
+            )}
+            
         </div>
 
 

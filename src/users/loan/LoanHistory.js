@@ -1,6 +1,8 @@
 import React, { useContext, useState , useEffect } from 'react'
 import {TbCurrencyNaira} from 'react-icons/tb'
 import { useNavigate } from "react-router-dom";
+import { InAppLoading } from '../../admin/pages/dashboard/LoanDashboard';
+import { NoContentToShow } from '../../admin/pages/user_application/ApplicationDetailScore';
 import { AuthContext } from '../../contexts/ContextProvider';
 
 function RepaymentCard({amount, paidDate , status}){
@@ -31,6 +33,8 @@ function LoanHistory() {
     const [ userDebt , setUserDebt] = useState(null)
     const [loans , setLoans] = useState(null) 
     const [ hasValidLoan , setHasValidLoan  ] = useState(false)
+    const [ inLoad , setInLoad ] = useState(false)
+
 
     useEffect(()=> {
         if(authUser === null || authUser === 'undefined' ){
@@ -39,6 +43,7 @@ function LoanHistory() {
 
     const url1 = `${BACKEND_DOMAIN}/api/v1/users/loans`    
     const url2 = `${BACKEND_DOMAIN}/api/v1/users/loandebt` 
+    setInLoad(true) 
     Promise.all([
       fetch(url1,{method : 'GET', headers : {
             'Content-Type': 'application/json',
@@ -54,6 +59,7 @@ function LoanHistory() {
         return response.json();
       }));
     }).then(function (data) {
+      setInLoad(false)
       setLoans(data[0]) 
       setUserDebt(data[1])  
       setHasValidLoan(data[1]['hasActiveLoan'])
@@ -97,15 +103,20 @@ function LoanHistory() {
         {/* REPAYMENT BREAKDOWN */}
         <div>
             <h2 className=' text-loan-secondary'>Loan History</h2>
-            {loans ? loans.length > 0 ? loans.map((data)=> (
+            {inLoad ? (
+              <InAppLoading />
+            ): (
+              <>
+                {loans &&  loans.length > 0 ? loans.map((data)=> (
                     <RepaymentCard key={data.uuid} paidDate={data.due_date} status={data.status}  amount={data.amount}/>
-            ))  : ( <>
-                    You have no loan history 
-                    </>
-            )  
-            : (
-                <h2>Loading.......</h2>
-            )}            
+                ))  : ( <>
+                        <NoContentToShow  description='You have no loan history'/>
+                      </>
+                  )  
+                  }
+              </>
+            )}
+                        
 
         </div>
 
