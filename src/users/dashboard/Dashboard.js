@@ -5,6 +5,7 @@ import {BsFillCreditCard2BackFill} from 'react-icons/bs'
 import {FcOk} from 'react-icons/fc'
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../../contexts/ContextProvider'
+import { InAppLoading } from '../../admin/pages/dashboard/LoanDashboard'
 
 
 
@@ -59,6 +60,7 @@ function Dashboard() {
   const [ userDebitCards , setUserDebitCards ] = useState(null)
   const [ userDebt , setUserDebt] = useState(null)
   const [ hasValidLoan , setHasValidLoan  ] = useState(false)
+  const [ inLoad , setInLoad ] = useState(false)
 
 
 
@@ -79,6 +81,7 @@ function Dashboard() {
       navigate('/setup/account/bankaccount')
     }
     else{
+      setInLoad(true)
       const url = `${BACKEND_DOMAIN}/api/v1/account` 
       const url1 = `${BACKEND_DOMAIN}/api/v1/users/bankaccount` 
       const url2 = `${BACKEND_DOMAIN}/api/v1/users/debitcard` 
@@ -109,6 +112,7 @@ function Dashboard() {
         }).then(function (data) {
           // Log the data to the console
           // You would do something with both sets of data here 
+          setInLoad(false)
           setAuthUser(data[0])
           setUserBanks(data[1]) 
           setUserDebitCards(data[2])
@@ -152,10 +156,17 @@ function Dashboard() {
                   )}
 
               </div>
+              {inLoad ? (
+                <InAppLoading />
+              ): (
+                <>
+                {userBanks &&  userBanks?.map((val)=> <AccountBank key={val.uuid} number={`${val.account_number}`} />)}
+                {userDebitCards &&  userDebitCards?.map((val)=> <AccountDebitCard key={val.uuid} last={val.last}  start={val.start} val={val} />)}
+                </>
+              )}
+              
 
-
-            {userBanks &&  userBanks?.map((val)=> <AccountBank key={val.uuid} number={`${val.account_number}`} />)}
-            {userDebitCards &&  userDebitCards?.map((val)=> <AccountDebitCard key={val.uuid} last={val.last}  start={val.start} val={val} />)}
+            
         </div>
       </div>
       
