@@ -15,7 +15,8 @@ export default function AuthContextProvider({children}){
     // const BACKEND_DOMAIN = 'http://127.0.0.1:8000'
     const BACKEND_DOMAIN = 'https://web-production-fd13.up.railway.app'
 
-    const FRONTEND_DOMAIN = 'http://127.0.0.1:3000'                   
+    // const FRONTEND_DOMAIN = 'http://127.0.0.1:3000'                   
+    const FRONTEND_DOMAIN = 'https://loanit.vercel.app'                   
     // TOKEN STATE 
     // USER DETAIL STATE 
     const [ authUser , setAuthUser ] = React.useState(()=> JSON.parse(localStorage.getItem('authUser'))|| null);
