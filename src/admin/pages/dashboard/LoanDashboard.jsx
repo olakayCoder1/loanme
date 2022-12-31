@@ -238,8 +238,8 @@ function LoanDashboard() {
                             first_name={val.user.first_name}
                             last_name={val.user.last_name}
                             loanDate={val.due_date}   
-                            amount={val.offer.offer_amount} 
-                            total_amount={val.offer.total_repayment}
+                            amount={val?.offer?.offer_amount} 
+                            total_amount={val?.offer?.total_repayment}
                             status={val.status}
                         />
                     )
