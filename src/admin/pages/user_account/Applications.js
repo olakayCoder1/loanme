@@ -40,39 +40,41 @@ function Applications({user_id , userApplicationsList}) {
     <div className=' p-6 bg-gray-50 '>
         {userApplicationsList ? (
             <div class="overflow-x-auto relative ">  
-            <table class="w-full text-sm text-left text-gray-500 ">
-                <thead class="text-xs font-normal text-gray-700 uppercase ">
-                    <tr>
-                        <th scope="col" class="py-3 px-6 w-fit">
-                            status
-                        </th>
-                        <th scope="col" class="py-3 px-6 w-fit">
-                            Application ID
-                        </th>
-                        <th scope="col" class="py-3 px-6 w-fit">
-                            Amount
-                        </th>
-                        <th scope="col" class="py-3 px-6 w-fit truncate">
-                            Requested Date
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {userApplicationsList && userApplicationsList.length > 0  ? (
-                        userApplicationsList.map((val)=>{
-                            return <CustomersLoanHistoryCard
-                                key={val.uuid}
-                                customer={val}
-                            name='Sirajudeen Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={false}
-                        />
-                        })
-                        
-                    ): (
-                        <NoContentToShow description='No application history' />
-                    )}
-                   
-                </tbody>
-            </table>
+            {userApplicationsList && userApplicationsList.length > 0  ? (
+                    <table class="w-full text-sm text-left text-gray-500 ">
+                
+                    <thead class="text-xs font-normal text-gray-700 uppercase ">
+                        <tr>
+                            <th scope="col" class="py-3 px-6 w-fit">
+                                status
+                            </th>
+                            <th scope="col" class="py-3 px-6 w-fit">
+                                Application ID
+                            </th>
+                            <th scope="col" class="py-3 px-6 w-fit">
+                                Amount
+                            </th>
+                            <th scope="col" class="py-3 px-6 w-fit truncate">
+                                Requested Date
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {userApplicationsList.map((val)=>{
+                                return <CustomersLoanHistoryCard
+                                    key={val.uuid}
+                                    customer={val}
+                                name='Sirajudeen Bolanle' loanDate='21,May 2020' progress='95%'  amount='50,000' status={false}
+                            />
+                            }) 
+                        }
+                       
+                    </tbody>
+                </table>
+                ):(
+                    <NoContentToShow description='No application history' />
+                )}
+            
             </div>
         ): (
             <div className=' w-full flex items-center place-content-center'>
