@@ -76,7 +76,7 @@ function LoanHistory() {
   return (
     <div className='p-4 w-full h-full'>
         <div className='p-4 py-7 bg-loan-light min-w-sm w-full text-loan-secondary flex flex-col gap-4 rounded-md'>
-            <h2 className=' text-base font-bold'>You Loan </h2>
+            <h2 className=' text-base font-bold'>Outstanding Loan </h2>
             <h1 className=' flex items-center text-5xl font-bold'>
                 <TbCurrencyNaira />
                 <span>{userDebt && userDebt['debt']} </span> 
